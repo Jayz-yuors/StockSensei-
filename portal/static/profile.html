@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Profile — QuantSensei</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/static/css/app.css"><script src="/static/js/common.js"></script></head><body>
+<nav class="nav"><div class="wrap"><script>document.write(logo)</script><div class="row"><a class="btn sm" href="/dashboard">← Dashboard</a><button class="icon-btn" data-theme-btn></button><span id="um"></span></div></div></nav>
+<main class="wrap" style="max-width:760px;padding-bottom:70px"><div class="top"><div><span class="eyebrow">Account</span><h1>Profile &amp; settings</h1></div></div>
+<div class="card" style="margin-bottom:20px"><div class="row" style="gap:16px;margin-bottom:22px"><span id="av"></span><div><b id="pn" style="font-size:18px"></b><br><small id="pe" style="color:var(--mut)"></small><br><small id="meta" style="color:var(--dim)"></small></div></div>
+<div class="fld"><label>Display name</label><input class="inp" id="name"></div><button class="btn pri" id="sn">Save name</button></div>
+<div class="card" style="margin-bottom:20px"><h3 style="margin-bottom:16px">Preferences</h3><div class="fld"><label>Default workspace</label><select class="inp" id="da"><option value="">Always ask me (dashboard)</option><option value="stocksensei">StockSensei</option><option value="quantcopilot">QuantCopilot AI</option></select></div></div>
+<div class="card" style="margin-bottom:20px"><h3 style="margin-bottom:6px" id="pt">Change password</h3><p style="color:var(--mut);margin-bottom:16px;font-size:14px" id="pd"></p>
+<div class="fld" id="cw"><label>Current password</label><input class="inp" id="cp" type="password" autocomplete="current-password"></div><div class="fld"><label>New password</label><input class="inp" id="np" type="password" autocomplete="new-password" placeholder="8+ characters, letters &amp; numbers"></div><button class="btn pri" id="sp">Update password</button></div>
+<div class="card"><h3 style="margin-bottom:6px;color:var(--bad)">Danger zone</h3><p style="color:var(--mut);margin-bottom:16px;font-size:14px">Permanently delete your account and remove it from the accounts file.</p><button class="btn danger" id="del">Delete my account</button></div></main>
+<script>
+let me;function paint(){$("#um").innerHTML=userMenu(me);$("#av").innerHTML=avatarHTML(me);$("#pn").textContent=me.name;$("#pe").textContent=me.email;$("#name").value=me.name;
+$("#meta").textContent=`Member since ${me.created_at.slice(0,10)} · Sign-in: ${me.providers.join(" + ")}`;$("#da").value=me.prefs.default_app||"";
+const has=me.providers.includes("password");$("#cw").style.display=has?"":"none";$("#pt").textContent=has?"Change password":"Add a password";$("#pd").textContent=has?"Use a strong, unique password.":"You signed up with Google. Add a password to also sign in with email."}
+(async()=>{me=await api("/api/me");if(!me.id)return location.href="/login";paint();setTheme(document.documentElement.dataset.theme)})();
+$("#sn").onclick=async()=>{const r=await api("/api/profile",{name:$("#name").value});r.ok?(me=r.user,paint(),toast("Name updated ✓")):toast(r.error)};
+$("#da").onchange=async e=>{const r=await api("/api/profile",{prefs:{default_app:e.target.value}});r.ok?(me=r.user,toast("Preference saved ✓")):toast(r.error)};
+$("#sp").onclick=async()=>{const r=await api("/api/profile",{current_password:$("#cp").value,new_password:$("#np").value});if(r.ok){me=r.user;paint();$("#cp").value=$("#np").value="";toast("Password updated ✓")}else toast(r.error)};
+$("#del").onclick=async()=>{if(confirm("Delete your account permanently? This cannot be undone.")){const r=await api("/api/account/delete",{});if(r.ok)location.href="/"}};
+</script></body></html>

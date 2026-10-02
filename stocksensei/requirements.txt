@@ -1,0 +1,9 @@
+streamlit
+pandas
+numpy
+matplotlib
+yfinance
+alpha_vantage
+requests
+psycopg2-binary
+

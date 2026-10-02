@@ -1,0 +1,41 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dashboard — QuantSensei</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/static/css/app.css"><script src="/static/js/common.js"></script></head><body>
+<nav class="nav"><div class="wrap"><script>document.write(logo)</script><div class="row"><span class="pill" id="mk"><span class="dot"></span><span>…</span></span><button class="icon-btn" data-theme-btn></button><span id="um"></span></div></div></nav>
+<main class="wrap"><div class="top"><div><span class="eyebrow" id="clock"></span><h1 id="hi">Welcome</h1><p style="color:var(--mut);margin-top:8px">Choose a workspace to continue.</p></div><div class="row" style="flex-wrap:wrap" id="rec"></div></div>
+<div class="grid g2">
+<div class="card prod a choice rv" id="c-stocksensei"><div class="row" style="justify-content:space-between"><span class="badge">LEARN &amp; ANALYZE</span><span class="pill"><span class="dot" data-s="stocksensei"></span><span data-st="stocksensei">checking</span></span></div>
+<h3>StockSensei</h3><p>Guided Nifty 50 analytics: indicators, risk, correlations and a simple Buy / Hold / Avoid signal — explained in plain language.</p>
+<ul class="ticks"><li>SMA · EMA · RSI · MACD · Golden Cross</li><li>Jumps &amp; falls, volatility and risk index</li><li>Compare stocks &amp; correlation heatmap</li><li>Forecast zones &amp; budget planner</li></ul>
+<div class="go"><a class="btn pri" href="/workspace/stocksensei" data-launch="stocksensei">Launch workspace →</a><a class="btn" id="o-stocksensei" target="_blank" rel="noopener">Open in new tab ↗</a><button class="btn" data-fav="stocksensei" title="Set as default">☆</button></div></div>
+<div class="card prod b choice rv" id="c-quantcopilot"><div class="row" style="justify-content:space-between"><span class="badge v">PRO TERMINAL</span><span class="pill"><span class="dot" data-s="quantcopilot"></span><span data-st="quantcopilot">checking</span></span></div>
+<h3>QuantCopilot AI</h3><p>Quant workstation for NSE &amp; BSE: F&amp;O desk, deep-learning forecasts, RL strategy lab and a GNN systemic-risk engine.</p>
+<ul class="ticks"><li>Option chain with Greeks, PCR &amp; max-pain</li><li>18-alpha forecaster with uncertainty cones</li><li>RL agent + backtests (Sortino, Sharpe, drawdown)</li><li>Live feed, market depth &amp; portfolio P&amp;L</li></ul>
+<div class="go"><a class="btn pri" href="/workspace/quantcopilot" data-launch="quantcopilot">Launch workspace →</a><a class="btn" id="o-quantcopilot" target="_blank" rel="noopener">Open in new tab ↗</a><button class="btn" data-fav="quantcopilot" title="Set as default">☆</button></div></div></div>
+
+<section class="sec" style="padding:56px 0 20px"><div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:14px"><div><span class="eyebrow">Not sure?</span><h2 style="font-size:28px">Which one fits your goal?</h2></div>
+<div class="seg" id="goal"><button data-g="learn">📚 I'm learning</button><button data-g="trade">⚡ I trade actively</button><button data-g="derivs">🧮 Options / F&amp;O</button><button data-g="risk">🕸️ Risk &amp; AI</button></div></div>
+<div class="card" style="margin-top:20px"><p id="rc" style="margin-bottom:18px;color:var(--mut)">Pick a goal above for a recommendation, or compare them below.</p>
+<div style="overflow:auto"><table class="cmp"><tr><th></th><th>StockSensei</th><th>QuantCopilot AI</th></tr>
+<tr><td>Best for</td><td>Beginners &amp; students</td><td>Active traders &amp; quants</td></tr><tr><td>Universe</td><td>Nifty 50 stocks</td><td>NSE + BSE equities, indices &amp; F&amp;O</td></tr>
+<tr><td>Forecasting</td><td>Trend-based projection &amp; zones</td><td>Deep temporal-attention, 20-day quantile cones</td></tr><tr><td>AI</td><td>Trend-confidence scoring</td><td>Actor-critic RL agent &amp; graph attention network</td></tr>
+<tr><td>Live data</td><td>Daily sync</td><td>Live WebSocket feed &amp; market depth</td></tr><tr><td>Learning curve</td><td>Gentle ✨</td><td>Advanced 🚀</td></tr></table></div></div></section>
+<p class="disc" style="margin:30px auto 60px;text-align:center">All analytics are for education only and are not investment advice. Markets involve risk.</p></main>
+<script>
+const NAMES={stocksensei:"StockSensei",quantcopilot:"QuantCopilot AI"};let me,cfg;
+function mkt(){const n=new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Kolkata"})),d=n.getDay(),m=n.getHours()*60+n.getMinutes();
+const open=d>0&&d<6&&m>=555&&m<930,pre=d>0&&d<6&&m>=540&&m<555;$("#mk").innerHTML=`<span class="dot ${open?"on":pre?"":"off"}"></span><span>NSE ${open?"open":pre?"pre-open":"closed"}</span>`;
+$("#clock").textContent=n.toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"short"})+" · "+n.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"})+" IST"}
+async function status(){const s=await api("/api/status");for(const k of Object.keys(NAMES)){const on=!!s[k];$(`[data-s=${k}]`).className="dot "+(on?"on":"off");$(`[data-st=${k}]`).textContent=on?"online":"offline"}}
+function fav(){$$("[data-fav]").forEach(b=>{const on=me.prefs.default_app===b.dataset.fav;b.textContent=on?"★":"☆";b.style.color=on?"var(--warn)":""})}
+(async()=>{const r=await api("/api/me");if(!r.id)return location.href="/login";me=r;cfg=await api("/api/config");
+$("#um").innerHTML=userMenu(me);setTheme(document.documentElement.dataset.theme);$("#hi").innerHTML=`Hello, <span class="grad-t">${esc(me.name.split(" ")[0])}</span> 👋`;
+for(const k in NAMES)$("#o-"+k).href=cfg.apps[k];
+if(me.recent.length)$("#rec").innerHTML=`<span style="color:var(--mut);font-size:13px">Recent:</span>`+me.recent.slice(0,3).map(x=>`<a class="pill" href="/workspace/${x.app}">${NAMES[x.app]} · ${esc(x.at.slice(5,16))}</a>`).join("");
+fav();mkt();setInterval(mkt,30000);status();setInterval(status,8000);reveal();
+$$("[data-launch]").forEach(a=>a.onclick=()=>fetch("/api/launch/"+a.dataset.launch,{method:"POST"}));
+$$("[data-fav]").forEach(b=>b.onclick=async()=>{const on=me.prefs.default_app===b.dataset.fav;const r=await api("/api/profile",{prefs:{default_app:on?"":b.dataset.fav}});if(r.ok){me=r.user;fav();toast(on?"Default cleared":NAMES[b.dataset.fav]+" set as your favourite ★")}});
+const rec={learn:["StockSensei is your best start","Indicators and risk are explained step-by-step, and the signals are easy to read."],trade:["QuantCopilot AI fits active trading","Live feed, RL signals, forecasts with uncertainty cones and backtests for your strategy ideas."],derivs:["Use QuantCopilot AI's F&O desk","Option chain with Greeks, PCR, max-pain and 5-level market depth."],risk:["Try QuantCopilot's GNN Risk Engine","See cross-asset contagion on a heatmap and check portfolio exposure — then validate basics in StockSensei."]};
+$$("#goal button").forEach(b=>b.onclick=()=>{$$("#goal button").forEach(x=>x.classList.remove("on"));b.classList.add("on");const[t,d]=rec[b.dataset.g];$("#rc").innerHTML=`<b style="color:var(--tx)">${t}.</b> ${d}`;
+$$(".choice").forEach(c=>c.style.outline="");$("#c-"+(b.dataset.g==="learn"?"stocksensei":"quantcopilot")).style.outline="2px solid var(--a1)"});
+})();
+</script></body></html>

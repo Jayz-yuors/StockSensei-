@@ -1,0 +1,6 @@
+portal/data/users.json
+portal/data/secret.key
+portal/.env
+node_modules/
+.next/
+__pycache__/

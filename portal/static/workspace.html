@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Workspace — QuantSensei</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/static/css/app.css"><script src="/static/js/common.js"></script></head><body>
+<div class="ws"><div class="wsbar"><div class="row"><a class="btn sm" href="/dashboard">← Dashboard</a><div class="seg" id="sw"><button data-k="stocksensei">StockSensei</button><button data-k="quantcopilot">QuantCopilot AI</button></div></div>
+<div class="row"><span class="pill"><span class="dot" id="sd"></span><span id="st">checking</span></span><button class="btn sm" id="rl">↻ Reload</button><a class="btn sm" id="nt" target="_blank" rel="noopener">Pop out ↗</a><button class="icon-btn" data-theme-btn></button><span id="um"></span></div></div>
+<div class="wsbody"><iframe id="fr" title="workspace" allow="fullscreen"></iframe>
+<div class="offp" id="off"><div class="card" style="max-width:640px;width:100%"><span class="eyebrow">Service offline</span><h2 id="ot" style="font-size:28px;margin-bottom:10px"></h2><p style="color:var(--mut);margin-bottom:16px">This workspace isn't running yet. Start it with the commands below — this page reconnects automatically.</p><pre class="code" id="cmd"></pre>
+<div class="row" style="margin-top:18px"><button class="btn pri" id="retry">Check again</button><a class="btn" href="/dashboard">Back to dashboard</a></div></div></div></div></div>
+<script>
+const key=location.pathname.split("/").pop(),NAMES={stocksensei:"StockSensei",quantcopilot:"QuantCopilot AI"};
+const CMD={stocksensei:"cd stocksensei/Stocks_predictor\nstreamlit run app.py --server.port 8501",quantcopilot:"cd quantcopilot/backend\npython -m uvicorn app.main:app --port 8000\n\n# new terminal\ncd quantcopilot/frontend\nnpm install && npm run dev"};
+let url,loaded=false;
+async function check(){const s=await api("/api/status");const on=!!s[key];$("#sd").className="dot "+(on?"on":"off");$("#st").textContent=on?"online":"offline";
+if(on){$("#off").classList.remove("show");if(!loaded){$("#fr").src=url;loaded=true}}else{loaded=false;$("#off").classList.add("show")}}
+(async()=>{const me=await api("/api/me");if(!me.id)return location.href="/login";$("#um").innerHTML=userMenu(me);setTheme(document.documentElement.dataset.theme);
+const cfg=await api("/api/config");url=cfg.apps[key];$("#nt").href=url;document.title=NAMES[key]+" — QuantSensei";$("#ot").textContent=NAMES[key]+" is offline";$("#cmd").textContent=CMD[key];
+$$("#sw button").forEach(b=>{b.classList.toggle("on",b.dataset.k===key);b.onclick=()=>location.href="/workspace/"+b.dataset.k});
+fetch("/api/launch/"+key,{method:"POST"});check();setInterval(check,5000);$("#retry").onclick=check;$("#rl").onclick=()=>{$("#fr").src=url}})();
+</script></body></html>
