@@ -137,31 +137,31 @@ export const GoalMatcherDrawer: React.FC<GoalMatcherDrawerProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex justify-end transition-opacity">
-      <div className="bg-[#0b0f19] border-l border-slate-800 w-full max-w-xl h-full shadow-2xl flex flex-col font-mono text-slate-200 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex justify-end transition-opacity">
+      <div className="bg-[#040805] border-l border-emerald-950 w-full max-w-xl h-full shadow-2xl flex flex-col font-mono text-emerald-100 overflow-y-auto">
         {/* Header */}
-        <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-[#080c14]">
+        <div className="p-4 border-b border-emerald-950 flex items-center justify-between bg-black">
           <div className="flex items-center space-x-2.5">
-            <div className="p-2 rounded-lg bg-gradient-to-tr from-amber-500/20 to-emerald-500/20 border border-amber-500/40 text-amber-400">
+            <div className="p-2 rounded-lg bg-emerald-950/60 border border-emerald-800 text-emerald-400">
               <Sparkles className="h-5 w-5" />
             </div>
             <div>
-              <h2 className="text-sm font-bold tracking-wide uppercase flex items-center gap-2">
+              <h2 className="text-sm font-bold tracking-wide uppercase flex items-center gap-2 text-emerald-100">
                 AI Goal Matcher & Life-Graphs Predictor
               </h2>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-emerald-600">
                 Align chart trajectories & risk-reward to match your target profit goal.
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
+          <button onClick={onClose} className="p-1.5 rounded-lg text-emerald-500 hover:text-emerald-100 hover:bg-emerald-950">
             <X className="h-5 w-5" />
           </button>
         </div>
 
         <div className="p-5 space-y-6 flex-1">
           {/* Goal Input Mode Tabs */}
-          <div className="bg-slate-950/90 border border-slate-800 p-1.5 rounded-xl flex space-x-1">
+          <div className="bg-black border border-emerald-950 p-1.5 rounded-xl flex space-x-1">
             {[
               { id: "PROFIT_INR" as const, label: "Target Profit (₹)" },
               { id: "RETURN_PCT" as const, label: "Target Return (%)" },
@@ -172,8 +172,8 @@ export const GoalMatcherDrawer: React.FC<GoalMatcherDrawerProps> = ({
                 onClick={() => setGoalSettings(prev => ({ ...prev, goalType: tab.id }))}
                 className={`flex-1 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   goalSettings.goalType === tab.id
-                    ? "bg-amber-500 text-slate-950 shadow-md"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-900"
+                    ? "bg-emerald-500 text-black shadow-md font-bold"
+                    : "text-emerald-500/70 hover:text-emerald-200 hover:bg-emerald-950/60"
                 }`}
               >
                 {tab.label}
@@ -182,69 +182,69 @@ export const GoalMatcherDrawer: React.FC<GoalMatcherDrawerProps> = ({
           </div>
 
           {/* Goal Parameters Form */}
-          <div className="grid grid-cols-2 gap-4 bg-slate-900/60 border border-slate-800/80 rounded-xl p-4">
+          <div className="grid grid-cols-2 gap-4 bg-black/60 border border-emerald-950 rounded-xl p-4">
             {goalSettings.goalType === "PROFIT_INR" && (
               <div className="space-y-1">
-                <label className="text-[11px] text-slate-400 font-bold uppercase">Target Net Profit (₹)</label>
+                <label className="text-[11px] text-emerald-500/70 font-bold uppercase">Target Net Profit (₹)</label>
                 <input
                   type="number"
                   value={goalSettings.targetProfitAmount}
                   onChange={(e) => setGoalSettings(prev => ({ ...prev, targetProfitAmount: Number(e.target.value) }))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-500"
+                  className="w-full bg-black border border-emerald-950 rounded-lg px-3 py-2 text-sm font-bold text-emerald-400 focus:outline-none focus:border-emerald-500"
                 />
               </div>
             )}
 
             {goalSettings.goalType === "RETURN_PCT" && (
               <div className="space-y-1">
-                <label className="text-[11px] text-slate-400 font-bold uppercase">Target Return %</label>
+                <label className="text-[11px] text-emerald-500/70 font-bold uppercase">Target Return %</label>
                 <input
                   type="number"
                   value={goalSettings.targetReturnPct}
                   onChange={(e) => setGoalSettings(prev => ({ ...prev, targetReturnPct: Number(e.target.value) }))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-500"
+                  className="w-full bg-black border border-emerald-950 rounded-lg px-3 py-2 text-sm font-bold text-emerald-400 focus:outline-none focus:border-emerald-500"
                 />
               </div>
             )}
 
             {goalSettings.goalType === "PRICE_TARGET" && (
               <div className="space-y-1">
-                <label className="text-[11px] text-slate-400 font-bold uppercase">Target Stock Price (₹)</label>
+                <label className="text-[11px] text-emerald-500/70 font-bold uppercase">Target Stock Price (₹)</label>
                 <input
                   type="number"
                   value={goalSettings.targetPrice}
                   onChange={(e) => setGoalSettings(prev => ({ ...prev, targetPrice: Number(e.target.value) }))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-500"
+                  className="w-full bg-black border border-emerald-950 rounded-lg px-3 py-2 text-sm font-bold text-emerald-400 focus:outline-none focus:border-emerald-500"
                 />
               </div>
             )}
 
             <div className="space-y-1">
-              <label className="text-[11px] text-slate-400 font-bold uppercase">Time Horizon (Days)</label>
+              <label className="text-[11px] text-emerald-500/70 font-bold uppercase">Time Horizon (Days)</label>
               <input
                 type="number"
                 value={goalSettings.timeHorizonDays}
                 onChange={(e) => setGoalSettings(prev => ({ ...prev, timeHorizonDays: Math.max(1, Number(e.target.value)) }))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm font-bold text-cyan-400 focus:outline-none focus:border-cyan-500"
+                className="w-full bg-black border border-emerald-950 rounded-lg px-3 py-2 text-sm font-bold text-emerald-400 focus:outline-none focus:border-emerald-500"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-[11px] text-slate-400 font-bold uppercase">Trading Capital (₹)</label>
+              <label className="text-[11px] text-emerald-500/70 font-bold uppercase">Trading Capital (₹)</label>
               <input
                 type="number"
                 value={goalSettings.capitalAllocated}
                 onChange={(e) => setGoalSettings(prev => ({ ...prev, capitalAllocated: Number(e.target.value) }))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm font-bold text-slate-200 focus:outline-none focus:border-cyan-500"
+                className="w-full bg-black border border-emerald-950 rounded-lg px-3 py-2 text-sm font-bold text-emerald-200 focus:outline-none focus:border-emerald-500"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-[11px] text-slate-400 font-bold uppercase">Risk Appetite</label>
+              <label className="text-[11px] text-emerald-500/70 font-bold uppercase">Risk Appetite</label>
               <select
                 value={goalSettings.riskTolerance}
                 onChange={(e) => setGoalSettings(prev => ({ ...prev, riskTolerance: e.target.value as any }))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-bold text-slate-200 focus:outline-none"
+                className="w-full bg-black border border-emerald-950 rounded-lg px-3 py-2 text-xs font-bold text-emerald-200 focus:outline-none"
               >
                 <option value="CONSERVATIVE">Conservative (1:1.5 RR)</option>
                 <option value="MODERATE">Moderate (1:2.5 RR)</option>
@@ -258,33 +258,33 @@ export const GoalMatcherDrawer: React.FC<GoalMatcherDrawerProps> = ({
             <div className="space-y-4">
               {/* Feasibility & Target Summary Banner */}
               <div className="grid grid-cols-3 gap-3">
-                <div className="bg-slate-950 border border-slate-800 rounded-xl p-3 text-center">
-                  <div className="text-[10px] text-slate-500 uppercase font-bold">Goal Target</div>
-                  <div className="text-sm font-bold text-amber-400 mt-0.5">₹{simulatedPrediction.targetPrice}</div>
+                <div className="bg-black border border-emerald-950 rounded-xl p-3 text-center">
+                  <div className="text-[10px] text-emerald-600 uppercase font-bold">Goal Target</div>
+                  <div className="text-sm font-bold text-emerald-300 mt-0.5">₹{simulatedPrediction.targetPrice}</div>
                   <div className="text-[10px] text-emerald-400">+{simulatedPrediction.expectedReturnPct}%</div>
                 </div>
 
-                <div className="bg-slate-950 border border-slate-800 rounded-xl p-3 text-center">
-                  <div className="text-[10px] text-slate-500 uppercase font-bold">Feasibility Score</div>
+                <div className="bg-black border border-emerald-950 rounded-xl p-3 text-center">
+                  <div className="text-[10px] text-emerald-600 uppercase font-bold">Feasibility Score</div>
                   <div className="text-sm font-bold text-emerald-400 mt-0.5">{simulatedPrediction.feasibilityScore}%</div>
-                  <div className="text-[10px] text-slate-400">High Confidence</div>
+                  <div className="text-[10px] text-emerald-600">High Confidence</div>
                 </div>
 
-                <div className="bg-slate-950 border border-slate-800 rounded-xl p-3 text-center">
-                  <div className="text-[10px] text-slate-500 uppercase font-bold">Est. Reward / Risk</div>
-                  <div className="text-sm font-bold text-cyan-400 mt-0.5">1 : 2.8</div>
-                  <div className="text-[10px] text-slate-400">Stop: ₹{simulatedPrediction.recommendedStopLoss}</div>
+                <div className="bg-black border border-emerald-950 rounded-xl p-3 text-center">
+                  <div className="text-[10px] text-emerald-600 uppercase font-bold">Est. Reward / Risk</div>
+                  <div className="text-sm font-bold text-emerald-400 mt-0.5">1 : 2.8</div>
+                  <div className="text-[10px] text-emerald-600">Stop: ₹{simulatedPrediction.recommendedStopLoss}</div>
                 </div>
               </div>
 
               {/* Multi-Scenario "Life Graph" Chart */}
-              <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-2">
+              <div className="bg-black border border-emerald-950 rounded-xl p-4 space-y-2">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-slate-300 flex items-center gap-1.5">
-                    <BarChart2 className="h-4 w-4 text-amber-400" />
+                  <span className="font-bold text-emerald-200 flex items-center gap-1.5">
+                    <BarChart2 className="h-4 w-4 text-emerald-400" />
                     PREDICTED MULTI-SCENARIO TRAJECTORY
                   </span>
-                  <span className="text-[10px] text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/60">
+                  <span className="text-[10px] text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60">
                     GNN CONTAGION WEIGHTED
                   </span>
                 </div>
@@ -294,8 +294,8 @@ export const GoalMatcherDrawer: React.FC<GoalMatcherDrawerProps> = ({
                   <svg className="w-full h-full" viewBox="0 0 400 120" preserveAspectRatio="none">
                     <defs>
                       <linearGradient id="drawerCone" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.2" />
-                        <stop offset="100%" stopColor="#a855f7" stopOpacity="0.1" />
+                        <stop offset="0%" stopColor="#10b981" stopOpacity="0.25" />
+                        <stop offset="100%" stopColor="#047857" stopOpacity="0.05" />
                       </linearGradient>
                     </defs>
 
@@ -314,24 +314,24 @@ export const GoalMatcherDrawer: React.FC<GoalMatcherDrawerProps> = ({
                     <polyline
                       points="0,60 100,40 200,25 300,12 400,2"
                       fill="none"
-                      stroke="#10b981"
+                      stroke="#22c55e"
                       strokeWidth="2"
                       strokeDasharray="4,4"
                     />
 
-                    {/* Goal-matched path (Gold) */}
+                    {/* Goal-matched path (Emerald Solid) */}
                     <polyline
                       points="0,60 100,48 200,35 300,22 400,12"
                       fill="none"
-                      stroke="#f59e0b"
+                      stroke="#10b981"
                       strokeWidth="2.5"
                     />
 
-                    {/* GNN AI Baseline (Cyan) */}
+                    {/* GNN AI Baseline (Mint) */}
                     <polyline
                       points="0,60 100,52 200,42 300,35 400,28"
                       fill="none"
-                      stroke="#06b6d4"
+                      stroke="#34d399"
                       strokeWidth="2"
                     />
 
@@ -346,17 +346,17 @@ export const GoalMatcherDrawer: React.FC<GoalMatcherDrawerProps> = ({
                   </svg>
                 </div>
 
-                <div className="flex items-center justify-between text-[10px] text-slate-400 border-t border-slate-800/80 pt-2">
+                <div className="flex items-center justify-between text-[10px] text-emerald-600 border-t border-emerald-950 pt-2">
                   <div className="flex items-center space-x-1.5">
-                    <span className="w-2.5 h-1 bg-amber-400 rounded-full" />
+                    <span className="w-2.5 h-1 bg-emerald-400 rounded-full" />
                     <span>Goal Path</span>
                   </div>
                   <div className="flex items-center space-x-1.5">
-                    <span className="w-2.5 h-1 bg-cyan-400 rounded-full" />
+                    <span className="w-2.5 h-1 bg-emerald-300 rounded-full" />
                     <span>GNN Forecast</span>
                   </div>
                   <div className="flex items-center space-x-1.5">
-                    <span className="w-2.5 h-1 bg-emerald-400 rounded-full" />
+                    <span className="w-2.5 h-1 bg-green-400 rounded-full" />
                     <span>Bull Breakout</span>
                   </div>
                   <div className="flex items-center space-x-1.5">
@@ -367,27 +367,27 @@ export const GoalMatcherDrawer: React.FC<GoalMatcherDrawerProps> = ({
               </div>
 
               {/* Actionable Strategy Recommendation */}
-              <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-2.5">
-                <div className="text-xs font-bold text-slate-200 uppercase flex items-center justify-between">
+              <div className="bg-black border border-emerald-950 rounded-xl p-4 space-y-2.5">
+                <div className="text-xs font-bold text-emerald-200 uppercase flex items-center justify-between">
                   <span>Execution Recommendation</span>
                   <span className="text-emerald-400 font-bold">ACTION: BUY</span>
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div className="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
-                    <span className="text-[10px] text-slate-400">Recommended Entry</span>
-                    <div className="font-bold text-slate-100">₹{simulatedPrediction.recommendedEntry}</div>
+                  <div className="bg-black p-2 rounded-lg border border-emerald-950">
+                    <span className="text-[10px] text-emerald-600">Recommended Entry</span>
+                    <div className="font-bold text-emerald-100">₹{simulatedPrediction.recommendedEntry}</div>
                   </div>
-                  <div className="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
-                    <span className="text-[10px] text-slate-400">Take Profit Target</span>
-                    <div className="font-bold text-amber-400">₹{simulatedPrediction.recommendedTarget}</div>
+                  <div className="bg-black p-2 rounded-lg border border-emerald-950">
+                    <span className="text-[10px] text-emerald-600">Take Profit Target</span>
+                    <div className="font-bold text-emerald-400">₹{simulatedPrediction.recommendedTarget}</div>
                   </div>
-                  <div className="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
-                    <span className="text-[10px] text-slate-400">Stop Loss</span>
+                  <div className="bg-black p-2 rounded-lg border border-emerald-950">
+                    <span className="text-[10px] text-emerald-600">Stop Loss</span>
                     <div className="font-bold text-rose-400">₹{simulatedPrediction.recommendedStopLoss}</div>
                   </div>
-                  <div className="bg-slate-900/90 p-2 rounded-lg border border-slate-800">
-                    <span className="text-[10px] text-slate-400">Suggested Qty / Lots</span>
-                    <div className="font-bold text-cyan-400">{simulatedPrediction.suggestedLotsOrQty} Shares</div>
+                  <div className="bg-black p-2 rounded-lg border border-emerald-950">
+                    <span className="text-[10px] text-emerald-600">Suggested Qty / Lots</span>
+                    <div className="font-bold text-emerald-400">{simulatedPrediction.suggestedLotsOrQty} Shares</div>
                   </div>
                 </div>
               </div>
@@ -396,10 +396,10 @@ export const GoalMatcherDrawer: React.FC<GoalMatcherDrawerProps> = ({
         </div>
 
         {/* Footer Apply Button */}
-        <div className="p-4 border-t border-slate-800 bg-[#080c14] flex space-x-3">
+        <div className="p-4 border-t border-emerald-950 bg-black flex space-x-3">
           <button
             onClick={onClose}
-            className="px-4 py-2.5 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800 text-xs font-bold transition-colors"
+            className="px-4 py-2.5 rounded-xl border border-emerald-950 text-emerald-500 hover:bg-emerald-950 hover:text-emerald-200 text-xs font-bold transition-colors"
           >
             Cancel
           </button>
@@ -410,7 +410,7 @@ export const GoalMatcherDrawer: React.FC<GoalMatcherDrawerProps> = ({
                 onClose();
               }
             }}
-            className="flex-1 flex items-center justify-center space-x-2 bg-gradient-to-r from-amber-500 to-emerald-500 hover:from-amber-400 hover:to-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition-all shadow-lg active:scale-95"
+            className="flex-1 flex items-center justify-center space-x-2 bg-emerald-500 hover:bg-emerald-400 text-black font-black py-2.5 rounded-xl text-xs transition-all shadow-lg shadow-emerald-500/20 active:scale-95"
           >
             <Sparkles className="h-4 w-4" />
             <span>APPLY PREDICTION & LIFE GRAPHS TO CHART</span>

@@ -3,31 +3,118 @@
 @tailwind utilities;
 
 :root {
-  --background: #05070a;
+  --background: #080b11;
   --foreground: #f8fafc;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
+  letter-spacing: -0.011em;
+}
+
+/* Tabular figures for numerical precision in financial tables */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Institutional Transitions & Micro-Interactions */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tickFlashUp {
+  0% {
+    background-color: rgba(16, 185, 129, 0.22);
+    color: #34d399;
+    transform: translateY(-1.5px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes tickFlashDown {
+  0% {
+    background-color: rgba(244, 63, 94, 0.22);
+    color: #fb7185;
+    transform: translateY(1.5px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes statusPulseOnce {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-tick-up {
+  animation: tickFlashUp 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-tick-down {
+  animation: tickFlashDown 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-status-pulse {
+  animation: statusPulseOnce 600ms ease-out forwards;
+}
+
+/* Accessibility: respect user preferences for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: #080b11;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #1e293b;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #334155;
 }
+

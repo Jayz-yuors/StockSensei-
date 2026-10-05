@@ -19,21 +19,21 @@ export const IndicatorsSubPanel: React.FC<IndicatorsSubPanelProps> = ({
   if (!showPanel) return null;
 
   return (
-    <div className="flex flex-col border-t border-slate-800 bg-[#06090e] shrink-0 font-mono select-none">
+    <div className="flex flex-col border-t border-emerald-950 bg-black shrink-0 font-mono select-none">
       {/* RSI Sub-Panel */}
       {indicators.rsi && (
-        <div className="h-28 border-b border-slate-800/80 p-2 flex flex-col relative">
-          <div className="flex items-center justify-between text-[11px] text-slate-400 shrink-0 mb-1">
+        <div className="h-28 border-b border-emerald-950 p-2 flex flex-col relative">
+          <div className="flex items-center justify-between text-[11px] text-emerald-500/80 shrink-0 mb-1">
             <div className="flex items-center space-x-2">
-              <span className="font-bold text-pink-400">RSI (14, Close)</span>
-              <span className="text-white font-extrabold bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">
+              <span className="font-bold text-emerald-400">RSI (14, Close)</span>
+              <span className="text-emerald-100 font-extrabold bg-[#040805] px-1.5 py-0.5 rounded border border-emerald-900">
                 62.40
               </span>
-              <span className="text-[10px] text-slate-500">Bullish Momentum</span>
+              <span className="text-[10px] text-emerald-600">Bullish Momentum</span>
             </div>
             <button
               onClick={() => onCloseIndicator("rsi")}
-              className="text-slate-500 hover:text-rose-400 p-0.5"
+              className="text-emerald-600 hover:text-rose-400 p-0.5"
               title="Close RSI"
             >
               <X className="h-3.5 w-3.5" />
@@ -45,8 +45,8 @@ export const IndicatorsSubPanel: React.FC<IndicatorsSubPanelProps> = ({
             <svg className="w-full h-full" viewBox="0 0 500 70" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="rsiZone" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#ec4899" stopOpacity="0.15" />
-                  <stop offset="100%" stopColor="#ec4899" stopOpacity="0.02" />
+                  <stop offset="0%" stopColor="#10b981" stopOpacity="0.18" />
+                  <stop offset="100%" stopColor="#10b981" stopOpacity="0.02" />
                 </linearGradient>
               </defs>
 
@@ -55,7 +55,7 @@ export const IndicatorsSubPanel: React.FC<IndicatorsSubPanelProps> = ({
               <text x="475" y="18" fill="#f43f5e" fontSize="9">70 OB</text>
 
               {/* 50 Centerline */}
-              <line x1="0" y1="35" x2="500" y2="35" stroke="#475569" strokeWidth="1" strokeDasharray="2,4" />
+              <line x1="0" y1="35" x2="500" y2="35" stroke="#064e3b" strokeWidth="1" strokeDasharray="2,4" />
 
               {/* Oversold 30 level */}
               <line x1="0" y1="49" x2="500" y2="49" stroke="#10b981" strokeWidth="1" strokeDasharray="3,3" />
@@ -68,7 +68,7 @@ export const IndicatorsSubPanel: React.FC<IndicatorsSubPanelProps> = ({
               <path
                 d="M 0,45 Q 60,55 120,40 T 240,28 T 360,34 T 480,26 L 500,24"
                 fill="none"
-                stroke="#ec4899"
+                stroke="#34d399"
                 strokeWidth="2"
               />
             </svg>
@@ -79,16 +79,16 @@ export const IndicatorsSubPanel: React.FC<IndicatorsSubPanelProps> = ({
       {/* MACD Sub-Panel */}
       {indicators.macd && (
         <div className="h-28 p-2 flex flex-col relative">
-          <div className="flex items-center justify-between text-[11px] text-slate-400 shrink-0 mb-1">
+          <div className="flex items-center justify-between text-[11px] text-emerald-500/80 shrink-0 mb-1">
             <div className="flex items-center space-x-2">
-              <span className="font-bold text-indigo-400">MACD (12, 26, 9)</span>
-              <span className="text-cyan-400 font-bold">MACD: +14.2</span>
-              <span className="text-amber-400 font-bold">Signal: +9.8</span>
-              <span className="text-emerald-400 font-bold">Hist: +4.4</span>
+              <span className="font-bold text-emerald-400">MACD (12, 26, 9)</span>
+              <span className="text-emerald-400 font-bold">MACD: +14.2</span>
+              <span className="text-emerald-600 font-bold">Signal: +9.8</span>
+              <span className="text-emerald-300 font-bold">Hist: +4.4</span>
             </div>
             <button
               onClick={() => onCloseIndicator("macd")}
-              className="text-slate-500 hover:text-rose-400 p-0.5"
+              className="text-emerald-600 hover:text-rose-400 p-0.5"
               title="Close MACD"
             >
               <X className="h-3.5 w-3.5" />
@@ -99,7 +99,7 @@ export const IndicatorsSubPanel: React.FC<IndicatorsSubPanelProps> = ({
           <div className="flex-1 w-full relative">
             <svg className="w-full h-full" viewBox="0 0 500 70" preserveAspectRatio="none">
               {/* Zero line */}
-              <line x1="0" y1="35" x2="500" y2="35" stroke="#334155" strokeWidth="1" />
+              <line x1="0" y1="35" x2="500" y2="35" stroke="#122316" strokeWidth="1" />
 
               {/* Histogram bars */}
               {[
@@ -120,20 +120,21 @@ export const IndicatorsSubPanel: React.FC<IndicatorsSubPanelProps> = ({
                 />
               ))}
 
-              {/* MACD Fast Line (Cyan) */}
+              {/* MACD Fast Line (Emerald) */}
               <path
                 d="M 0,52 Q 100,60 200,20 T 350,38 T 500,16"
                 fill="none"
-                stroke="#06b6d4"
-                strokeWidth="1.8"
+                stroke="#10b981"
+                strokeWidth="2"
               />
 
-              {/* Signal Slow Line (Amber) */}
+              {/* Signal Slow Line (Mint Dashed) */}
               <path
                 d="M 0,48 Q 120,54 220,26 T 370,34 T 500,22"
                 fill="none"
-                stroke="#fbbf24"
+                stroke="#34d399"
                 strokeWidth="1.8"
+                strokeDasharray="4,3"
               />
             </svg>
           </div>

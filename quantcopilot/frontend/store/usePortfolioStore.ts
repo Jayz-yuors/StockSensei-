@@ -13,6 +13,8 @@ import {
   MarketDepth,
   GNNContagionSignal
 } from "../types";
+import { getApiBaseUrl } from "../lib/api";
+
 
 interface PortfolioStoreState {
   activeTab: ActiveTab;
@@ -135,14 +137,28 @@ const calculatePortfolioMetrics = (positions: Position[], currentTickers: Record
   };
 };
 
-const INITIAL_POSITIONS: Position[] = [
-  { symbol: "RELIANCE", quantity: 100, entry_price: 2880.0, current_price: 2985.40, unrealized_pnl: 10540.0, realized_pnl: 4500.0, side: "LONG", leverage: 1.0 },
-  { symbol: "TCS", quantity: 50, entry_price: 4120.0, current_price: 4210.80, unrealized_pnl: 4540.0, realized_pnl: 3200.0, side: "LONG", leverage: 1.0 },
-  { symbol: "HDFCBANK", quantity: 150, entry_price: 1550.0, current_price: 1612.30, unrealized_pnl: 9345.0, realized_pnl: 2800.0, side: "LONG", leverage: 1.0 },
-  { symbol: "INFY", quantity: 120, entry_price: 1780.0, current_price: 1845.60, unrealized_pnl: 7872.0, realized_pnl: 1500.0, side: "LONG", leverage: 1.0 },
-  { symbol: "TATAMOTORS", quantity: 200, entry_price: 990.0, current_price: 1042.15, unrealized_pnl: 10430.0, realized_pnl: 0.0, side: "LONG", leverage: 1.0 },
-  { symbol: "SBIN", quantity: 250, entry_price: 790.0, current_price: 824.50, unrealized_pnl: 8625.0, realized_pnl: 1200.0, side: "LONG", leverage: 1.0 }
-];
+const PORTFOLIO_STORAGE_KEY = "quantcopilot_user_portfolio_positions_v1";
+
+const getSavedPositions = (): Position[] => {
+  if (typeof window !== "undefined") {
+    try {
+      const saved = localStorage.getItem(PORTFOLIO_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed;
+      }
+    } catch {}
+  }
+  return []; // Clean slate by default - ZERO pre-fed mock positions!
+};
+
+const savePositions = (positions: Position[]) => {
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(positions));
+    } catch {}
+  }
+};
 
 let liveFeedSocket: WebSocket | null = null;
 let reconnectTimer: any = null;
@@ -161,7 +177,7 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
   isImportModalOpen: false,
   marketStatus: null,
   
-  portfolio: calculatePortfolioMetrics(INITIAL_POSITIONS, DEFAULT_INDIAN_TICKERS_DATA),
+  portfolio: calculatePortfolioMetrics(getSavedPositions(), DEFAULT_INDIAN_TICKERS_DATA),
   
   gnnRisk: {
     timestamp: new Date().toISOString(),
@@ -241,7 +257,8 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
 
   fetchMarketData: async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/nse/tickers");
+      const res = await fetch(`${getApiBaseUrl()}/api/v1/nse/tickers`);
+
       if (res.ok) {
         const data = await res.json();
         if (data.market_status) {
@@ -284,6 +301,11 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
           if (data.type === "INITIAL_SNAPSHOT" && Array.isArray(data.tickers)) {
             get().setIndianTickers(data.tickers);
           } else if (data.type === "TICK" && data.ticker) {
+            // When Indian market is closed (Weekend, Post-Close, AMO), do NOT allow prices to change
+            const mStatus = get().marketStatus;
+            if (mStatus && !mStatus.is_market_open) {
+              return;
+            }
             get().updateIndianTicker(data.ticker);
           }
         } catch {}
@@ -309,7 +331,7 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
 
   fetchFnoChain: async (symbol: string, expiry: string = "28-AUG-2026") => {
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/fno/chain/${encodeURIComponent(symbol)}?expiry=${expiry}`);
+      const res = await fetch(`${getApiBaseUrl()}/api/v1/fno/chain/${encodeURIComponent(symbol)}?expiry=${expiry}`);
       if (res.ok) {
         const data = await res.json();
         get().setFnoOptionChain(data);
@@ -319,7 +341,7 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
 
   fetchFnoDepth: async (symbol: string) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/v1/fno/depth/${encodeURIComponent(symbol)}`);
+      const res = await fetch(`${getApiBaseUrl()}/api/v1/fno/depth/${encodeURIComponent(symbol)}`);
       if (res.ok) {
         const data = await res.json();
         get().setFnoMarketDepth(data);
@@ -329,13 +351,14 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
 
   fetchGnnSignals: async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/v1/fno/gnn-signals");
+      const res = await fetch(`${getApiBaseUrl()}/api/v1/fno/gnn-signals`);
       if (res.ok) {
         const data = await res.json();
         get().setGNNContagionSignal(data);
       }
     } catch {}
   },
+
 
   addPosition: (pos: PositionInput) => {
     set((state) => {
@@ -378,6 +401,8 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
         updatedPositions = [newPos, ...state.portfolio.positions];
       }
 
+      savePositions(updatedPositions);
+
       return {
         portfolio: calculatePortfolioMetrics(updatedPositions, state.indianTickers)
       };
@@ -387,6 +412,7 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
   deletePosition: (symbol: string) => {
     set((state) => {
       const filtered = state.portfolio.positions.filter(p => p.symbol !== symbol);
+      savePositions(filtered);
       return {
         portfolio: calculatePortfolioMetrics(filtered, state.indianTickers)
       };
@@ -394,6 +420,7 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
   },
 
   clearPortfolio: () => {
+    savePositions([]);
     set((state) => ({
       portfolio: calculatePortfolioMetrics([], state.indianTickers)
     }));
@@ -419,6 +446,8 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
           leverage: leverage
         };
       });
+
+      savePositions(newPositions);
 
       return {
         portfolio: calculatePortfolioMetrics(newPositions, state.indianTickers)

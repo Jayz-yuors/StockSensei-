@@ -73,26 +73,26 @@ export const OrderExecutionModal: React.FC<OrderExecutionModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden font-mono text-slate-200">
+    <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-[#040805] border border-emerald-950 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden font-mono text-emerald-100">
         {/* Header Bar */}
-        <div className={`p-4 flex items-center justify-between text-slate-950 ${
-          side === "BUY" ? "bg-gradient-to-r from-emerald-400 to-teal-400" : "bg-gradient-to-r from-rose-400 to-pink-500"
+        <div className={`p-4 flex items-center justify-between ${
+          side === "BUY" ? "bg-emerald-500 text-black" : "bg-rose-600 text-white"
         }`}>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="font-extrabold text-sm uppercase">{side} {symbol}</span>
-              <span className="text-[10px] bg-slate-950/20 text-slate-950 font-bold px-2 py-0.5 rounded-full">
+              <span className="font-black text-sm uppercase">{side} {symbol}</span>
+              <span className="text-[10px] bg-black/20 font-bold px-2 py-0.5 rounded-full">
                 NSE
               </span>
             </div>
-            <div className="text-xs font-semibold text-slate-900 mt-0.5">
+            <div className={`text-xs font-bold mt-0.5 ${side === "BUY" ? "text-emerald-950" : "text-rose-100"}`}>
               LTP: ₹{currentPrice?.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
             </div>
           </div>
           <button 
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-950/70 hover:text-slate-950 hover:bg-black/10 transition-colors"
+            className="p-1 rounded-lg opacity-70 hover:opacity-100 hover:bg-black/10 transition-colors"
           >
             <X className="h-5 w-5" />
           </button>
@@ -103,19 +103,19 @@ export const OrderExecutionModal: React.FC<OrderExecutionModalProps> = ({
             <div className="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center animate-bounce">
               <Check className="h-8 w-8" />
             </div>
-            <h3 className="text-base font-bold text-slate-100">ORDER EXECUTED</h3>
-            <p className="text-xs text-slate-400">
+            <h3 className="text-base font-bold text-emerald-100">ORDER EXECUTED</h3>
+            <p className="text-xs text-emerald-600">
               {quantity} qty {side} placed successfully at ₹{price.toFixed(2)}
             </p>
           </div>
         ) : (
           <div className="p-5 space-y-4">
             {/* Side Switcher (BUY / SELL) */}
-            <div className="grid grid-cols-2 gap-2 bg-slate-950 p-1 rounded-xl border border-slate-800">
+            <div className="grid grid-cols-2 gap-2 bg-black p-1 rounded-xl border border-emerald-950">
               <button
                 onClick={() => setSide("BUY")}
                 className={`py-2 rounded-lg text-xs font-bold transition-all ${
-                  side === "BUY" ? "bg-emerald-500 text-slate-950 shadow-md" : "text-slate-400 hover:text-white"
+                  side === "BUY" ? "bg-emerald-500 text-black shadow-md font-black" : "text-emerald-600 hover:text-emerald-200"
                 }`}
               >
                 BUY
@@ -123,7 +123,7 @@ export const OrderExecutionModal: React.FC<OrderExecutionModalProps> = ({
               <button
                 onClick={() => setSide("SELL")}
                 className={`py-2 rounded-lg text-xs font-bold transition-all ${
-                  side === "SELL" ? "bg-rose-500 text-slate-950 shadow-md" : "text-slate-400 hover:text-white"
+                  side === "SELL" ? "bg-rose-600 text-white shadow-md font-black" : "text-emerald-600 hover:text-emerald-200"
                 }`}
               >
                 SELL
@@ -142,12 +142,12 @@ export const OrderExecutionModal: React.FC<OrderExecutionModalProps> = ({
                   onClick={() => setProductType(p.id)}
                   className={`p-2 rounded-xl border text-center transition-all ${
                     productType === p.id 
-                      ? "bg-cyan-500/10 border-cyan-500/60 text-cyan-400 font-bold" 
-                      : "bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200"
+                      ? "bg-emerald-950/60 border-emerald-500/60 text-emerald-400 font-bold" 
+                      : "bg-black border-emerald-950 text-emerald-600 hover:text-emerald-200"
                   }`}
                 >
                   <div className="text-[11px]">{p.label}</div>
-                  <div className="text-[9px] text-slate-500">{p.desc}</div>
+                  <div className="text-[9px] text-emerald-600/70">{p.desc}</div>
                 </button>
               ))}
             </div>
@@ -155,27 +155,27 @@ export const OrderExecutionModal: React.FC<OrderExecutionModalProps> = ({
             {/* Order Type & Quantity */}
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
-                <label className="text-[10px] text-slate-400 uppercase font-bold">Quantity (Shares)</label>
-                <div className="flex items-center space-x-1 bg-slate-950 border border-slate-800 rounded-lg p-1">
+                <label className="text-[10px] text-emerald-600 uppercase font-bold">Quantity (Shares)</label>
+                <div className="flex items-center space-x-1 bg-black border border-emerald-950 rounded-lg p-1">
                   <input
                     type="number"
                     value={quantity}
                     min={1}
                     onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
-                    className="w-full bg-transparent px-2 py-1 text-sm font-bold text-white focus:outline-none"
+                    className="w-full bg-transparent px-2 py-1 text-sm font-bold text-emerald-100 focus:outline-none"
                   />
                 </div>
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] text-slate-400 uppercase font-bold">Order Type</label>
-                <div className="flex bg-slate-950 border border-slate-800 rounded-lg p-1">
+                <label className="text-[10px] text-emerald-600 uppercase font-bold">Order Type</label>
+                <div className="flex bg-black border border-emerald-950 rounded-lg p-1">
                   {(["MARKET", "LIMIT"] as const).map((ot) => (
                     <button
                       key={ot}
                       onClick={() => setOrderType(ot)}
                       className={`flex-1 py-1 rounded text-xs font-bold ${
-                        orderType === ot ? "bg-slate-800 text-white" : "text-slate-500 hover:text-slate-300"
+                        orderType === ot ? "bg-emerald-950 text-emerald-300 border border-emerald-800" : "text-emerald-600 hover:text-emerald-300"
                       }`}
                     >
                       {ot}
@@ -188,21 +188,21 @@ export const OrderExecutionModal: React.FC<OrderExecutionModalProps> = ({
             {/* Limit Price Input if LIMIT */}
             {orderType === "LIMIT" && (
               <div className="space-y-1">
-                <label className="text-[10px] text-slate-400 uppercase font-bold">Limit Price (₹)</label>
+                <label className="text-[10px] text-emerald-600 uppercase font-bold">Limit Price (₹)</label>
                 <input
                   type="number"
                   step="0.05"
                   value={limitPrice}
                   onChange={(e) => setLimitPrice(Number(e.target.value))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-500"
+                  className="w-full bg-black border border-emerald-950 rounded-lg px-3 py-2 text-sm font-bold text-emerald-400 focus:outline-none focus:border-emerald-500"
                 />
               </div>
             )}
 
             {/* Bracket Order (SL & Target) Toggle */}
-            <div className="bg-slate-950/70 border border-slate-800 rounded-xl p-3 space-y-2">
+            <div className="bg-black border border-emerald-950 rounded-xl p-3 space-y-2">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-300 font-bold">Bracket Target & Stop Loss</span>
+                <span className="text-emerald-200 font-bold">Bracket Target & Stop Loss</span>
                 <input
                   type="checkbox"
                   checked={hasBracketSL}
@@ -214,21 +214,21 @@ export const OrderExecutionModal: React.FC<OrderExecutionModalProps> = ({
               {hasBracketSL && (
                 <div className="grid grid-cols-2 gap-2 pt-1">
                   <div>
-                    <span className="text-[10px] text-slate-400 block">Stop Loss (₹)</span>
+                    <span className="text-[10px] text-emerald-600 block">Stop Loss (₹)</span>
                     <input
                       type="number"
                       value={stopLossPrice}
                       onChange={(e) => setStopLossPrice(Number(e.target.value))}
-                      className="w-full bg-slate-900 border border-slate-800 rounded px-2 py-1 text-xs text-rose-400 font-bold focus:outline-none"
+                      className="w-full bg-[#040805] border border-emerald-950 rounded px-2 py-1 text-xs text-rose-400 font-bold focus:outline-none"
                     />
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-400 block">Target (₹)</span>
+                    <span className="text-[10px] text-emerald-600 block">Target (₹)</span>
                     <input
                       type="number"
                       value={targetPrice}
                       onChange={(e) => setTargetPrice(Number(e.target.value))}
-                      className="w-full bg-slate-900 border border-slate-800 rounded px-2 py-1 text-xs text-emerald-400 font-bold focus:outline-none"
+                      className="w-full bg-[#040805] border border-emerald-950 rounded px-2 py-1 text-xs text-emerald-400 font-bold focus:outline-none"
                     />
                   </div>
                 </div>
@@ -236,24 +236,24 @@ export const OrderExecutionModal: React.FC<OrderExecutionModalProps> = ({
             </div>
 
             {/* Groww Charges & Margin Breakdown */}
-            <div className="bg-slate-950 border border-slate-800/80 rounded-xl p-3 space-y-2 text-xs">
-              <div className="flex justify-between items-center text-slate-300 font-bold">
+            <div className="bg-black border border-emerald-950 rounded-xl p-3 space-y-2 text-xs">
+              <div className="flex justify-between items-center text-emerald-300 font-bold">
                 <span>Margin Required:</span>
-                <span className="text-sm font-extrabold text-white">₹{marginRequired.toLocaleString('en-IN')}</span>
+                <span className="text-sm font-extrabold text-emerald-400">₹{marginRequired.toLocaleString('en-IN')}</span>
               </div>
-              <div className="flex justify-between items-center text-[11px] text-slate-400 pt-1 border-t border-slate-800/60">
+              <div className="flex justify-between items-center text-[11px] text-emerald-600 pt-1 border-t border-emerald-950">
                 <span>Est. Charges (Brokerage + STT + GST):</span>
-                <span>₹{totalCharges}</span>
+                <span className="text-emerald-300">₹{totalCharges}</span>
               </div>
             </div>
 
             {/* Submit Execution Button */}
             <button
               onClick={handleExecuteOrder}
-              className={`w-full py-3 rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all shadow-lg active:scale-95 flex items-center justify-center space-x-2 ${
+              className={`w-full py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all shadow-lg active:scale-95 flex items-center justify-center space-x-2 ${
                 side === "BUY"
-                  ? "bg-emerald-500 hover:bg-emerald-400 text-slate-950"
-                  : "bg-rose-500 hover:bg-rose-400 text-slate-950"
+                  ? "bg-emerald-500 hover:bg-emerald-400 text-black shadow-emerald-500/20"
+                  : "bg-rose-600 hover:bg-rose-500 text-white shadow-rose-600/20"
               }`}
             >
               <span>{side} {quantity} {symbol} @ ₹{price.toFixed(2)}</span>

@@ -55,30 +55,41 @@ export const AddPositionModal: React.FC = () => {
   const selectedTicker = indianTickers[symbol];
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg shadow-2xl p-6 space-y-5">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-          <h3 className="text-lg font-bold font-mono text-slate-100 flex items-center gap-2">
-            <Plus className="h-5 w-5 text-emerald-400" />
-            ADD POSITION TO PORTFOLIO
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-[#0b0f17] border border-slate-800 rounded-xl w-full max-w-lg shadow-2xl p-6 space-y-5 text-slate-100 font-sans animate-fade-in-up">
+        <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
+
+          <h3 className="text-sm font-bold font-sans uppercase tracking-wider text-white flex items-center gap-2">
+            <Plus className="h-4 w-4 text-emerald-400" />
+            <span>Add Position to Portfolio</span>
           </h3>
-          <button onClick={() => setIsAddPositionOpen(false)} className="p-1.5 bg-slate-800 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-700 transition-colors">
-            <X className="h-5 w-5" />
+          <button 
+            onClick={() => setIsAddPositionOpen(false)} 
+            className="p-1.5 bg-[#0e1422] border border-slate-800 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+          >
+            <X className="h-4 w-4" />
           </button>
         </div>
 
         {/* Ticker Selection */}
         <div className="space-y-2">
-          <label className="text-xs font-mono text-slate-400 uppercase">Select NSE/BSE Ticker</label>
+          <label className="text-[11px] font-sans font-semibold text-slate-400 uppercase tracking-wider">
+            Select NSE / BSE Ticker
+          </label>
           {symbol ? (
-            <div className="flex items-center justify-between bg-slate-950 border border-emerald-800/50 rounded-lg p-3">
+            <div className="flex items-center justify-between bg-[#080b11] border border-slate-800 rounded-lg p-3">
               <div>
-                <span className="font-bold font-mono text-emerald-400">{symbol}</span>
+                <span className="font-bold font-mono text-white text-sm">{symbol}</span>
                 {selectedTicker?.company_name && (
                   <span className="text-xs text-slate-400 ml-2 font-sans">{selectedTicker.company_name}</span>
                 )}
               </div>
-              <button onClick={() => setSymbol("")} className="text-slate-500 hover:text-slate-200 text-xs font-mono">Change</button>
+              <button 
+                onClick={() => setSymbol("")} 
+                className="text-xs font-sans text-emerald-400 hover:underline font-medium"
+              >
+                Change
+              </button>
             </div>
           ) : (
             <div className="space-y-2">
@@ -89,27 +100,27 @@ export const AddPositionModal: React.FC = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search RELIANCE, TCS, HDFCBANK..."
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg pl-10 pr-3 py-2 text-sm text-slate-200 font-mono focus:outline-none focus:border-amber-500"
+                  className="w-full bg-[#080b11] border border-slate-800 rounded-lg pl-9 pr-3 py-2 text-xs text-slate-100 font-mono placeholder:text-slate-600 focus:outline-none focus:border-slate-600 focus:ring-1 focus:ring-slate-600/30 uppercase transition-colors"
                   autoFocus
                 />
               </div>
               {searchQuery && (
-                <div className="max-h-40 overflow-y-auto border border-slate-800 rounded-lg bg-slate-950">
+                <div className="max-h-40 overflow-y-auto border border-slate-800 rounded-lg bg-[#080b11] divide-y divide-slate-800/60">
                   {tickerList.slice(0, 10).map((t) => (
                     <button
                       key={t.symbol}
                       onClick={() => selectTicker(t.symbol)}
-                      className="w-full flex items-center justify-between px-3 py-2 text-xs font-mono hover:bg-slate-800 transition-colors"
+                      className="w-full flex items-center justify-between px-3 py-2 text-xs font-mono hover:bg-[#121929] transition-colors"
                     >
                       <div>
-                        <span className="text-slate-100 font-bold">{t.symbol}</span>
+                        <span className="text-white font-bold">{t.symbol}</span>
                         <span className="text-slate-400 ml-2 font-sans text-[11px]">{t.company_name}</span>
                       </div>
-                      <span className="text-slate-300">₹{t.price.toLocaleString('en-IN')}</span>
+                      <span className="text-slate-200 tabular-nums">₹{t.price.toLocaleString('en-IN')}</span>
                     </button>
                   ))}
                   {tickerList.length === 0 && (
-                    <div className="px-3 py-4 text-xs text-slate-500 font-mono text-center">No matching tickers found</div>
+                    <div className="px-3 py-4 text-xs text-slate-500 font-sans text-center">No matching tickers found</div>
                   )}
                 </div>
               )}
@@ -120,44 +131,56 @@ export const AddPositionModal: React.FC = () => {
         {/* Position Details */}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-mono text-slate-400 uppercase">Quantity</label>
+            <label className="text-[11px] font-sans font-semibold text-slate-400 uppercase tracking-wider">
+              Quantity
+            </label>
             <input
               type="number"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
               placeholder="100"
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200 font-mono focus:outline-none focus:border-amber-500"
+              className="w-full bg-[#080b11] border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono tabular-nums text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-slate-600 focus:ring-1 focus:ring-slate-600/30"
             />
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs font-mono text-slate-400 uppercase">Entry Price (₹)</label>
+            <label className="text-[11px] font-sans font-semibold text-slate-400 uppercase tracking-wider">
+              Entry Price (₹)
+            </label>
             <input
               type="number"
               step="0.01"
               value={entryPrice}
               onChange={(e) => setEntryPrice(e.target.value)}
               placeholder="2985.40"
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200 font-mono focus:outline-none focus:border-amber-500"
+              className="w-full bg-[#080b11] border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono tabular-nums text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-slate-600 focus:ring-1 focus:ring-slate-600/30"
             />
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-mono text-slate-400 uppercase">Side</label>
-            <div className="flex gap-2">
+            <label className="text-[11px] font-sans font-semibold text-slate-400 uppercase tracking-wider">
+              Side
+            </label>
+            <div className="grid grid-cols-2 gap-1 bg-[#080b11] p-1 rounded-lg border border-slate-800">
               <button
+                type="button"
                 onClick={() => setSide("LONG")}
-                className={`flex-1 py-2 rounded-lg text-xs font-mono font-bold transition-colors ${
-                  side === "LONG" ? "bg-emerald-500 text-slate-950" : "bg-slate-800 text-slate-400 hover:text-slate-200"
+                className={`py-1.5 rounded text-xs font-mono font-bold transition-colors ${
+                  side === "LONG" 
+                    ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30" 
+                    : "text-slate-400 hover:text-white"
                 }`}
               >
                 LONG
               </button>
               <button
+                type="button"
                 onClick={() => setSide("SHORT")}
-                className={`flex-1 py-2 rounded-lg text-xs font-mono font-bold transition-colors ${
-                  side === "SHORT" ? "bg-rose-500 text-slate-950" : "bg-slate-800 text-slate-400 hover:text-slate-200"
+                className={`py-1.5 rounded text-xs font-mono font-bold transition-colors ${
+                  side === "SHORT" 
+                    ? "bg-rose-500/15 text-rose-400 border border-rose-500/30" 
+                    : "text-slate-400 hover:text-white"
                 }`}
               >
                 SHORT
@@ -165,14 +188,16 @@ export const AddPositionModal: React.FC = () => {
             </div>
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs font-mono text-slate-400 uppercase">Leverage</label>
+            <label className="text-[11px] font-sans font-semibold text-slate-400 uppercase tracking-wider">
+              Leverage
+            </label>
             <input
               type="number"
               step="0.5"
               min="1"
               value={leverage}
               onChange={(e) => setLeverage(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200 font-mono focus:outline-none focus:border-amber-500"
+              className="w-full bg-[#080b11] border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono tabular-nums text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-slate-600 focus:ring-1 focus:ring-slate-600/30"
             />
           </div>
         </div>
@@ -181,9 +206,9 @@ export const AddPositionModal: React.FC = () => {
         <button
           onClick={handleSubmit}
           disabled={!symbol || !quantity || !entryPrice}
-          className="w-full py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 rounded-xl font-bold font-mono text-sm hover:from-emerald-400 hover:to-cyan-400 transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg"
+          className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-slate-950 rounded-lg font-bold font-sans text-xs uppercase tracking-wider transition-colors disabled:opacity-40 disabled:cursor-not-allowed shadow-sm"
         >
-          ADD POSITION TO PORTFOLIO
+          Add Position to Portfolio
         </button>
       </div>
     </div>
