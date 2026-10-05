@@ -62,8 +62,11 @@ class ConnectionManager:
                 "timestamp": int(time.time() * 1000)
             }
 
-    async def connect(self, websocket: WebSocket) -> None:
-        await websocket.accept()
+    async def connect(self, websocket: WebSocket) -> bool:
+        try:
+            await websocket.accept()
+        except Exception:
+            return False
         self.active_connections.append(websocket)
         self.subscribed_symbols[websocket] = set(BASE_PRICES.keys())
         
@@ -81,6 +84,7 @@ class ConnectionManager:
         # Start broadcaster if not already running
         if self.broadcaster_task is None or self.broadcaster_task.done():
             self.broadcaster_task = asyncio.create_task(self._live_feed_broadcaster())
+        return True
 
     def disconnect(self, websocket: WebSocket) -> None:
         if websocket in self.active_connections:
@@ -180,7 +184,9 @@ manager: ConnectionManager = ConnectionManager()
 
 @router.websocket("/ws/live-feed")
 async def websocket_live_feed(websocket: WebSocket) -> None:
-    await manager.connect(websocket)
+    connected = await manager.connect(websocket)
+    if not connected:
+        return
     try:
         while True:
             raw = await websocket.receive_text()
@@ -206,5 +212,6 @@ async def websocket_live_feed(websocket: WebSocket) -> None:
                     }))
             except json.JSONDecodeError:
                 await websocket.send_text(json.dumps({"event": "PONG", "timestamp": time.time()}))
-    except WebSocketDisconnect:
+    except (WebSocketDisconnect, RuntimeError, Exception):
         manager.disconnect(websocket)
+
