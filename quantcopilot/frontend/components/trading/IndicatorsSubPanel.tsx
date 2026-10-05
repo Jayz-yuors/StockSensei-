@@ -2,7 +2,7 @@
 
 import React from "react";
 import { IndicatorConfig } from "../../types/trading";
-import { Activity, X } from "lucide-react";
+import { X } from "lucide-react";
 
 interface IndicatorsSubPanelProps {
   indicators: IndicatorConfig;
@@ -19,21 +19,21 @@ export const IndicatorsSubPanel: React.FC<IndicatorsSubPanelProps> = ({
   if (!showPanel) return null;
 
   return (
-    <div className="flex flex-col border-t border-emerald-950 bg-black shrink-0 font-mono select-none">
+    <div className="flex flex-col border-t border-white/[0.08] bg-[#0C100F] shrink-0 font-mono select-none">
       {/* RSI Sub-Panel */}
       {indicators.rsi && (
-        <div className="h-28 border-b border-emerald-950 p-2 flex flex-col relative">
-          <div className="flex items-center justify-between text-[11px] text-emerald-500/80 shrink-0 mb-1">
+        <div className="h-28 border-b border-white/[0.06] p-2 flex flex-col relative bg-[#111614]">
+          <div className="flex items-center justify-between text-[11px] text-[#A7ADA8] shrink-0 mb-1">
             <div className="flex items-center space-x-2">
-              <span className="font-bold text-emerald-400">RSI (14, Close)</span>
-              <span className="text-emerald-100 font-extrabold bg-[#040805] px-1.5 py-0.5 rounded border border-emerald-900">
+              <span className="font-semibold text-[#F2F0E8]">RSI (14, Close)</span>
+              <span className="text-[#F2F0E8] font-bold bg-[#0C100F] px-1.5 py-0.5 rounded border border-white/[0.08]">
                 62.40
               </span>
-              <span className="text-[10px] text-emerald-600">Bullish Momentum</span>
+              <span className="text-[10px] text-[#42A77A]">Bullish Momentum</span>
             </div>
             <button
               onClick={() => onCloseIndicator("rsi")}
-              className="text-emerald-600 hover:text-rose-400 p-0.5"
+              className="text-[#68716C] hover:text-[#C45D62] p-0.5 transition-colors"
               title="Close RSI"
             >
               <X className="h-3.5 w-3.5" />
@@ -45,30 +45,30 @@ export const IndicatorsSubPanel: React.FC<IndicatorsSubPanelProps> = ({
             <svg className="w-full h-full" viewBox="0 0 500 70" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="rsiZone" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#10b981" stopOpacity="0.18" />
-                  <stop offset="100%" stopColor="#10b981" stopOpacity="0.02" />
+                  <stop offset="0%" stopColor="#42A77A" stopOpacity="0.15" />
+                  <stop offset="100%" stopColor="#42A77A" stopOpacity="0.02" />
                 </linearGradient>
               </defs>
 
               {/* Overbought 70 level */}
-              <line x1="0" y1="21" x2="500" y2="21" stroke="#f43f5e" strokeWidth="1" strokeDasharray="3,3" />
-              <text x="475" y="18" fill="#f43f5e" fontSize="9">70 OB</text>
+              <line x1="0" y1="21" x2="500" y2="21" stroke="#C45D62" strokeWidth="1" strokeDasharray="3,3" opacity="0.8" />
+              <text x="470" y="18" fill="#C45D62" fontSize="9" fontFamily="monospace">70 OB</text>
 
               {/* 50 Centerline */}
-              <line x1="0" y1="35" x2="500" y2="35" stroke="#064e3b" strokeWidth="1" strokeDasharray="2,4" />
+              <line x1="0" y1="35" x2="500" y2="35" stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeDasharray="2,4" />
 
               {/* Oversold 30 level */}
-              <line x1="0" y1="49" x2="500" y2="49" stroke="#10b981" strokeWidth="1" strokeDasharray="3,3" />
-              <text x="475" y="58" fill="#10b981" fontSize="9">30 OS</text>
+              <line x1="0" y1="49" x2="500" y2="49" stroke="#42A77A" strokeWidth="1" strokeDasharray="3,3" opacity="0.8" />
+              <text x="470" y="58" fill="#42A77A" fontSize="9" fontFamily="monospace">30 OS</text>
 
               {/* RSI fill zone */}
               <rect x="0" y="21" width="500" height="28" fill="url(#rsiZone)" />
 
-              {/* Simulated RSI Curve */}
+              {/* RSI Curve */}
               <path
                 d="M 0,45 Q 60,55 120,40 T 240,28 T 360,34 T 480,26 L 500,24"
                 fill="none"
-                stroke="#34d399"
+                stroke="#42A77A"
                 strokeWidth="2"
               />
             </svg>
@@ -78,17 +78,17 @@ export const IndicatorsSubPanel: React.FC<IndicatorsSubPanelProps> = ({
 
       {/* MACD Sub-Panel */}
       {indicators.macd && (
-        <div className="h-28 p-2 flex flex-col relative">
-          <div className="flex items-center justify-between text-[11px] text-emerald-500/80 shrink-0 mb-1">
+        <div className="h-28 p-2 flex flex-col relative bg-[#111614]">
+          <div className="flex items-center justify-between text-[11px] text-[#A7ADA8] shrink-0 mb-1">
             <div className="flex items-center space-x-2">
-              <span className="font-bold text-emerald-400">MACD (12, 26, 9)</span>
-              <span className="text-emerald-400 font-bold">MACD: +14.2</span>
-              <span className="text-emerald-600 font-bold">Signal: +9.8</span>
-              <span className="text-emerald-300 font-bold">Hist: +4.4</span>
+              <span className="font-semibold text-[#F2F0E8]">MACD (12, 26, 9)</span>
+              <span className="text-[#42A77A] font-medium">MACD: +14.2</span>
+              <span className="text-[#C8A96B] font-medium">Signal: +9.8</span>
+              <span className="text-[#F2F0E8] font-medium">Hist: +4.4</span>
             </div>
             <button
               onClick={() => onCloseIndicator("macd")}
-              className="text-emerald-600 hover:text-rose-400 p-0.5"
+              className="text-[#68716C] hover:text-[#C45D62] p-0.5 transition-colors"
               title="Close MACD"
             >
               <X className="h-3.5 w-3.5" />
@@ -99,7 +99,7 @@ export const IndicatorsSubPanel: React.FC<IndicatorsSubPanelProps> = ({
           <div className="flex-1 w-full relative">
             <svg className="w-full h-full" viewBox="0 0 500 70" preserveAspectRatio="none">
               {/* Zero line */}
-              <line x1="0" y1="35" x2="500" y2="35" stroke="#122316" strokeWidth="1" />
+              <line x1="0" y1="35" x2="500" y2="35" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
 
               {/* Histogram bars */}
               {[
@@ -114,26 +114,26 @@ export const IndicatorsSubPanel: React.FC<IndicatorsSubPanelProps> = ({
                   y={bar.h >= 0 ? 35 - bar.h : 35}
                   width="18"
                   height={Math.abs(bar.h)}
-                  fill={bar.h >= 0 ? "#10b981" : "#f43f5e"}
-                  opacity="0.8"
+                  fill={bar.h >= 0 ? "#42A77A" : "#C45D62"}
+                  opacity="0.85"
                   rx="1"
                 />
               ))}
 
-              {/* MACD Fast Line (Emerald) */}
+              {/* MACD Line */}
               <path
                 d="M 0,52 Q 100,60 200,20 T 350,38 T 500,16"
                 fill="none"
-                stroke="#10b981"
+                stroke="#159570"
                 strokeWidth="2"
               />
 
-              {/* Signal Slow Line (Mint Dashed) */}
+              {/* Signal Line (Champagne Dashed) */}
               <path
                 d="M 0,48 Q 120,54 220,26 T 370,34 T 500,22"
                 fill="none"
-                stroke="#34d399"
-                strokeWidth="1.8"
+                stroke="#C8A96B"
+                strokeWidth="1.5"
                 strokeDasharray="4,3"
               />
             </svg>

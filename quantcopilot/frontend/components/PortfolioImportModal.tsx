@@ -128,31 +128,30 @@ export const PortfolioImportModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-[#0b0f17] border border-slate-800 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-5 text-slate-100 font-sans animate-fade-in-up">
-        <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
-
-          <h3 className="text-sm font-bold font-sans uppercase tracking-wider text-white flex items-center gap-2">
-            <FileSpreadsheet className="h-4 w-4 text-emerald-400" />
+      <div className="bg-[#111614] border border-white/[0.065] rounded-sm w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-5 text-[#F2F0E8] font-sans animate-fade-in-up">
+        <div className="flex items-center justify-between border-b border-white/[0.065] pb-4">
+          <h3 className="text-sm font-semibold font-sans uppercase tracking-wider text-[#F2F0E8] flex items-center gap-2">
+            <FileSpreadsheet className="h-4 w-4 text-[#159570]" />
             <span>Import Portfolio (CSV / Excel)</span>
           </h3>
           <button 
             onClick={() => { setIsImportModalOpen(false); setParsedPositions([]); setFileName(""); setParseError(""); }} 
-            className="p-1.5 bg-[#0e1422] border border-slate-800 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-1.5 bg-[#0C100F] border border-white/[0.065] rounded-sm text-[#A7ADA8] hover:text-[#F2F0E8] hover:bg-[#161C19] transition-colors"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
         {/* Download Template */}
-        <div className="flex items-center justify-between bg-[#080b11] border border-slate-800 rounded-lg p-3">
-          <div className="text-xs font-mono text-slate-400">
-            <span className="text-slate-200 font-bold font-sans">Format Required:</span> symbol, quantity, entry_price, side, leverage
+        <div className="flex items-center justify-between bg-[#0C100F] border border-white/[0.065] rounded-sm p-3">
+          <div className="text-xs font-mono text-[#A7ADA8]">
+            <span className="text-[#F2F0E8] font-semibold font-sans">Format Required:</span> symbol, quantity, entry_price, side, leverage
           </div>
           <button 
             onClick={downloadSampleCSV} 
-            className="flex items-center gap-1.5 bg-[#0e1422] hover:bg-slate-800 border border-slate-700/80 text-slate-200 text-xs font-semibold font-sans px-3 py-1.5 rounded-md transition-colors"
+            className="flex items-center gap-1.5 bg-[#161C19] hover:bg-[#1B2420] border border-white/[0.065] text-[#F2F0E8] text-xs font-medium font-sans px-3 py-1.5 rounded-sm transition-colors"
           >
-            <Download className="h-3.5 w-3.5 text-slate-400" />
+            <Download className="h-3.5 w-3.5 text-[#A7ADA8]" />
             <span>Download Sample CSV</span>
           </button>
         </div>
@@ -163,17 +162,17 @@ export const PortfolioImportModal: React.FC = () => {
           onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
           onDragLeave={() => setIsDragOver(false)}
           onClick={() => fileInputRef.current?.click()}
-          className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all ${
+          className={`border border-dashed rounded-sm p-8 flex flex-col items-center justify-center cursor-pointer transition-all ${
             isDragOver 
-              ? "border-emerald-500/80 bg-emerald-950/10" 
-              : "border-slate-800 hover:border-slate-700 bg-[#080b11]"
+              ? "border-[#159570] bg-[#159570]/10" 
+              : "border-white/[0.08] hover:border-white/[0.15] bg-[#0C100F]"
           }`}
         >
-          <Upload className={`h-8 w-8 mb-2 ${isDragOver ? "text-emerald-400" : "text-slate-400"}`} />
-          <p className="text-xs font-sans text-slate-200 font-medium">
+          <Upload className={`h-8 w-8 mb-2 ${isDragOver ? "text-[#159570]" : "text-[#68716C]"}`} />
+          <p className="text-xs font-sans text-[#F2F0E8] font-medium">
             {fileName || "Drop your portfolio file here or click to browse"}
           </p>
-          <p className="text-[11px] font-sans text-slate-500 mt-1">
+          <p className="text-[11px] font-sans text-[#68716C] mt-1">
             Supports .csv, .xlsx, .xls files
           </p>
           <input
@@ -187,7 +186,7 @@ export const PortfolioImportModal: React.FC = () => {
 
         {/* Parse Error */}
         {parseError && (
-          <div className="flex items-start gap-2 bg-rose-950/20 border border-rose-900/60 rounded-lg p-3 text-xs font-sans text-rose-400">
+          <div className="flex items-start gap-2 bg-[#C45D62]/10 border border-[#C45D62]/25 rounded-sm p-3 text-xs font-sans text-[#C45D62]">
             <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
             <span>{parseError}</span>
           </div>
@@ -197,13 +196,13 @@ export const PortfolioImportModal: React.FC = () => {
         {parsedPositions.length > 0 && (
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-xs font-sans">
-              <CheckCircle className="h-4 w-4 text-emerald-400" />
-              <span className="text-emerald-400 font-bold">{parsedPositions.length} positions</span>
-              <span className="text-slate-400">parsed successfully from {fileName}</span>
+              <CheckCircle className="h-4 w-4 text-[#42A77A]" />
+              <span className="text-[#42A77A] font-semibold">{parsedPositions.length} positions</span>
+              <span className="text-[#A7ADA8]">parsed successfully from {fileName}</span>
             </div>
-            <div className="overflow-x-auto border border-slate-800 rounded-lg max-h-48 overflow-y-auto bg-[#080b11]">
+            <div className="overflow-x-auto border border-white/[0.065] rounded-sm max-h-48 overflow-y-auto bg-[#0C100F]">
               <table className="w-full text-left text-xs font-sans">
-                <thead className="sticky top-0 bg-[#090d16] text-slate-400 border-b border-slate-800 text-[10px] uppercase font-semibold">
+                <thead className="sticky top-0 bg-[#0C100F] text-[#A7ADA8] border-b border-white/[0.065] text-[10px] uppercase font-semibold">
                   <tr>
                     <th className="py-2 px-3">Symbol</th>
                     <th className="py-2 px-2 text-right">Qty</th>
@@ -212,18 +211,18 @@ export const PortfolioImportModal: React.FC = () => {
                     <th className="py-2 px-2 text-right">Leverage</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60 font-mono tabular-nums">
+                <tbody className="divide-y divide-white/[0.04] font-mono tabular-nums">
                   {parsedPositions.map((p, i) => (
-                    <tr key={i} className="hover:bg-[#121929]">
-                      <td className="py-2 px-3 font-bold text-white">{p.symbol}</td>
-                      <td className="py-2 px-2 text-right text-slate-200">{p.quantity}</td>
-                      <td className="py-2 px-2 text-right text-slate-200">₹{p.entry_price.toLocaleString('en-IN')}</td>
+                    <tr key={i} className="hover:bg-[#161C19]">
+                      <td className="py-2 px-3 font-semibold text-[#F2F0E8]">{p.symbol}</td>
+                      <td className="py-2 px-2 text-right text-[#F2F0E8]">{p.quantity}</td>
+                      <td className="py-2 px-2 text-right text-[#A7ADA8]">₹{p.entry_price.toLocaleString('en-IN')}</td>
                       <td className="py-2 px-2">
-                        <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${p.side === "LONG" ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30" : "bg-rose-500/15 text-rose-400 border border-rose-500/30"}`}>
+                        <span className={`px-1.5 py-0.5 rounded-sm text-[10px] font-semibold ${p.side === "LONG" ? "bg-[#159570]/15 text-[#42A77A] border border-[#159570]/30" : "bg-[#C45D62]/10 text-[#C45D62] border border-[#C45D62]/25"}`}>
                           {p.side}
                         </span>
                       </td>
-                      <td className="py-2 px-2 text-right text-slate-300">{p.leverage || 1}x</td>
+                      <td className="py-2 px-2 text-right text-[#A7ADA8]">{p.leverage || 1}x</td>
                     </tr>
                   ))}
                 </tbody>
@@ -232,7 +231,7 @@ export const PortfolioImportModal: React.FC = () => {
 
             <button
               onClick={handleImport}
-              className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-slate-950 rounded-lg font-bold font-sans text-xs uppercase tracking-wider transition-colors shadow-sm"
+              className="w-full py-2.5 bg-[#159570] hover:bg-[#0E6B50] text-[#F2F0E8] rounded-sm font-medium font-sans text-xs uppercase tracking-wider transition-colors shadow-sm"
             >
               Import {parsedPositions.length} Positions into Portfolio
             </button>

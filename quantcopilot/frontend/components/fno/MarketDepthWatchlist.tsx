@@ -49,14 +49,14 @@ export const MarketDepthWatchlist: React.FC<MarketDepthWatchlistProps> = ({
   );
 
   return (
-    <aside className="w-72 bg-black flex flex-col text-xs font-mono select-none shrink-0 border-l border-emerald-950">
-      <div className="flex border-b border-emerald-950 shrink-0">
+    <aside className="w-72 bg-[#0C100F] flex flex-col text-xs font-mono select-none shrink-0 border-l border-white/[0.065]">
+      <div className="flex border-b border-white/[0.065] shrink-0">
         {(["WATCHLIST", "DEPTH", "GNN"] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveSideTab(tab)}
-            className={`flex-1 py-2 font-bold text-[10px] transition-colors ${
-              activeSideTab === tab ? "bg-[#040805] text-emerald-400 border-b-2 border-emerald-400" : "text-slate-500 hover:text-emerald-300"
+            className={`flex-1 py-2 font-medium text-[10px] transition-colors ${
+              activeSideTab === tab ? "bg-[#111614] text-[#F2F0E8] border-b-2 border-[#159570]" : "text-[#68716C] hover:text-[#A7ADA8]"
             }`}
           >
             {tab}
@@ -66,20 +66,20 @@ export const MarketDepthWatchlist: React.FC<MarketDepthWatchlistProps> = ({
 
       {activeSideTab === "WATCHLIST" && (
         <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="p-2 border-b border-emerald-950 shrink-0">
-            <div className="flex items-center bg-[#060c07] rounded px-2 py-1 border border-emerald-900/60">
-              <Search className="h-3.5 w-3.5 text-emerald-600 mr-2" />
+          <div className="p-2 border-b border-white/[0.065] shrink-0">
+            <div className="flex items-center bg-[#111614] rounded-sm px-2 py-1 border border-white/[0.065]">
+              <Search className="h-3.5 w-3.5 text-[#68716C] mr-2" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search Stocks, F&O..."
-                className="bg-transparent text-emerald-200 placeholder-emerald-800 text-xs outline-none w-full"
+                className="bg-transparent text-[#F2F0E8] placeholder-[#68716C] text-xs outline-none w-full"
               />
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto divide-y divide-emerald-950/60">
+          <div className="flex-1 overflow-y-auto divide-y divide-white/[0.04]">
             {filteredWatchlist.map((item) => {
               const isPos = item.change >= 0;
               const isSelected = selectedSymbol === item.symbol;
@@ -88,16 +88,16 @@ export const MarketDepthWatchlist: React.FC<MarketDepthWatchlistProps> = ({
                   key={item.symbol}
                   onClick={() => onSelectSymbol(item.symbol)}
                   className={`flex items-center justify-between p-2.5 cursor-pointer transition-colors ${
-                    isSelected ? "bg-emerald-950/40 border-l-2 border-emerald-400" : "hover:bg-emerald-950/20"
+                    isSelected ? "bg-[#161C19] border-l-2 border-[#159570]" : "hover:bg-[#161C19]"
                   }`}
                 >
                   <div>
-                    <div className="font-bold text-emerald-200">{item.symbol}</div>
-                    <div className="text-[10px] text-emerald-600/80">{item.isIndex ? "NSE Index" : "NSE Equity"}</div>
+                    <div className="font-semibold text-[#F2F0E8]">{item.symbol}</div>
+                    <div className="text-[10px] text-[#68716C]">{item.isIndex ? "NSE Index" : "NSE Equity"}</div>
                   </div>
                   <div className="text-right">
-                    <div className="font-bold text-emerald-100">₹{item.price.toFixed(2)}</div>
-                    <div className={`text-[10px] font-semibold ${isPos ? "text-emerald-400" : "text-rose-400"}`}>
+                    <div className="font-semibold text-[#F2F0E8] tabular-nums">₹{item.price.toFixed(2)}</div>
+                    <div className={`text-[10px] font-medium tabular-nums ${isPos ? "text-[#42A77A]" : "text-[#C45D62]"}`}>
                       {isPos ? "+" : ""}{item.change.toFixed(2)}%
                     </div>
                   </div>
@@ -110,12 +110,12 @@ export const MarketDepthWatchlist: React.FC<MarketDepthWatchlistProps> = ({
 
       {activeSideTab === "DEPTH" && (
         <div className="p-3 space-y-3 flex-1 overflow-y-auto">
-          <div className="text-[10px] text-emerald-500/70 font-bold uppercase">
+          <div className="text-[10px] text-[#A7ADA8] font-semibold uppercase">
             5-LEVEL L2 DEPTH ({selectedSymbol})
           </div>
           <div className="grid grid-cols-2 gap-2 text-[10px]">
             <div>
-              <div className="text-emerald-400 font-bold border-b border-emerald-950 pb-1 mb-1">BID (BUY)</div>
+              <div className="text-[#42A77A] font-semibold border-b border-white/[0.065] pb-1 mb-1">BID (BUY)</div>
               {(marketDepth?.bids || [
                 { price: 24144.0, orders: 12, qty: 1850 },
                 { price: 24143.5, orders: 8, qty: 1200 },
@@ -123,15 +123,15 @@ export const MarketDepthWatchlist: React.FC<MarketDepthWatchlistProps> = ({
                 { price: 24142.5, orders: 4, qty: 900 },
                 { price: 24142.0, orders: 22, qty: 5600 },
               ]).map((b, i) => (
-                <div key={i} className="flex justify-between py-0.5 text-slate-300">
+                <div key={i} className="flex justify-between py-0.5 text-[#A7ADA8] tabular-nums">
                   <span>{b.price.toFixed(1)}</span>
-                  <span className="text-emerald-400 font-bold">{b.qty}</span>
+                  <span className="text-[#42A77A] font-medium">{b.qty}</span>
                 </div>
               ))}
             </div>
 
             <div>
-              <div className="text-rose-400 font-bold border-b border-emerald-950 pb-1 mb-1">ASK (SELL)</div>
+              <div className="text-[#C45D62] font-semibold border-b border-white/[0.065] pb-1 mb-1">ASK (SELL)</div>
               {(marketDepth?.asks || [
                 { price: 24144.5, orders: 18, qty: 2100 },
                 { price: 24145.0, orders: 11, qty: 1650 },
@@ -139,9 +139,9 @@ export const MarketDepthWatchlist: React.FC<MarketDepthWatchlistProps> = ({
                 { price: 24146.0, orders: 25, qty: 4200 },
                 { price: 24146.5, orders: 30, qty: 6100 },
               ]).map((a, i) => (
-                <div key={i} className="flex justify-between py-0.5 text-slate-300">
+                <div key={i} className="flex justify-between py-0.5 text-[#A7ADA8] tabular-nums">
                   <span>{a.price.toFixed(1)}</span>
-                  <span className="text-rose-400 font-bold">{a.qty}</span>
+                  <span className="text-[#C45D62] font-medium">{a.qty}</span>
                 </div>
               ))}
             </div>
@@ -151,33 +151,33 @@ export const MarketDepthWatchlist: React.FC<MarketDepthWatchlistProps> = ({
 
       {activeSideTab === "GNN" && (
         <div className="p-3 space-y-3 flex-1 overflow-y-auto">
-          <div className="text-[10px] text-emerald-400 font-bold uppercase flex items-center gap-1">
+          <div className="text-[10px] text-[#159570] font-semibold uppercase flex items-center gap-1">
             <ShieldCheck className="h-3.5 w-3.5" /> GNN CONTAGION SIGNALS
           </div>
-          <div className="bg-[#040805] p-2.5 rounded border border-emerald-950 space-y-2 text-[11px]">
+          <div className="bg-[#111614] p-2.5 rounded-sm border border-white/[0.065] space-y-2 text-[11px]">
             <div className="flex justify-between">
-              <span className="text-emerald-500/70">System Contagion:</span>
-              <span className="text-amber-400 font-bold">
+              <span className="text-[#68716C]">System Contagion:</span>
+              <span className="text-[#B89655] font-semibold">
                 {gnnSignal?.systemic_contagion || 0.38} ({gnnSignal?.contagion_status || "MODERATE"})
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-emerald-500/70">Gamma Squeeze Prob:</span>
-              <span className="text-emerald-400 font-bold">
+              <span className="text-[#68716C]">Gamma Squeeze Prob:</span>
+              <span className="text-[#42A77A] font-semibold">
                 {((gnnSignal?.gamma_squeeze_prob || 0.14) * 100).toFixed(0)}%
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-emerald-500/70">Predicted IV Drift:</span>
-              <span className="text-emerald-300 font-bold">
+              <span className="text-[#68716C]">Predicted IV Drift:</span>
+              <span className="text-[#F2F0E8] font-semibold">
                 +{gnnSignal?.predicted_iv_drift || 0.45} vol pts
               </span>
             </div>
-            <div className="pt-2 border-t border-emerald-950">
-              <div className="text-[10px] text-emerald-600 mb-1">High Contagion Assets:</div>
+            <div className="pt-2 border-t border-white/[0.065]">
+              <div className="text-[10px] text-[#68716C] mb-1">High Contagion Assets:</div>
               <div className="flex flex-wrap gap-1">
                 {(gnnSignal?.high_risk_nodes || ["TATAMOTORS", "TATASTEEL"]).map((sym) => (
-                  <span key={sym} className="px-1.5 py-0.5 bg-rose-950/50 border border-rose-800/50 text-rose-400 rounded text-[10px] font-bold">
+                  <span key={sym} className="px-1.5 py-0.5 bg-[#C45D62]/10 border border-[#C45D62]/25 text-[#C45D62] rounded-sm text-[10px] font-semibold">
                     {sym}
                   </span>
                 ))}

@@ -239,62 +239,62 @@ export const WatchlistAuditView: React.FC = () => {
     const s = (stance || "").toUpperCase();
     if (s.includes("STRONG_BULLISH")) {
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold tracking-wider uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-          <TrendingUp className="w-3 h-3 text-emerald-400" />
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm text-[10px] font-medium tracking-wider uppercase bg-[#159570]/15 text-[#42A77A] border border-[#159570]/30">
+          <TrendingUp className="w-3 h-3 text-[#42A77A]" />
           Strong Bullish
         </span>
       );
     }
     if (s.includes("MODERATE_BULLISH")) {
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold tracking-wider uppercase bg-teal-500/15 text-teal-400 border border-teal-500/30">
-          <TrendingUp className="w-3 h-3 text-teal-400" />
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm text-[10px] font-medium tracking-wider uppercase bg-[#159570]/10 text-[#42A77A] border border-[#159570]/20">
+          <TrendingUp className="w-3 h-3 text-[#42A77A]" />
           Moderate Bullish
         </span>
       );
     }
     if (s.includes("ACCUMULATION") || s.includes("RANGE")) {
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold tracking-wider uppercase bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
-          <Activity className="w-3 h-3 text-cyan-400" />
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm text-[10px] font-medium tracking-wider uppercase bg-[#C8A96B]/10 text-[#C8A96B] border border-[#C8A96B]/25">
+          <Activity className="w-3 h-3 text-[#C8A96B]" />
           Accumulation
         </span>
       );
     }
     if (s.includes("BEARISH")) {
       return (
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold tracking-wider uppercase bg-rose-500/15 text-rose-400 border border-rose-500/30">
-          <TrendingDown className="w-3 h-3 text-rose-400" />
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm text-[10px] font-medium tracking-wider uppercase bg-[#C45D62]/10 text-[#C45D62] border border-[#C45D62]/25">
+          <TrendingDown className="w-3 h-3 text-[#C45D62]" />
           Bearish Pullback
         </span>
       );
     }
     return (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold tracking-wider uppercase bg-slate-500/15 text-slate-300 border border-slate-500/30">
-        <Activity className="w-3 h-3 text-slate-400" />
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-sm text-[10px] font-medium tracking-wider uppercase bg-white/[0.04] text-[#A7ADA8] border border-white/[0.08]">
+        <Activity className="w-3 h-3 text-[#68716C]" />
         Neutral
       </span>
     );
   };
 
   return (
-    <div className="flex-1 flex flex-col p-4 md:p-6 overflow-y-auto space-y-6 animate-fade-in-up">
+    <div className="flex-1 flex flex-col p-4 md:p-6 overflow-y-auto space-y-6">
       {/* ==================== DESK HEADER ==================== */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/[0.065] pb-5">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+            <div className="p-2 rounded-sm bg-[#159570]/10 border border-[#159570]/25 text-[#159570]">
               <Target className="w-5 h-5" />
             </div>
             <div>
-              <h1 className="text-xl md:text-2xl font-bold tracking-tight text-white flex items-center gap-2.5">
-                Live Watchlist & Predictive Audit Desk
-                <span className="text-xs px-2 py-0.5 rounded font-mono font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <h1 className="text-xl md:text-2xl font-semibold tracking-tight text-[#F2F0E8] flex items-center gap-2.5">
+                Live Watchlist &amp; Predictive Audit Desk
+                <span className="text-xs px-2 py-0.5 rounded-sm font-mono font-medium bg-[#161C19] text-[#159570] border border-[#159570]/25">
                   CMP REALTIME
                 </span>
               </h1>
-              <p className="text-xs text-slate-400 mt-0.5">
-                Dynamic Current Market Price quotes with multi-horizon AI price forecast cones & institutional governance audits.
+              <p className="text-xs text-[#A7ADA8] mt-0.5">
+                Dynamic Current Market Price quotes with multi-horizon AI price forecast cones &amp; institutional governance audits.
               </p>
             </div>
           </div>
@@ -303,27 +303,27 @@ export const WatchlistAuditView: React.FC = () => {
         {/* Refresh controls & Search trigger */}
         <div className="flex flex-wrap items-center gap-2.5">
           {/* Refresh interval selector */}
-          <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-300">
-            <Clock className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-slate-400 hidden sm:inline">Interval:</span>
+          <div className="flex items-center gap-1.5 bg-[#161C19] border border-white/[0.065] rounded-sm px-2.5 py-1.5 text-xs text-[#A7ADA8]">
+            <Clock className="w-3.5 h-3.5 text-[#68716C]" />
+            <span className="text-[#68716C] hidden sm:inline">Interval:</span>
             <select
               value={refreshInterval}
               onChange={(e) => setRefreshInterval(Number(e.target.value))}
-              className="bg-transparent border-none text-slate-200 text-xs focus:ring-0 cursor-pointer pr-1 outline-none font-mono"
+              className="bg-transparent border-none text-[#F2F0E8] text-xs focus:ring-0 cursor-pointer pr-1 outline-none font-mono"
             >
-              <option value={60} className="bg-slate-900 text-slate-200">1 Min</option>
-              <option value={120} className="bg-slate-900 text-slate-200">2 Min</option>
-              <option value={300} className="bg-slate-900 text-slate-200">5 Min</option>
-              <option value={0} className="bg-slate-900 text-slate-200">Manual</option>
+              <option value={60} className="bg-[#111614] text-[#F2F0E8]">1 Min</option>
+              <option value={120} className="bg-[#111614] text-[#F2F0E8]">2 Min</option>
+              <option value={300} className="bg-[#111614] text-[#F2F0E8]">5 Min</option>
+              <option value={0} className="bg-[#111614] text-[#F2F0E8]">Manual</option>
             </select>
           </div>
 
           {/* Countdown badge */}
           {refreshInterval > 0 && (
-            <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900/90 border border-slate-800 rounded-lg text-xs font-mono text-slate-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-[#161C19] border border-white/[0.065] rounded-sm text-xs font-mono text-[#A7ADA8]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#159570]" />
               <span>Next tick:</span>
-              <span className="text-emerald-400 font-semibold">{countdown}s</span>
+              <span className="text-[#42A77A] font-medium">{countdown}s</span>
             </div>
           )}
 
@@ -335,10 +335,10 @@ export const WatchlistAuditView: React.FC = () => {
               setCountdown(refreshInterval);
             }}
             disabled={isQuotesLoading}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 active:bg-slate-900 border border-slate-700 rounded-lg text-xs font-medium text-slate-200 transition-colors shadow-sm disabled:opacity-50"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#161C19] hover:bg-[#1B2420] border border-white/[0.065] rounded-sm text-xs font-medium text-[#F2F0E8] transition-colors disabled:opacity-50"
             title="Force immediate quotes & audit refresh"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isQuotesLoading ? "animate-spin text-emerald-400" : "text-slate-400"}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${isQuotesLoading ? "animate-spin text-[#159570]" : "text-[#68716C]"}`} />
             <span>Refresh Now</span>
           </button>
 
@@ -346,7 +346,7 @@ export const WatchlistAuditView: React.FC = () => {
           <div className="relative">
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-slate-950 font-semibold rounded-lg text-xs transition-colors shadow-sm shadow-emerald-500/20"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#159570] hover:bg-[#0E6B50] text-[#F2F0E8] font-medium rounded-sm text-xs transition-colors"
             >
               <Plus className="w-4 h-4" />
               <span>+ Add Stock</span>
@@ -354,32 +354,32 @@ export const WatchlistAuditView: React.FC = () => {
 
             {/* Quick Add Popover */}
             {isSearchOpen && (
-              <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl p-3 z-50 animate-fade-in-up">
-                <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-800">
-                  <span className="text-xs font-semibold text-slate-200">Add to Watchlist</span>
+              <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-[#111614] border border-white/[0.08] rounded-sm shadow-2xl p-3 z-50">
+                <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/[0.065]">
+                  <span className="text-xs font-medium text-[#F2F0E8]">Add to Watchlist</span>
                   <button 
                     onClick={() => setIsSearchOpen(false)}
-                    className="text-slate-400 hover:text-white p-1 rounded"
+                    className="text-[#68716C] hover:text-[#F2F0E8] p-1 rounded-sm"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
 
                 <div className="relative mb-2.5">
-                  <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
+                  <Search className="w-3.5 h-3.5 text-[#68716C] absolute left-2.5 top-2.5" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search scrip (e.g. RELIANCE, ZOMATO)..."
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-[#0C100F] border border-white/[0.065] rounded-sm pl-8 pr-3 py-1.5 text-xs text-[#F2F0E8] placeholder-[#68716C] focus:outline-none focus:border-white/[0.15]"
                     autoFocus
                   />
                 </div>
 
                 <div className="max-h-48 overflow-y-auto space-y-1">
                   {filteredSearchList.length === 0 ? (
-                    <div className="text-center py-3 text-xs text-slate-500">
+                    <div className="text-center py-3 text-xs text-[#68716C]">
                       No matching securities available
                     </div>
                   ) : (
@@ -387,17 +387,17 @@ export const WatchlistAuditView: React.FC = () => {
                       <button
                         key={item.symbol}
                         onClick={() => handleAddCustomSymbol(item.symbol)}
-                        className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-slate-800 text-left transition-colors group"
+                        className="w-full flex items-center justify-between p-2 rounded-sm hover:bg-[#161C19] text-left transition-colors group"
                       >
                         <div>
-                          <div className="text-xs font-semibold text-white group-hover:text-emerald-400">
+                          <div className="text-xs font-medium text-[#F2F0E8] group-hover:text-[#42A77A]">
                             {item.symbol}
                           </div>
-                          <div className="text-[10px] text-slate-400 truncate max-w-[170px]">
+                          <div className="text-[10px] text-[#A7ADA8] truncate max-w-[170px]">
                             {item.name}
                           </div>
                         </div>
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-sm bg-[#161C19] text-[#A7ADA8] font-mono border border-white/[0.04]">
                           {item.sector}
                         </span>
                       </button>
@@ -411,21 +411,21 @@ export const WatchlistAuditView: React.FC = () => {
       </div>
 
       {/* ==================== STATS STRIP & VIEW SWITCHER ==================== */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900/60 border border-slate-800/80 rounded-xl p-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#161C19] border border-white/[0.065] rounded-sm p-3">
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="text-xs text-slate-400 mr-1 flex items-center gap-1">
-            <Sliders className="w-3.5 h-3.5" />
+          <span className="text-xs text-[#A7ADA8] mr-1 flex items-center gap-1">
+            <Sliders className="w-3.5 h-3.5 text-[#68716C]" />
             <span>Stance:</span>
           </span>
           {(["ALL", "BULLISH", "ACCUMULATION", "BEARISH"] as const).map((stance) => (
             <button
               key={stance}
               onClick={() => setFilterStance(stance)}
-              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-all ${
+              className={`px-2.5 py-1 rounded-sm text-xs font-medium transition-all ${
                 filterStance === stance
-                  ? "bg-slate-800 text-emerald-400 border border-emerald-500/30"
-                  : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
+                  ? "bg-[#1B2420] text-[#F2F0E8] border border-white/[0.08]"
+                  : "text-[#68716C] hover:text-[#A7ADA8]"
               }`}
             >
               {stance}
@@ -435,22 +435,22 @@ export const WatchlistAuditView: React.FC = () => {
 
         {/* Summary counts & View mode toggle */}
         <div className="flex items-center gap-3">
-          <span className="text-xs text-slate-400 font-mono">
-            Tracking: <strong className="text-white">{watchlist.length}</strong> securities
+          <span className="text-xs text-[#A7ADA8] font-mono">
+            Tracking: <strong className="text-[#F2F0E8] font-medium">{watchlist.length}</strong> securities
           </span>
-          <div className="flex items-center bg-slate-950 p-0.5 rounded-lg border border-slate-800">
+          <div className="flex items-center bg-[#111614] p-0.5 rounded-sm border border-white/[0.065]">
             <button
               onClick={() => setViewMode("CARDS")}
-              className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
-                viewMode === "CARDS" ? "bg-slate-800 text-white" : "text-slate-400 hover:text-slate-200"
+              className={`px-2 py-1 rounded-sm text-xs font-medium transition-colors ${
+                viewMode === "CARDS" ? "bg-[#161C19] text-[#F2F0E8]" : "text-[#68716C] hover:text-[#A7ADA8]"
               }`}
             >
               Audit Cards
             </button>
             <button
               onClick={() => setViewMode("TABLE")}
-              className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
-                viewMode === "TABLE" ? "bg-slate-800 text-white" : "text-slate-400 hover:text-slate-200"
+              className={`px-2 py-1 rounded-sm text-xs font-medium transition-colors ${
+                viewMode === "TABLE" ? "bg-[#161C19] text-[#F2F0E8]" : "text-[#68716C] hover:text-[#A7ADA8]"
               }`}
             >
               Dense Table
@@ -483,21 +483,21 @@ export const WatchlistAuditView: React.FC = () => {
             return (
               <div 
                 key={symbol}
-                className="bg-slate-900/70 border border-slate-800/90 hover:border-slate-700/80 rounded-xl p-4 flex flex-col justify-between transition-all duration-200 hover:shadow-xl hover:shadow-black/40 backdrop-blur-md group"
+                className="bg-[#111614] border border-white/[0.065] hover:border-white/[0.12] rounded-sm p-4 flex flex-col justify-between transition-colors hover:bg-[#161C19] group"
               >
                 <div>
                   {/* Top Row: Symbol, Sector, Remove button */}
                   <div className="flex items-start justify-between">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-base font-bold text-white tracking-tight">
+                        <span className="text-base font-semibold text-[#F2F0E8] tracking-tight">
                           {symbol}
                         </span>
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-sm bg-[#161C19] text-[#A7ADA8] border border-white/[0.04]">
                           NSE
                         </span>
                       </div>
-                      <div className="text-xs text-slate-400 truncate max-w-[200px] mt-0.5">
+                      <div className="text-xs text-[#A7ADA8] truncate max-w-[200px] mt-0.5">
                         {quote?.company_name || audit?.name || symbol}
                       </div>
                     </div>
@@ -506,7 +506,7 @@ export const WatchlistAuditView: React.FC = () => {
                       {renderStanceBadge(stance)}
                       <button
                         onClick={() => removeFromWatchlist(symbol)}
-                        className="text-slate-500 hover:text-rose-400 p-1 rounded hover:bg-slate-800/80 transition-colors"
+                        className="text-[#68716C] hover:text-[#C45D62] p-1 rounded-sm hover:bg-[#1B2420] transition-colors"
                         title="Remove from Watchlist"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -515,12 +515,12 @@ export const WatchlistAuditView: React.FC = () => {
                   </div>
 
                   {/* CMP Section with LiveTickPrice */}
-                  <div className="mt-3.5 pt-3 border-t border-slate-800/80 flex items-baseline justify-between">
+                  <div className="mt-3.5 pt-3 border-t border-white/[0.065] flex items-baseline justify-between">
                     <div>
-                      <span className="text-[10px] uppercase font-semibold text-slate-400 block tracking-wider">
+                      <span className="text-[10px] uppercase font-medium text-[#68716C] block tracking-wider">
                         Current Market Price (CMP)
                       </span>
-                      <div className="text-xl font-bold font-mono text-white mt-0.5">
+                      <div className="text-xl font-semibold font-mono text-[#F2F0E8] mt-0.5">
                         <LiveTickPrice
                           value={curPrice}
                           formatter={(v) => `₹${v.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
@@ -528,7 +528,7 @@ export const WatchlistAuditView: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className={`text-right ${isPositive ? "text-emerald-400" : "text-rose-400"}`}>
+                    <div className={`text-right ${isPositive ? "text-[#42A77A]" : "text-[#C45D62]"}`}>
                       <div className="flex items-center justify-end gap-1 font-mono text-xs font-semibold">
                         {isPositive ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
                         <span>{isPositive ? "+" : ""}{changePts.toFixed(2)}</span>
@@ -542,13 +542,13 @@ export const WatchlistAuditView: React.FC = () => {
                   {/* Day High / Low bar */}
                   {quote && quote.day_high && quote.day_low && (
                     <div className="mt-2.5">
-                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 mb-1">
+                      <div className="flex items-center justify-between text-[10px] font-mono text-[#68716C] mb-1">
                         <span>L: ₹{quote.day_low.toFixed(1)}</span>
                         <span>H: ₹{quote.day_high.toFixed(1)}</span>
                       </div>
-                      <div className="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
+                      <div className="w-full h-1 bg-[#0C100F] rounded-full overflow-hidden">
                         <div 
-                          className="h-full bg-emerald-500/70 rounded-full"
+                          className="h-full bg-[#159570] rounded-full"
                           style={{
                             width: `${Math.min(100, Math.max(5, ((curPrice - quote.day_low) / Math.max(1, quote.day_high - quote.day_low)) * 100))}%`
                           }}
@@ -558,28 +558,28 @@ export const WatchlistAuditView: React.FC = () => {
                   )}
 
                   {/* AI Predictive Audit Panel */}
-                  <div className="mt-3.5 p-3 rounded-lg bg-slate-950/70 border border-slate-800/90 space-y-2.5">
+                  <div className="mt-3.5 p-3 rounded-sm bg-[#0C100F] border border-white/[0.065] space-y-2.5">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5 text-xs text-slate-300 font-medium">
-                        <Target className="w-3.5 h-3.5 text-emerald-400" />
+                      <div className="flex items-center gap-1.5 text-xs text-[#F2F0E8] font-medium">
+                        <Target className="w-3.5 h-3.5 text-[#159570]" />
                         <span>AI Price Forecast Audit</span>
                       </div>
-                      <span className="text-[10px] font-mono text-slate-400">
+                      <span className="text-[10px] font-mono text-[#68716C]">
                         Horizon: 14 Days
                       </span>
                     </div>
 
                     {/* Target & Expected Return */}
                     <div className="grid grid-cols-2 gap-2 text-xs">
-                      <div className="bg-slate-900/90 p-2 rounded border border-slate-800/60">
-                        <span className="text-[10px] text-slate-400 block">Projected CMP Target</span>
-                        <span className="font-mono font-bold text-white text-sm">
+                      <div className="bg-[#111614] p-2 rounded-sm border border-white/[0.04]">
+                        <span className="text-[10px] text-[#68716C] block">Projected CMP Target</span>
+                        <span className="font-mono font-semibold text-[#F2F0E8] text-sm">
                           ₹{targetPrice.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </span>
                       </div>
-                      <div className="bg-slate-900/90 p-2 rounded border border-slate-800/60">
-                        <span className="text-[10px] text-slate-400 block">Expected Return %</span>
-                        <span className={`font-mono font-bold text-sm ${expectedReturn >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
+                      <div className="bg-[#111614] p-2 rounded-sm border border-white/[0.04]">
+                        <span className="text-[10px] text-[#68716C] block">Expected Return %</span>
+                        <span className={`font-mono font-semibold text-sm ${expectedReturn >= 0 ? "text-[#42A77A]" : "text-[#C45D62]"}`}>
                           {expectedReturn >= 0 ? "+" : ""}{expectedReturn.toFixed(2)}%
                         </span>
                       </div>
@@ -587,11 +587,11 @@ export const WatchlistAuditView: React.FC = () => {
 
                     {/* AI Confidence Meter */}
                     <div className="flex items-center justify-between text-[11px] pt-1">
-                      <span className="text-slate-400 flex items-center gap-1">
-                        <ShieldCheck className="w-3 h-3 text-cyan-400" />
+                      <span className="text-[#A7ADA8] flex items-center gap-1">
+                        <ShieldCheck className="w-3 h-3 text-[#C8A96B]" />
                         AI Quant Confidence:
                       </span>
-                      <span className="font-mono font-semibold text-cyan-400">
+                      <span className="font-mono font-medium text-[#C8A96B]">
                         {confidence.toFixed(1)}%
                       </span>
                     </div>
@@ -603,10 +603,10 @@ export const WatchlistAuditView: React.FC = () => {
                           {/* Bearish floor boundary */}
                           <polyline
                             fill="none"
-                            stroke="#f43f5e"
+                            stroke="#C45D62"
                             strokeWidth="1"
                             strokeDasharray="2,2"
-                            opacity="0.4"
+                            opacity="0.5"
                             points={trajectory.map((p, idx) => {
                               const x = (idx / Math.max(1, trajectory.length - 1)) * 100;
                               const minP = Math.min(...trajectory.map(t => t.bearish_price));
@@ -618,10 +618,10 @@ export const WatchlistAuditView: React.FC = () => {
                           {/* Bullish upper boundary */}
                           <polyline
                             fill="none"
-                            stroke="#10b981"
+                            stroke="#42A77A"
                             strokeWidth="1"
                             strokeDasharray="2,2"
-                            opacity="0.4"
+                            opacity="0.5"
                             points={trajectory.map((p, idx) => {
                               const x = (idx / Math.max(1, trajectory.length - 1)) * 100;
                               const minP = Math.min(...trajectory.map(t => t.bearish_price));
@@ -633,7 +633,7 @@ export const WatchlistAuditView: React.FC = () => {
                           {/* Base Forecast Path */}
                           <polyline
                             fill="none"
-                            stroke={expectedReturn >= 0 ? "#10b981" : "#f43f5e"}
+                            stroke={expectedReturn >= 0 ? "#42A77A" : "#C45D62"}
                             strokeWidth="1.5"
                             points={trajectory.map((p, idx) => {
                               const x = (idx / Math.max(1, trajectory.length - 1)) * 100;
@@ -649,23 +649,23 @@ export const WatchlistAuditView: React.FC = () => {
 
                     {/* Microstructure Indicators strip */}
                     {audit?.past_market && (
-                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-1 border-t border-slate-800/80">
-                        <span>RSI: <strong className={audit.past_market.rsi_14 > 60 ? "text-emerald-400" : audit.past_market.rsi_14 < 40 ? "text-rose-400" : "text-slate-200"}>{audit.past_market.rsi_14}</strong></span>
-                        <span>Vol: <strong className="text-slate-200">{audit.past_market.volatility_annualized_pct}%</strong></span>
-                        <span>EMA: <strong className="text-slate-200">{audit.past_market.ema_alignment}</strong></span>
+                      <div className="flex items-center justify-between text-[10px] font-mono text-[#68716C] pt-1 border-t border-white/[0.04]">
+                        <span>RSI: <strong className={audit.past_market.rsi_14 > 60 ? "text-[#42A77A]" : audit.past_market.rsi_14 < 40 ? "text-[#C45D62]" : "text-[#F2F0E8]"}>{audit.past_market.rsi_14}</strong></span>
+                        <span>Vol: <strong className="text-[#F2F0E8]">{audit.past_market.volatility_annualized_pct}%</strong></span>
+                        <span>EMA: <strong className="text-[#F2F0E8]">{audit.past_market.ema_alignment}</strong></span>
                       </div>
                     )}
                   </div>
                 </div>
 
                 {/* Bottom Actions: Inspect Audit & Add to Portfolio */}
-                <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2">
+                <div className="mt-4 pt-3 border-t border-white/[0.065] flex items-center justify-between gap-2">
                   <button
                     onClick={() => setSelectedAuditDrawer(audit || null)}
                     disabled={!audit}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 active:bg-slate-900 text-xs font-medium text-slate-200 transition-colors disabled:opacity-50"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-sm bg-[#161C19] hover:bg-[#1B2420] text-xs font-medium text-[#A7ADA8] hover:text-[#F2F0E8] border border-white/[0.065] transition-colors disabled:opacity-50"
                   >
-                    <Eye className="w-3.5 h-3.5 text-cyan-400" />
+                    <Eye className="w-3.5 h-3.5 text-[#68716C]" />
                     <span>Audit Detail</span>
                   </button>
 
@@ -675,7 +675,7 @@ export const WatchlistAuditView: React.FC = () => {
                       setOrderQuantity(50);
                       setOrderSide("LONG");
                     }}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 active:bg-emerald-500/35 border border-emerald-500/30 text-emerald-400 text-xs font-semibold transition-colors"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-sm bg-[#159570]/15 hover:bg-[#159570]/25 border border-[#159570]/30 text-[#42A77A] text-xs font-medium transition-colors"
                   >
                     <Briefcase className="w-3.5 h-3.5" />
                     <span>+ Portfolio</span>
@@ -689,10 +689,10 @@ export const WatchlistAuditView: React.FC = () => {
 
       {/* ==================== TABLE VIEW ==================== */}
       {viewMode === "TABLE" && (
-        <div className="bg-slate-900/60 border border-slate-800/90 rounded-xl overflow-hidden shadow-lg backdrop-blur-md">
+        <div className="bg-[#111614] border border-white/[0.065] rounded-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-950/80 text-slate-400 font-mono uppercase text-[10px] tracking-wider border-b border-slate-800">
+              <thead className="bg-[#0C100F] text-[#68716C] font-mono uppercase text-[10px] tracking-wider border-b border-white/[0.065]">
                 <tr>
                   <th className="py-3 px-4">Symbol / Name</th>
                   <th className="py-3 px-4">Current Price (CMP)</th>
@@ -705,7 +705,7 @@ export const WatchlistAuditView: React.FC = () => {
                   <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60 font-sans">
+              <tbody className="divide-y divide-white/[0.04] font-sans">
                 {displayItems.map((symbol) => {
                   const quote = liveQuotes[symbol];
                   const audit = auditMap[symbol];
@@ -722,22 +722,22 @@ export const WatchlistAuditView: React.FC = () => {
                   const stance = pred?.dominant_stance ?? "MODERATE_BULLISH";
 
                   return (
-                    <tr key={symbol} className="hover:bg-slate-800/40 transition-colors">
+                    <tr key={symbol} className="hover:bg-[#161C19] transition-colors">
                       <td className="py-3.5 px-4">
-                        <div className="font-bold text-white">{symbol}</div>
-                        <div className="text-[11px] text-slate-400 truncate max-w-[150px]">
+                        <div className="font-medium text-[#F2F0E8]">{symbol}</div>
+                        <div className="text-[11px] text-[#A7ADA8] truncate max-w-[150px]">
                           {quote?.company_name || audit?.name || symbol}
                         </div>
                       </td>
-                      <td className="py-3.5 px-4 font-mono font-semibold text-white">
+                      <td className="py-3.5 px-4 font-mono font-medium text-[#F2F0E8]">
                         <LiveTickPrice
                           value={curPrice}
                           formatter={(v) => `₹${v.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
                         />
                       </td>
                       <td className="py-3.5 px-4 font-mono font-medium">
-                        <div className={`flex items-center gap-1 ${isPositive ? "text-emerald-400" : "text-rose-400"}`}>
-                          {isPositive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                        <div className={`flex items-center gap-1 ${isPositive ? "text-[#42A77A]" : "text-[#C45D62]"}`}>
+                          {isPositive ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
                           <span>{isPositive ? "+" : ""}{changePts.toFixed(2)}</span>
                           <span className="text-[10px]">({isPositive ? "+" : ""}{changePct.toFixed(2)}%)</span>
                         </div>
@@ -745,16 +745,16 @@ export const WatchlistAuditView: React.FC = () => {
                       <td className="py-3.5 px-4">
                         {renderStanceBadge(stance)}
                       </td>
-                      <td className="py-3.5 px-4 font-mono font-semibold text-slate-200">
+                      <td className="py-3.5 px-4 font-mono font-medium text-[#F2F0E8]">
                         ₹{targetPrice.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </td>
-                      <td className={`py-3.5 px-4 font-mono font-bold ${expectedReturn >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
+                      <td className={`py-3.5 px-4 font-mono font-medium ${expectedReturn >= 0 ? "text-[#42A77A]" : "text-[#C45D62]"}`}>
                         {expectedReturn >= 0 ? "+" : ""}{expectedReturn.toFixed(2)}%
                       </td>
-                      <td className="py-3.5 px-4 font-mono text-cyan-400 font-semibold">
+                      <td className="py-3.5 px-4 font-mono text-[#C8A96B] font-medium">
                         {confidence.toFixed(1)}%
                       </td>
-                      <td className="py-3.5 px-4 font-mono text-slate-300">
+                      <td className="py-3.5 px-4 font-mono text-[#A7ADA8]">
                         {audit?.past_market?.rsi_14 ?? "—"}
                       </td>
                       <td className="py-3.5 px-4 text-right">
@@ -762,7 +762,7 @@ export const WatchlistAuditView: React.FC = () => {
                           <button
                             onClick={() => setSelectedAuditDrawer(audit || null)}
                             disabled={!audit}
-                            className="p-1.5 rounded hover:bg-slate-800 text-slate-400 hover:text-cyan-400 transition-colors"
+                            className="p-1.5 rounded-sm hover:bg-[#1B2420] text-[#68716C] hover:text-[#F2F0E8] transition-colors"
                             title="Inspect Audit"
                           >
                             <Eye className="w-4 h-4" />
@@ -773,14 +773,14 @@ export const WatchlistAuditView: React.FC = () => {
                               setOrderQuantity(50);
                               setOrderSide("LONG");
                             }}
-                            className="px-2.5 py-1 rounded bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 text-xs font-semibold transition-colors"
+                            className="px-2.5 py-1 rounded-sm bg-[#159570]/15 hover:bg-[#159570]/25 border border-[#159570]/30 text-[#42A77A] text-xs font-medium transition-colors"
                             title="Add to Portfolio"
                           >
                             + Add
                           </button>
                           <button
                             onClick={() => removeFromWatchlist(symbol)}
-                            className="p-1.5 rounded hover:bg-slate-800 text-slate-500 hover:text-rose-400 transition-colors"
+                            className="p-1.5 rounded-sm hover:bg-[#1B2420] text-[#68716C] hover:text-[#C45D62] transition-colors"
                             title="Remove from Watchlist"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -798,65 +798,65 @@ export const WatchlistAuditView: React.FC = () => {
 
       {/* ==================== AUDIT INSPECTION DRAWER MODAL ==================== */}
       {selectedAuditDrawer && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-5 animate-fade-in-up">
-            <div className="flex items-start justify-between border-b border-slate-800 pb-4">
+        <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-[#111614] border border-white/[0.08] rounded-sm w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-5">
+            <div className="flex items-start justify-between border-b border-white/[0.065] pb-4">
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-xl font-bold text-white tracking-tight">
+                  <h3 className="text-xl font-semibold text-[#F2F0E8] tracking-tight">
                     {selectedAuditDrawer.symbol}
                   </h3>
-                  <span className="text-xs px-2 py-0.5 rounded font-mono bg-slate-800 text-slate-300">
+                  <span className="text-xs px-2 py-0.5 rounded-sm font-mono bg-[#161C19] text-[#A7ADA8] border border-white/[0.04]">
                     {selectedAuditDrawer.sector}
                   </span>
                   {renderStanceBadge(selectedAuditDrawer.future_prediction?.dominant_stance)}
                 </div>
-                <p className="text-xs text-slate-400 mt-1">
-                  {selectedAuditDrawer.name} — Institutional Microstructure & Policy Audit
+                <p className="text-xs text-[#A7ADA8] mt-1">
+                  {selectedAuditDrawer.name} — Institutional Microstructure &amp; Policy Audit
                 </p>
               </div>
               <button
                 onClick={() => setSelectedAuditDrawer(null)}
-                className="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
+                className="text-[#68716C] hover:text-[#F2F0E8] p-1.5 rounded-sm hover:bg-[#161C19] transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Verdict summary */}
-            <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800/90 space-y-1.5">
-              <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider flex items-center gap-1.5">
+            <div className="bg-[#0C100F] p-3.5 rounded-sm border border-white/[0.065] space-y-1.5">
+              <span className="text-[10px] uppercase font-medium text-[#159570] tracking-wider flex items-center gap-1.5">
                 <Compass className="w-3.5 h-3.5" />
                 Executive Quant Verdict
               </span>
-              <p className="text-xs text-slate-200 leading-relaxed">
+              <p className="text-xs text-[#F2F0E8] leading-relaxed">
                 {selectedAuditDrawer.executive_verdict}
               </p>
             </div>
 
             {/* Forecast metrics grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
-                <span className="text-[10px] text-slate-400 block">Spot CMP</span>
-                <span className="font-mono font-bold text-white text-base">
+              <div className="bg-[#0C100F] p-3 rounded-sm border border-white/[0.04]">
+                <span className="text-[10px] text-[#68716C] block">Spot CMP</span>
+                <span className="font-mono font-semibold text-[#F2F0E8] text-base">
                   ₹{selectedAuditDrawer.spot_price.toFixed(2)}
                 </span>
               </div>
-              <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
-                <span className="text-[10px] text-slate-400 block">Target (14d)</span>
-                <span className="font-mono font-bold text-emerald-400 text-base">
+              <div className="bg-[#0C100F] p-3 rounded-sm border border-white/[0.04]">
+                <span className="text-[10px] text-[#68716C] block">Target (14d)</span>
+                <span className="font-mono font-semibold text-[#42A77A] text-base">
                   ₹{selectedAuditDrawer.future_prediction?.target_price?.toFixed(2)}
                 </span>
               </div>
-              <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
-                <span className="text-[10px] text-slate-400 block">Expected Return</span>
-                <span className="font-mono font-bold text-emerald-400 text-base">
+              <div className="bg-[#0C100F] p-3 rounded-sm border border-white/[0.04]">
+                <span className="text-[10px] text-[#68716C] block">Expected Return</span>
+                <span className="font-mono font-semibold text-[#42A77A] text-base">
                   +{selectedAuditDrawer.future_prediction?.expected_return_pct}%
                 </span>
               </div>
-              <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800/80">
-                <span className="text-[10px] text-slate-400 block">AI Confidence</span>
-                <span className="font-mono font-bold text-cyan-400 text-base">
+              <div className="bg-[#0C100F] p-3 rounded-sm border border-white/[0.04]">
+                <span className="text-[10px] text-[#68716C] block">AI Confidence</span>
+                <span className="font-mono font-medium text-[#C8A96B] text-base">
                   {selectedAuditDrawer.future_prediction?.confidence_pct}%
                 </span>
               </div>
@@ -864,54 +864,54 @@ export const WatchlistAuditView: React.FC = () => {
 
             {/* Quant Signals strip */}
             {selectedAuditDrawer.past_market && (
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 text-center text-xs bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 text-center text-xs bg-[#0C100F] p-3 rounded-sm border border-white/[0.04]">
                 <div>
-                  <span className="text-[10px] text-slate-400 block">1W Return</span>
-                  <span className="font-mono text-slate-200 font-semibold">{selectedAuditDrawer.past_market.return_1w_pct}%</span>
+                  <span className="text-[10px] text-[#68716C] block">1W Return</span>
+                  <span className="font-mono text-[#A7ADA8] font-medium">{selectedAuditDrawer.past_market.return_1w_pct}%</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-400 block">1M Return</span>
-                  <span className="font-mono text-slate-200 font-semibold">{selectedAuditDrawer.past_market.return_1m_pct}%</span>
+                  <span className="text-[10px] text-[#68716C] block">1M Return</span>
+                  <span className="font-mono text-[#A7ADA8] font-medium">{selectedAuditDrawer.past_market.return_1m_pct}%</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-400 block">RSI (14)</span>
-                  <span className="font-mono text-emerald-400 font-bold">{selectedAuditDrawer.past_market.rsi_14}</span>
+                  <span className="text-[10px] text-[#68716C] block">RSI (14)</span>
+                  <span className="font-mono text-[#42A77A] font-semibold">{selectedAuditDrawer.past_market.rsi_14}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-400 block">Volatility</span>
-                  <span className="font-mono text-slate-200 font-semibold">{selectedAuditDrawer.past_market.volatility_annualized_pct}%</span>
+                  <span className="text-[10px] text-[#68716C] block">Volatility</span>
+                  <span className="font-mono text-[#A7ADA8] font-medium">{selectedAuditDrawer.past_market.volatility_annualized_pct}%</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-400 block">52W High</span>
-                  <span className="font-mono text-slate-200 font-semibold">₹{selectedAuditDrawer.past_market.high_52w}</span>
+                  <span className="text-[10px] text-[#68716C] block">52W High</span>
+                  <span className="font-mono text-[#A7ADA8] font-medium">₹{selectedAuditDrawer.past_market.high_52w}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-400 block">52W Low</span>
-                  <span className="font-mono text-slate-200 font-semibold">₹{selectedAuditDrawer.past_market.low_52w}</span>
+                  <span className="text-[10px] text-[#68716C] block">52W Low</span>
+                  <span className="font-mono text-[#A7ADA8] font-medium">₹{selectedAuditDrawer.past_market.low_52w}</span>
                 </div>
               </div>
             )}
 
             {/* Policy & Regulatory Audit */}
             {selectedAuditDrawer.govt_policy && (
-              <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800/90 space-y-2">
+              <div className="bg-[#0C100F] p-3.5 rounded-sm border border-white/[0.065] space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase font-bold text-cyan-400 tracking-wider flex items-center gap-1.5">
+                  <span className="text-[10px] uppercase font-medium text-[#C8A96B] tracking-wider flex items-center gap-1.5">
                     <ShieldCheck className="w-3.5 h-3.5" />
-                    Government & SEBI Regulatory Impact
+                    Government &amp; SEBI Regulatory Impact
                   </span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-sm bg-[#C8A96B]/10 text-[#C8A96B] border border-[#C8A96B]/25">
                     Stance: {selectedAuditDrawer.govt_policy.policy_stance}
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-[#A7ADA8] leading-relaxed">
                   {selectedAuditDrawer.govt_policy.key_policy_summary}
                 </p>
                 {selectedAuditDrawer.govt_policy.applicable_circulars?.length > 0 && (
                   <div className="space-y-1 pt-1">
-                    <span className="text-[10px] text-slate-400 font-semibold block">Active Circulars:</span>
+                    <span className="text-[10px] text-[#68716C] font-medium block">Active Circulars:</span>
                     {selectedAuditDrawer.govt_policy.applicable_circulars.map((circ, idx) => (
-                      <div key={idx} className="text-[11px] font-mono text-slate-400 bg-slate-900/80 px-2 py-1 rounded">
+                      <div key={idx} className="text-[11px] font-mono text-[#68716C] bg-[#111614] border border-white/[0.04] px-2 py-1 rounded-sm">
                         {circ}
                       </div>
                     ))}
@@ -924,7 +924,7 @@ export const WatchlistAuditView: React.FC = () => {
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 onClick={() => setSelectedAuditDrawer(null)}
-                className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 transition-colors"
+                className="px-4 py-2 rounded-sm bg-[#161C19] hover:bg-[#1B2420] text-xs font-medium text-[#A7ADA8] hover:text-[#F2F0E8] border border-white/[0.065] transition-colors"
               >
                 Close
               </button>
@@ -937,7 +937,7 @@ export const WatchlistAuditView: React.FC = () => {
                   });
                   setSelectedAuditDrawer(null);
                 }}
-                className="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-xs font-bold transition-colors shadow-lg shadow-emerald-500/20"
+                className="px-4 py-2 rounded-sm bg-[#159570] hover:bg-[#0E6B50] text-[#F2F0E8] text-xs font-medium transition-colors"
               >
                 Add to Live Portfolio
               </button>
@@ -948,40 +948,40 @@ export const WatchlistAuditView: React.FC = () => {
 
       {/* ==================== QUICK ADD TO PORTFOLIO MODAL ==================== */}
       {orderModalStock && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl animate-fade-in-up">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-[#111614] border border-white/[0.08] rounded-sm w-full max-w-md p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-white/[0.065] pb-3">
               <div className="flex items-center gap-2">
-                <Briefcase className="w-5 h-5 text-emerald-400" />
-                <h3 className="text-base font-bold text-white">
+                <Briefcase className="w-5 h-5 text-[#159570]" />
+                <h3 className="text-base font-semibold text-[#F2F0E8]">
                   Add {orderModalStock.symbol} to Portfolio
                 </h3>
               </div>
               <button
                 onClick={() => setOrderModalStock(null)}
-                className="text-slate-400 hover:text-white p-1 rounded"
+                className="text-[#68716C] hover:text-[#F2F0E8] p-1 rounded-sm"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {orderSuccess ? (
-              <div className="p-4 bg-emerald-500/15 border border-emerald-500/30 rounded-xl text-center space-y-2">
-                <Check className="w-8 h-8 text-emerald-400 mx-auto" />
-                <div className="text-xs font-semibold text-emerald-300">{orderSuccess}</div>
+              <div className="p-4 bg-[#159570]/15 border border-[#159570]/30 rounded-sm text-center space-y-2">
+                <Check className="w-8 h-8 text-[#42A77A] mx-auto" />
+                <div className="text-xs font-medium text-[#42A77A]">{orderSuccess}</div>
               </div>
             ) : (
               <>
-                <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5">
+                <div className="bg-[#0C100F] p-3 rounded-sm border border-white/[0.065] space-y-1.5">
                   <div className="flex justify-between text-xs">
-                    <span className="text-slate-400">Current Market Price (CMP):</span>
-                    <span className="font-mono font-bold text-white">
+                    <span className="text-[#68716C]">Current Market Price (CMP):</span>
+                    <span className="font-mono font-medium text-[#F2F0E8]">
                       ₹{(orderModalStock.quote?.price ?? orderModalStock.audit?.spot_price ?? 1000).toFixed(2)}
                     </span>
                   </div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-slate-400">AI 14d Target Objective:</span>
-                    <span className="font-mono font-bold text-emerald-400">
+                    <span className="text-[#68716C]">AI 14d Target Objective:</span>
+                    <span className="font-mono font-medium text-[#42A77A]">
                       ₹{(orderModalStock.audit?.future_prediction?.target_price ?? 0).toFixed(2)}
                     </span>
                   </div>
@@ -989,15 +989,15 @@ export const WatchlistAuditView: React.FC = () => {
 
                 <div className="space-y-3">
                   <div>
-                    <label className="text-xs text-slate-300 block mb-1">Position Side</label>
+                    <label className="text-xs text-[#A7ADA8] block mb-1">Position Side</label>
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         type="button"
                         onClick={() => setOrderSide("LONG")}
-                        className={`py-2 rounded-lg text-xs font-bold transition-colors ${
+                        className={`py-2 rounded-sm text-xs font-medium transition-colors ${
                           orderSide === "LONG"
-                            ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40"
-                            : "bg-slate-800 text-slate-400 hover:bg-slate-700"
+                            ? "bg-[#159570]/20 text-[#42A77A] border border-[#159570]/40"
+                            : "bg-[#161C19] text-[#68716C] hover:bg-[#1B2420] border border-white/[0.04]"
                         }`}
                       >
                         LONG (BUY)
@@ -1005,10 +1005,10 @@ export const WatchlistAuditView: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setOrderSide("SHORT")}
-                        className={`py-2 rounded-lg text-xs font-bold transition-colors ${
+                        className={`py-2 rounded-sm text-xs font-medium transition-colors ${
                           orderSide === "SHORT"
-                            ? "bg-rose-500/20 text-rose-400 border border-rose-500/40"
-                            : "bg-slate-800 text-slate-400 hover:bg-slate-700"
+                            ? "bg-[#C45D62]/20 text-[#C45D62] border border-[#C45D62]/40"
+                            : "bg-[#161C19] text-[#68716C] hover:bg-[#1B2420] border border-white/[0.04]"
                         }`}
                       >
                         SHORT (SELL)
@@ -1017,20 +1017,20 @@ export const WatchlistAuditView: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="text-xs text-slate-300 block mb-1">Quantity (Shares)</label>
+                    <label className="text-xs text-[#A7ADA8] block mb-1">Quantity (Shares)</label>
                     <input
                       type="number"
                       min={1}
                       max={100000}
                       value={orderQuantity}
                       onChange={(e) => setOrderQuantity(Math.max(1, Number(e.target.value)))}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500"
+                      className="w-full bg-[#0C100F] border border-white/[0.065] rounded-sm px-3 py-2 text-[#F2F0E8] font-mono text-sm focus:outline-none focus:border-white/[0.15]"
                     />
                   </div>
 
-                  <div className="flex justify-between text-xs text-slate-400 pt-1 font-mono">
+                  <div className="flex justify-between text-xs text-[#68716C] pt-1 font-mono">
                     <span>Total Investment Exposure:</span>
-                    <span className="text-white font-bold">
+                    <span className="text-[#F2F0E8] font-medium">
                       ₹{(((orderModalStock.quote?.price ?? orderModalStock.audit?.spot_price ?? 1000)) * orderQuantity).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </span>
                   </div>
@@ -1040,16 +1040,16 @@ export const WatchlistAuditView: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setOrderModalStock(null)}
-                    className="flex-1 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 transition-colors"
+                    className="flex-1 py-2 rounded-sm bg-[#161C19] hover:bg-[#1B2420] text-xs font-medium text-[#A7ADA8] hover:text-[#F2F0E8] border border-white/[0.065] transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="button"
                     onClick={handleExecuteAddToPortfolio}
-                    className="flex-1 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-xs transition-colors shadow-lg shadow-emerald-500/20"
+                    className="flex-1 py-2 rounded-sm bg-[#159570] hover:bg-[#0E6B50] text-[#F2F0E8] font-medium text-xs transition-colors"
                   >
-                    Confirm & Save Position
+                    Confirm &amp; Save Position
                   </button>
                 </div>
               </>

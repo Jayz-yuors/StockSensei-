@@ -307,39 +307,39 @@ export const LivePortfolioLab: React.FC = () => {
   }, [searchQuery]);
 
   return (
-    <div className="space-y-6 max-w-[1600px] mx-auto text-slate-100 font-sans pb-16">
+    <div className="space-y-6 max-w-[1600px] mx-auto text-[#F2F0E8] font-sans pb-16">
       {/* Top Header Banner */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/[0.065] pb-4">
         <div>
           <div className="flex items-center space-x-2.5 mb-1">
-            <span className="p-1.5 rounded-md bg-[#0e1422] border border-slate-800 text-emerald-400">
+            <span className="p-1.5 rounded-sm bg-[#0C100F] border border-white/[0.065] text-[#159570]">
               <FlaskConical className="h-4 w-4" />
             </span>
-            <span className="text-[10px] font-mono text-emerald-400 font-semibold tracking-wider uppercase">
+            <span className="text-[10px] font-mono text-[#159570] font-semibold tracking-wider uppercase">
               SANDBOX &amp; PORTFOLIO LAB
             </span>
-            <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800/80 text-slate-300 border border-slate-700/80 uppercase">
+            <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono bg-[#161C19] text-[#A7ADA8] border border-white/[0.065] uppercase">
               YAHOO FINANCE DIRECT (.NS)
             </span>
           </div>
-          <h2 className="text-xl md:text-2xl font-bold font-sans tracking-tight text-white uppercase">
+          <h2 className="text-xl md:text-2xl font-bold font-sans tracking-tight text-[#F2F0E8] uppercase">
             LIVE PORTFOLIO LAB
           </h2>
-          <p className="text-xs text-slate-400 font-sans mt-0.5 max-w-3xl">
+          <p className="text-xs text-[#A7ADA8] font-sans mt-0.5 max-w-3xl">
             Clean-slate quantitative experimentation sandbox. Choose equities at their current market value, eliminate pre-loaded positions, and monitor positions streaming directly from Yahoo Finance (.NS).
           </p>
         </div>
 
         {/* Live Status Controls */}
         <div className="flex items-center flex-wrap gap-2 text-xs font-mono">
-          <div className="flex items-center space-x-2 bg-[#0e1422] border border-slate-800 rounded-md px-2.5 py-1.5 shadow-sm">
-            <Globe className="h-3.5 w-3.5 text-emerald-400" />
-            <span className="text-slate-300 font-semibold text-[11px]">FEED: YFINANCE LIVE</span>
+          <div className="flex items-center space-x-2 bg-[#111614] border border-white/[0.065] rounded-sm px-2.5 py-1.5 shadow-sm">
+            <Globe className="h-3.5 w-3.5 text-[#159570]" />
+            <span className="text-[#F2F0E8] font-medium text-[11px]">FEED: YFINANCE LIVE</span>
           </div>
 
-          <div className="flex items-center space-x-2 bg-[#0e1422] border border-slate-800 rounded-md px-2.5 py-1.5 shadow-sm">
-            <Clock className="h-3.5 w-3.5 text-slate-400" />
-            <span className="text-slate-400 text-[11px]">
+          <div className="flex items-center space-x-2 bg-[#111614] border border-white/[0.065] rounded-sm px-2.5 py-1.5 shadow-sm">
+            <Clock className="h-3.5 w-3.5 text-[#68716C]" />
+            <span className="text-[#A7ADA8] text-[11px]">
               {lastQuotesSync ? `SYNCED: ${lastQuotesSync.toLocaleTimeString()}` : "CONNECTING..."}
             </span>
           </div>
@@ -351,16 +351,16 @@ export const LivePortfolioLab: React.FC = () => {
               setCountdown(autoRefreshInterval);
             }}
             disabled={isQuotesLoading}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-md bg-[#0e1422] hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-sans font-medium text-xs transition-colors disabled:opacity-50"
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-sm bg-[#161C19] hover:bg-[#1B2420] text-[#F2F0E8] border border-white/[0.065] font-sans font-medium text-xs transition-colors disabled:opacity-50"
           >
-            <RefreshCw className={`h-3 w-3 ${isQuotesLoading ? "animate-spin text-emerald-400" : ""}`} />
+            <RefreshCw className={`h-3 w-3 ${isQuotesLoading ? "animate-spin text-[#159570]" : "text-[#A7ADA8]"}`} />
             <span>REFRESH ({countdown}s)</span>
           </button>
 
           <button
             onClick={handleClearAllPositions}
             disabled={positions.length === 0}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-md bg-rose-950/30 hover:bg-rose-900/50 text-rose-300 border border-rose-800/60 font-sans font-medium text-xs transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-sm bg-[#C45D62]/10 hover:bg-[#C45D62]/20 text-[#C45D62] border border-[#C45D62]/25 font-sans font-medium text-xs transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             title="Remove all positions to start with a clean slate"
           >
             <Trash2 className="h-3 w-3" />
@@ -371,47 +371,47 @@ export const LivePortfolioLab: React.FC = () => {
 
       {/* Aggregate Portfolio KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-[#0b0f17] border border-slate-800/80 rounded-xl p-4 shadow-sm">
-          <div className="text-[11px] font-sans font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+        <div className="bg-[#111614] border border-white/[0.065] rounded-sm p-4 shadow-sm">
+          <div className="text-[10px] font-sans font-semibold text-[#A7ADA8] uppercase tracking-wider flex items-center justify-between">
             <span>Invested Capital</span>
-            <Layers className="h-3.5 w-3.5 text-slate-500" />
+            <Layers className="h-3.5 w-3.5 text-[#68716C]" />
           </div>
-          <div className="mt-2 text-2xl font-bold font-mono text-white tabular-nums">
+          <div className="mt-2 text-2xl font-bold font-mono text-[#F2F0E8] tabular-nums">
             <LiveTickPrice
               value={portfolioMetrics.totalInvested}
               prefix="₹"
               formatter={(v) => `₹${Number(v).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`}
             />
           </div>
-          <div className="mt-1 text-xs text-slate-500 font-sans">
+          <div className="mt-1 text-xs text-[#68716C] font-sans">
             {positions.length} Active Position{positions.length === 1 ? "" : "s"}
           </div>
         </div>
 
-        <div className="bg-[#0b0f17] border border-slate-800/80 rounded-xl p-4 shadow-sm">
-          <div className="text-[11px] font-sans font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+        <div className="bg-[#111614] border border-white/[0.065] rounded-sm p-4 shadow-sm">
+          <div className="text-[10px] font-sans font-semibold text-[#A7ADA8] uppercase tracking-wider flex items-center justify-between">
             <span>Live Market Valuation</span>
-            <Zap className="h-3.5 w-3.5 text-emerald-400" />
+            <Zap className="h-3.5 w-3.5 text-[#159570]" />
           </div>
-          <div className="mt-2 text-2xl font-bold font-mono text-slate-100 tabular-nums">
+          <div className="mt-2 text-2xl font-bold font-mono text-[#F2F0E8] tabular-nums">
             <LiveTickPrice
               value={portfolioMetrics.totalCurrent}
               prefix="₹"
               formatter={(v) => `₹${Number(v).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`}
             />
           </div>
-          <div className="mt-1 text-xs text-slate-500 font-sans">
+          <div className="mt-1 text-xs text-[#68716C] font-sans">
             Real-time Mark-to-Market
           </div>
         </div>
 
-        <div className="bg-[#0b0f17] border border-slate-800/80 rounded-xl p-4 shadow-sm">
-          <div className="text-[11px] font-sans font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+        <div className="bg-[#111614] border border-white/[0.065] rounded-sm p-4 shadow-sm">
+          <div className="text-[10px] font-sans font-semibold text-[#A7ADA8] uppercase tracking-wider flex items-center justify-between">
             <span>Total Unrealized P&amp;L</span>
             {portfolioMetrics.netUnrealizedPnl >= 0 ? (
-              <TrendingUp className="h-3.5 w-3.5 text-emerald-400" />
+              <TrendingUp className="h-3.5 w-3.5 text-[#42A77A]" />
             ) : (
-              <TrendingDown className="h-3.5 w-3.5 text-rose-400" />
+              <TrendingDown className="h-3.5 w-3.5 text-[#C45D62]" />
             )}
           </div>
           <div className="mt-2 text-2xl font-bold font-mono tabular-nums flex items-center space-x-1">
@@ -427,15 +427,15 @@ export const LivePortfolioLab: React.FC = () => {
               value={portfolioMetrics.netReturnPct}
               formatter={(v) => `${Number(v) >= 0 ? "+" : ""}${Number(v).toFixed(2)}% Overall`}
               colorize={true}
-              className="font-semibold text-xs font-mono"
+              className="font-medium text-xs font-mono"
             />
           </div>
         </div>
 
-        <div className="bg-[#0b0f17] border border-slate-800/80 rounded-xl p-4 shadow-sm">
-          <div className="text-[11px] font-sans font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+        <div className="bg-[#111614] border border-white/[0.065] rounded-sm p-4 shadow-sm">
+          <div className="text-[10px] font-sans font-semibold text-[#A7ADA8] uppercase tracking-wider flex items-center justify-between">
             <span>Today&#39;s Day P&amp;L</span>
-            <Activity className="h-3.5 w-3.5 text-slate-500" />
+            <Activity className="h-3.5 w-3.5 text-[#68716C]" />
           </div>
           <div className="mt-2 text-2xl font-bold font-mono tabular-nums">
             <LiveTickPrice
@@ -444,7 +444,7 @@ export const LivePortfolioLab: React.FC = () => {
               colorize={true}
             />
           </div>
-          <div className="mt-1 text-xs text-slate-500 font-sans">
+          <div className="mt-1 text-xs text-[#68716C] font-sans">
             Source: yfinance (.NS) Close
           </div>
         </div>
@@ -454,15 +454,15 @@ export const LivePortfolioLab: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Stock Selector & Live Value Card (4 cols) */}
         <div className="lg:col-span-4 space-y-4">
-          <div className="bg-[#0b0f17] border border-slate-800/80 rounded-xl p-4 md:p-5 shadow-sm space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
+          <div className="bg-[#111614] border border-white/[0.065] rounded-sm p-4 md:p-5 shadow-sm space-y-4">
+            <div className="flex items-center justify-between border-b border-white/[0.065] pb-3">
               <div className="flex items-center space-x-2">
-                <Search className="h-4 w-4 text-emerald-400" />
-                <h3 className="text-xs font-bold font-sans uppercase tracking-wider text-slate-200">
+                <Search className="h-4 w-4 text-[#159570]" />
+                <h3 className="text-xs font-bold font-sans uppercase tracking-wider text-[#F2F0E8]">
                   CHOOSE STOCK &amp; LIVE VALUE
                 </h3>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700/80">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-sm bg-[#161C19] text-[#A7ADA8] border border-white/[0.065]">
                 NSE / BSE
               </span>
             </div>
@@ -479,7 +479,7 @@ export const LivePortfolioLab: React.FC = () => {
                     setSelectedSymbol(searchQuery.trim().toUpperCase());
                   }
                 }}
-                className="w-full bg-[#080b11] border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-slate-600 focus:ring-1 focus:ring-slate-600/30 uppercase transition-colors"
+                className="w-full bg-[#0C100F] border border-white/[0.065] rounded-sm px-3 py-2 text-xs font-mono text-[#F2F0E8] placeholder:text-[#68716C] focus:outline-none focus:border-[#159570] uppercase transition-colors"
               />
               {searchQuery && (
                 <button
@@ -488,7 +488,7 @@ export const LivePortfolioLab: React.FC = () => {
                       setSelectedSymbol(searchQuery.trim().toUpperCase());
                     }
                   }}
-                  className="absolute right-2 top-2 px-2 py-0.5 rounded text-[10px] font-sans font-semibold bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700"
+                  className="absolute right-2 top-2 px-2 py-0.5 rounded-sm text-[10px] font-sans font-medium bg-[#161C19] text-[#F2F0E8] border border-white/[0.065] hover:bg-[#1B2420]"
                 >
                   LOAD
                 </button>
@@ -497,7 +497,7 @@ export const LivePortfolioLab: React.FC = () => {
 
             {/* Quick-Pick Popular Stock Pills */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-sans font-semibold text-slate-400 uppercase tracking-wider block">
+              <label className="text-[10px] font-sans font-semibold text-[#A7ADA8] uppercase tracking-wider block">
                 Quick Select Popular Equities:
               </label>
               <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1">
@@ -510,10 +510,10 @@ export const LivePortfolioLab: React.FC = () => {
                         setSelectedSymbol(t.symbol);
                         setSearchQuery("");
                       }}
-                      className={`px-2.5 py-1 rounded text-xs font-mono transition-all ${
+                      className={`px-2.5 py-1 rounded-sm text-xs font-mono transition-all ${
                         isSelected
-                          ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/40 font-bold shadow-sm"
-                          : "bg-[#0e1422] text-slate-400 border border-slate-800 hover:border-slate-700 hover:text-slate-100"
+                          ? "bg-[#159570]/15 text-[#42A77A] border border-[#159570]/30 font-semibold shadow-sm"
+                          : "bg-[#0C100F] text-[#A7ADA8] border border-white/[0.065] hover:border-white/[0.12] hover:text-[#F2F0E8]"
                       }`}
                     >
                       {t.symbol}
@@ -524,19 +524,19 @@ export const LivePortfolioLab: React.FC = () => {
             </div>
 
             {/* Live Current Market Value Display Card */}
-            <div className="bg-[#080b11] border border-slate-800/80 rounded-lg p-4 space-y-3 relative overflow-hidden">
+            <div className="bg-[#0C100F] border border-white/[0.065] rounded-sm p-4 space-y-3 relative overflow-hidden">
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="text-base font-bold font-mono text-white tracking-wide">
+                  <span className="text-base font-bold font-mono text-[#F2F0E8] tracking-wide">
                     {selectedSymbol}
                   </span>
-                  <span className="text-[11px] font-sans text-slate-400 block">
+                  <span className="text-[11px] font-sans text-[#A7ADA8] block">
                     {activePickerQuote?.company_name || selectedSymbol} (NSE)
                   </span>
                 </div>
                 <div className="text-right">
-                  <div className="text-[10px] font-sans text-slate-500 uppercase tracking-wider">Feed Source</div>
-                  <span className="text-[10px] font-mono text-emerald-400 font-semibold">
+                  <div className="text-[10px] font-sans text-[#68716C] uppercase tracking-wider">Feed Source</div>
+                  <span className="text-[10px] font-mono text-[#159570] font-semibold">
                     Yahoo Finance (.NS)
                   </span>
                 </div>
@@ -544,23 +544,23 @@ export const LivePortfolioLab: React.FC = () => {
 
               {isPickerQuoteLoading ? (
                 <div className="py-6 flex flex-col items-center justify-center space-y-2">
-                  <RefreshCw className="h-4 w-4 text-emerald-400 animate-spin" />
-                  <span className="text-xs font-sans text-slate-400">Fetching live market value...</span>
+                  <RefreshCw className="h-4 w-4 text-[#159570] animate-spin" />
+                  <span className="text-xs font-sans text-[#A7ADA8]">Fetching live market value...</span>
                 </div>
               ) : activePickerQuote ? (
                 <div className="space-y-3 pt-1">
                   {/* Big Live Price */}
-                  <div className="flex items-baseline justify-between border-b border-slate-800/80 pb-2.5">
+                  <div className="flex items-baseline justify-between border-b border-white/[0.065] pb-2.5">
                     <div>
-                      <span className="text-2xl font-bold font-mono text-white tabular-nums">
+                      <span className="text-2xl font-bold font-mono text-[#F2F0E8] tabular-nums">
                         ₹{activePickerQuote.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
                       </span>
                     </div>
                     <div
-                      className={`flex items-center space-x-1 text-xs font-mono font-bold px-2 py-0.5 rounded tabular-nums ${
+                      className={`flex items-center space-x-1 text-xs font-mono font-medium px-2 py-0.5 rounded-sm tabular-nums ${
                         activePickerQuote.change_pct >= 0
-                          ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                          : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                          ? "bg-[#159570]/15 text-[#42A77A] border border-[#159570]/30"
+                          : "bg-[#C45D62]/10 text-[#C45D62] border border-[#C45D62]/25"
                       }`}
                     >
                       {activePickerQuote.change_pct >= 0 ? (
@@ -577,27 +577,27 @@ export const LivePortfolioLab: React.FC = () => {
 
                   {/* Day Stats Grid */}
                   <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="bg-[#0e1422]/70 p-2 rounded border border-slate-800/70">
-                      <span className="text-[10px] font-sans text-slate-400 uppercase tracking-wider block">Day Range</span>
-                      <span className="text-slate-200 font-mono font-medium tabular-nums">
+                    <div className="bg-[#161C19] p-2 rounded-sm border border-white/[0.04]">
+                      <span className="text-[10px] font-sans text-[#68716C] uppercase tracking-wider block">Day Range</span>
+                      <span className="text-[#F2F0E8] font-mono font-medium tabular-nums">
                         ₹{activePickerQuote.day_low} - ₹{activePickerQuote.day_high}
                       </span>
                     </div>
-                    <div className="bg-[#0e1422]/70 p-2 rounded border border-slate-800/70">
-                      <span className="text-[10px] font-sans text-slate-400 uppercase tracking-wider block">52-Week Range</span>
-                      <span className="text-slate-200 font-mono font-medium tabular-nums">
+                    <div className="bg-[#161C19] p-2 rounded-sm border border-white/[0.04]">
+                      <span className="text-[10px] font-sans text-[#68716C] uppercase tracking-wider block">52-Week Range</span>
+                      <span className="text-[#F2F0E8] font-mono font-medium tabular-nums">
                         ₹{activePickerQuote.fifty_two_week_low || "N/A"} - ₹{activePickerQuote.fifty_two_week_high || "N/A"}
                       </span>
                     </div>
-                    <div className="bg-[#0e1422]/70 p-2 rounded border border-slate-800/70">
-                      <span className="text-[10px] font-sans text-slate-400 uppercase tracking-wider block">Day Volume</span>
-                      <span className="text-slate-200 font-mono font-medium tabular-nums">
+                    <div className="bg-[#161C19] p-2 rounded-sm border border-white/[0.04]">
+                      <span className="text-[10px] font-sans text-[#68716C] uppercase tracking-wider block">Day Volume</span>
+                      <span className="text-[#F2F0E8] font-mono font-medium tabular-nums">
                         {activePickerQuote.volume.toLocaleString("en-IN")}
                       </span>
                     </div>
-                    <div className="bg-[#0e1422]/70 p-2 rounded border border-slate-800/70">
-                      <span className="text-[10px] font-sans text-slate-400 uppercase tracking-wider block">Market Cap</span>
-                      <span className="text-slate-200 font-mono font-medium tabular-nums">
+                    <div className="bg-[#161C19] p-2 rounded-sm border border-white/[0.04]">
+                      <span className="text-[10px] font-sans text-[#68716C] uppercase tracking-wider block">Market Cap</span>
+                      <span className="text-[#F2F0E8] font-mono font-medium tabular-nums">
                         {activePickerQuote.market_cap_cr
                           ? `₹${activePickerQuote.market_cap_cr.toLocaleString("en-IN")} Cr`
                           : "N/A"}
@@ -606,7 +606,7 @@ export const LivePortfolioLab: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="py-4 text-center text-xs text-slate-500 font-sans">
+                <div className="py-4 text-center text-xs text-[#68716C] font-sans">
                   Select a ticker to inspect live price
                 </div>
               )}
@@ -616,17 +616,17 @@ export const LivePortfolioLab: React.FC = () => {
             <form onSubmit={handleAddPosition} className="space-y-3 pt-1">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[10px] font-sans font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+                  <label className="text-[10px] font-sans font-semibold text-[#A7ADA8] uppercase tracking-wider block mb-1">
                     Side
                   </label>
-                  <div className="grid grid-cols-2 gap-1 bg-[#080b11] p-1 rounded-lg border border-slate-800">
+                  <div className="grid grid-cols-2 gap-1 bg-[#0C100F] p-1 rounded-sm border border-white/[0.065]">
                     <button
                       type="button"
                       onClick={() => setSide("LONG")}
-                      className={`py-1 text-xs font-mono font-bold rounded transition-colors ${
+                      className={`py-1 text-xs font-mono font-medium rounded-sm transition-colors ${
                         side === "LONG"
-                          ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
-                          : "text-slate-400 hover:text-slate-200"
+                          ? "bg-[#159570]/15 text-[#42A77A] border border-[#159570]/30"
+                          : "text-[#A7ADA8] hover:text-[#F2F0E8]"
                       }`}
                     >
                       BUY / LONG
@@ -634,10 +634,10 @@ export const LivePortfolioLab: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setSide("SHORT")}
-                      className={`py-1 text-xs font-mono font-bold rounded transition-colors ${
+                      className={`py-1 text-xs font-mono font-medium rounded-sm transition-colors ${
                         side === "SHORT"
-                          ? "bg-rose-500/15 text-rose-400 border border-rose-500/30"
-                          : "text-slate-400 hover:text-slate-200"
+                          ? "bg-[#C45D62]/10 text-[#C45D62] border border-[#C45D62]/25"
+                          : "text-[#A7ADA8] hover:text-[#F2F0E8]"
                       }`}
                     >
                       SELL / SHORT
@@ -646,7 +646,7 @@ export const LivePortfolioLab: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-sans font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+                  <label className="text-[10px] font-sans font-semibold text-[#A7ADA8] uppercase tracking-wider block mb-1">
                     Quantity
                   </label>
                   <input
@@ -655,20 +655,20 @@ export const LivePortfolioLab: React.FC = () => {
                     step="1"
                     value={quantity}
                     onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="w-full bg-[#080b11] border border-slate-800 rounded-lg px-3 py-1.5 text-xs font-mono tabular-nums text-slate-100 focus:outline-none focus:border-slate-600 focus:ring-1 focus:ring-slate-600/30"
+                    className="w-full bg-[#0C100F] border border-white/[0.065] rounded-sm px-3 py-1.5 text-xs font-mono tabular-nums text-[#F2F0E8] focus:outline-none focus:border-[#159570]"
                   />
                 </div>
               </div>
 
               {/* Quick Qty Preset Chips */}
               <div className="flex items-center space-x-1">
-                <span className="text-[10px] font-sans text-slate-500 mr-1">Presets:</span>
+                <span className="text-[10px] font-sans text-[#68716C] mr-1">Presets:</span>
                 {[10, 25, 50, 100, 250].map((q) => (
                   <button
                     key={q}
                     type="button"
                     onClick={() => setQuantity(q)}
-                    className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#0e1422] text-slate-400 hover:text-white border border-slate-800 hover:border-slate-700 transition-colors"
+                    className="px-2 py-0.5 rounded-sm text-[10px] font-mono bg-[#0C100F] text-[#A7ADA8] hover:text-[#F2F0E8] border border-white/[0.065] hover:border-white/[0.12] transition-colors"
                   >
                     +{q}
                   </button>
@@ -678,14 +678,14 @@ export const LivePortfolioLab: React.FC = () => {
               {/* Entry Price (Pre-filled with Live Market Value) */}
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="text-[10px] font-sans font-semibold text-slate-400 uppercase tracking-wider">
+                  <label className="text-[10px] font-sans font-semibold text-[#A7ADA8] uppercase tracking-wider">
                     Entry Price (₹)
                   </label>
                   {activePickerQuote && (
                     <button
                       type="button"
                       onClick={() => setEntryPrice(activePickerQuote.price)}
-                      className="text-[10px] font-mono text-emerald-400 hover:underline"
+                      className="text-[10px] font-mono text-[#159570] hover:text-[#42A77A] hover:underline"
                     >
                       Use Live LTP (₹{activePickerQuote.price})
                     </button>
@@ -696,7 +696,7 @@ export const LivePortfolioLab: React.FC = () => {
                   step="0.05"
                   value={entryPrice}
                   onChange={(e) => setEntryPrice(parseFloat(e.target.value) || 0)}
-                  className="w-full bg-[#080b11] border border-slate-800 rounded-lg px-3 py-1.5 text-xs font-mono tabular-nums text-slate-100 focus:outline-none focus:border-slate-600 focus:ring-1 focus:ring-slate-600/30"
+                  className="w-full bg-[#0C100F] border border-white/[0.065] rounded-sm px-3 py-1.5 text-xs font-mono tabular-nums text-[#F2F0E8] focus:outline-none focus:border-[#159570]"
                 />
               </div>
 
@@ -704,15 +704,15 @@ export const LivePortfolioLab: React.FC = () => {
               <button
                 type="submit"
                 disabled={!selectedSymbol || quantity <= 0}
-                className="w-full py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-sans font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-2.5 rounded-sm bg-[#159570] hover:bg-[#0E6B50] text-[#F2F0E8] font-sans font-medium text-xs uppercase tracking-wider flex items-center justify-center space-x-2 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Plus className="h-4 w-4" />
                 <span>ADD TO LIVE PORTFOLIO</span>
               </button>
 
               {addSuccessMessage && (
-                <div className="p-2 rounded bg-emerald-950/60 border border-emerald-800/80 text-xs font-mono text-emerald-300 flex items-center space-x-2">
-                  <Check className="h-3.5 w-3.5 text-emerald-400 flex-shrink-0" />
+                <div className="p-2 rounded-sm bg-[#159570]/10 border border-[#159570]/30 text-xs font-mono text-[#42A77A] flex items-center space-x-2">
+                  <Check className="h-3.5 w-3.5 text-[#42A77A] flex-shrink-0" />
                   <span>{addSuccessMessage}</span>
                 </div>
               )}
@@ -722,16 +722,16 @@ export const LivePortfolioLab: React.FC = () => {
 
         {/* Right Column: User's Custom Portfolio Positions Table (8 cols) */}
         <div className="lg:col-span-8 space-y-4">
-          <div className="bg-[#0b0f17] border border-slate-800/80 rounded-xl p-4 md:p-5 shadow-sm space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+          <div className="bg-[#111614] border border-white/[0.065] rounded-sm p-4 md:p-5 shadow-sm space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/[0.065] pb-3">
               <div>
-                <h3 className="text-xs font-bold font-sans uppercase tracking-wider text-slate-200 flex items-center space-x-2">
+                <h3 className="text-xs font-bold font-sans uppercase tracking-wider text-[#F2F0E8] flex items-center space-x-2">
                   <span>ACTIVE LAB PORTFOLIO</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-300 border border-slate-700">
+                  <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono bg-[#161C19] text-[#A7ADA8] border border-white/[0.065]">
                     {positions.length} STOCKS
                   </span>
                 </h3>
-                <p className="text-xs text-slate-400 font-sans mt-0.5">
+                <p className="text-xs text-[#A7ADA8] font-sans mt-0.5">
                   Data streaming live from Yahoo Finance (.NS) for mark-to-market execution
                 </p>
               </div>
@@ -740,7 +740,7 @@ export const LivePortfolioLab: React.FC = () => {
                 {positions.length === 0 && (
                   <button
                     onClick={handleLoadSamplePositions}
-                    className="px-3 py-1.5 rounded-md bg-[#0e1422] hover:bg-slate-800 text-slate-200 border border-slate-700/80 text-xs font-sans font-medium transition-colors"
+                    className="px-3 py-1.5 rounded-sm bg-[#161C19] hover:bg-[#1B2420] text-[#F2F0E8] border border-white/[0.065] text-xs font-sans font-medium transition-colors"
                   >
                     Load Sample Equities
                   </button>
@@ -748,7 +748,7 @@ export const LivePortfolioLab: React.FC = () => {
                 {positions.length > 0 && (
                   <button
                     onClick={handleClearAllPositions}
-                    className="px-3 py-1.5 rounded-md bg-rose-950/30 hover:bg-rose-900/50 text-rose-300 border border-rose-800/60 text-xs font-sans font-medium transition-colors flex items-center space-x-1"
+                    className="px-3 py-1.5 rounded-sm bg-[#C45D62]/10 hover:bg-[#C45D62]/20 text-[#C45D62] border border-[#C45D62]/25 text-xs font-sans font-medium transition-colors flex items-center space-x-1"
                   >
                     <Trash2 className="h-3 w-3" />
                     <span>Clear All</span>
@@ -759,15 +759,15 @@ export const LivePortfolioLab: React.FC = () => {
 
             {/* Position Table or Clean Slate Screen */}
             {positions.length === 0 ? (
-              <div className="py-14 text-center border border-dashed border-slate-800 rounded-xl bg-[#080b11] p-8 space-y-4">
-                <div className="w-10 h-10 rounded-full bg-[#0e1422] border border-slate-800 flex items-center justify-center mx-auto text-emerald-400">
+              <div className="py-14 text-center border border-dashed border-white/[0.08] rounded-sm bg-[#0C100F] p-8 space-y-4">
+                <div className="w-10 h-10 rounded-sm bg-[#161C19] border border-white/[0.065] flex items-center justify-center mx-auto text-[#159570]">
                   <FlaskConical className="h-5 w-5" />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="text-sm font-bold font-sans text-white uppercase tracking-wider">
+                  <h4 className="text-sm font-semibold font-sans text-[#F2F0E8] uppercase tracking-wider">
                     EMPTY LAB SANDBOX - CLEAN SLATE
                   </h4>
-                  <p className="text-xs text-slate-400 font-sans max-w-md mx-auto">
+                  <p className="text-xs text-[#A7ADA8] font-sans max-w-md mx-auto">
                     Pre-added mock positions have been removed. Choose stocks on the left at their live current market value from Yahoo Finance to build your custom portfolio.
                   </p>
                 </div>
@@ -777,23 +777,23 @@ export const LivePortfolioLab: React.FC = () => {
                       setSelectedSymbol("RELIANCE");
                       fetchPickerQuote("RELIANCE");
                     }}
-                    className="px-3.5 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-xs font-bold font-sans transition-colors"
+                    className="px-3.5 py-1.5 rounded-sm bg-[#159570] hover:bg-[#0E6B50] text-[#F2F0E8] text-xs font-medium font-sans transition-colors"
                   >
                     Choose RELIANCE (₹{activePickerQuote?.price || 1186})
                   </button>
                   <button
                     onClick={handleLoadSamplePositions}
-                    className="px-3.5 py-1.5 rounded-md bg-[#0e1422] hover:bg-slate-800 text-slate-300 border border-slate-700/80 text-xs font-sans font-medium transition-colors"
+                    className="px-3.5 py-1.5 rounded-sm bg-[#161C19] hover:bg-[#1B2420] text-[#A7ADA8] hover:text-[#F2F0E8] border border-white/[0.065] text-xs font-sans font-medium transition-colors"
                   >
                     Load 4 Sample Equities
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="overflow-x-auto border border-slate-800/80 rounded-lg bg-[#0e1422]/40">
+              <div className="overflow-x-auto border border-white/[0.065] rounded-sm bg-[#0C100F]/60">
                 <table className="w-full text-left text-xs font-sans">
                   <thead>
-                    <tr className="bg-[#090d16] text-slate-400 border-b border-slate-800 text-[11px] uppercase tracking-wider font-semibold">
+                    <tr className="bg-[#0C100F] text-[#A7ADA8] border-b border-white/[0.065] text-[10px] uppercase font-semibold">
                       <th className="py-2.5 px-3">Asset</th>
                       <th className="py-2.5 px-3">Side</th>
                       <th className="py-2.5 px-3 text-right">Qty</th>
@@ -806,60 +806,60 @@ export const LivePortfolioLab: React.FC = () => {
                       <th className="py-2.5 px-3 text-center">Action</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/60">
+                  <tbody className="divide-y divide-white/[0.04]">
                     {portfolioMetrics.positionsWithLive.map((pos) => {
                       const isProfit = pos.unrealizedPnl >= 0;
                       return (
                         <tr
                           key={pos.id}
-                          className="hover:bg-[#121929] transition-colors group"
+                          className="hover:bg-[#161C19] transition-colors group"
                         >
                           <td className="py-3 px-3">
-                            <div className="font-bold text-white font-mono flex items-center space-x-1.5">
+                            <div className="font-semibold text-[#F2F0E8] font-mono flex items-center space-x-1.5">
                               <span>{pos.symbol}</span>
-                              <span className="text-[9px] px-1 py-0.2 rounded bg-slate-800 text-slate-400 border border-slate-700 font-sans">
+                              <span className="text-[9px] px-1 py-0.2 rounded-sm bg-[#161C19] text-[#A7ADA8] border border-white/[0.065] font-sans">
                                 .NS
                               </span>
                             </div>
-                            <span className="text-[11px] text-slate-400 block truncate max-w-[130px] font-sans">
+                            <span className="text-[11px] text-[#A7ADA8] block truncate max-w-[130px] font-sans">
                               {pos.company_name || pos.symbol}
                             </span>
                           </td>
 
                           <td className="py-3 px-3">
                             <span
-                              className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-bold ${
+                              className={`px-1.5 py-0.5 rounded-sm text-[10px] font-mono font-medium ${
                                 pos.side === "LONG"
-                                  ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                                  : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                                  ? "bg-[#159570]/15 text-[#42A77A] border border-[#159570]/30"
+                                  : "bg-[#C45D62]/10 text-[#C45D62] border border-[#C45D62]/25"
                               }`}
                             >
                               {pos.side}
                             </span>
                           </td>
 
-                          <td className="py-3 px-3 text-right font-mono text-slate-200 tabular-nums">
+                          <td className="py-3 px-3 text-right font-mono text-[#F2F0E8] tabular-nums">
                             {pos.quantity}
                           </td>
 
-                          <td className="py-3 px-3 text-right font-mono text-slate-300 tabular-nums">
+                          <td className="py-3 px-3 text-right font-mono text-[#A7ADA8] tabular-nums">
                             ₹{pos.entry_price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
                           </td>
 
-                          <td className="py-3 px-3 text-right font-mono font-bold text-slate-100 tabular-nums">
+                          <td className="py-3 px-3 text-right font-mono font-semibold text-[#F2F0E8] tabular-nums">
                             <LiveTickPrice value={pos.livePrice} prefix="₹" />
                           </td>
 
-                          <td className="py-3 px-3 text-right font-mono text-slate-300 tabular-nums">
+                          <td className="py-3 px-3 text-right font-mono text-[#A7ADA8] tabular-nums">
                             ₹{pos.investedValue.toLocaleString("en-IN", { maximumFractionDigits: 0 })}
                           </td>
 
-                          <td className="py-3 px-3 text-right font-mono font-bold text-slate-100 tabular-nums">
+                          <td className="py-3 px-3 text-right font-mono font-semibold text-[#F2F0E8] tabular-nums">
                             <LiveTickPrice value={pos.currentValue} prefix="₹" />
                           </td>
 
                           <td className="py-3 px-3 text-right font-mono tabular-nums">
-                            <div className="font-bold">
+                            <div className="font-semibold">
                               <LiveTickPrice
                                 value={pos.unrealizedPnl}
                                 formatter={(v) => `${Number(v) >= 0 ? "+" : ""}₹${Number(v).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`}
@@ -869,7 +869,7 @@ export const LivePortfolioLab: React.FC = () => {
                             </div>
                             <div
                               className={`text-[10px] ${
-                                isProfit ? "text-emerald-500" : "text-rose-500"
+                                isProfit ? "text-[#42A77A]" : "text-[#C45D62]"
                               }`}
                             >
                               {pos.pnlPct >= 0 ? "+" : ""}
@@ -880,7 +880,7 @@ export const LivePortfolioLab: React.FC = () => {
                           <td className="py-3 px-3 text-right font-mono tabular-nums">
                             <span
                               className={`text-xs ${
-                                pos.change24hPct >= 0 ? "text-emerald-400" : "text-rose-400"
+                                pos.change24hPct >= 0 ? "text-[#42A77A]" : "text-[#C45D62]"
                               }`}
                             >
                               {pos.change24hPct >= 0 ? "+" : ""}
@@ -891,7 +891,7 @@ export const LivePortfolioLab: React.FC = () => {
                           <td className="py-3 px-3 text-center">
                             <button
                               onClick={() => handleRemovePosition(pos.id)}
-                              className="p-1 rounded text-slate-500 hover:text-rose-400 hover:bg-rose-950/40 transition-colors"
+                              className="p-1 rounded-sm text-[#68716C] hover:text-[#C45D62] hover:bg-[#C45D62]/10 transition-colors"
                               title="Remove position"
                             >
                               <Trash2 className="h-3.5 w-3.5" />
@@ -907,14 +907,14 @@ export const LivePortfolioLab: React.FC = () => {
 
             {/* Bottom Footer Info */}
             {positions.length > 0 && (
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-sans text-slate-500 pt-3 border-t border-slate-800/80">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-sans text-[#68716C] pt-3 border-t border-white/[0.065]">
                 <div className="flex items-center space-x-2">
-                  <Check className="h-3.5 w-3.5 text-emerald-400" />
+                  <Check className="h-3.5 w-3.5 text-[#159570]" />
                   <span>
                     Auto-persisted to Local Storage. Live prices query Yahoo Finance API (.NS) with zero mock latency.
                   </span>
                 </div>
-                <div className="mt-1 sm:mt-0 text-slate-400 font-mono tabular-nums">
+                <div className="mt-1 sm:mt-0 text-[#A7ADA8] font-mono tabular-nums">
                   Total Exposure: ₹{portfolioMetrics.totalCurrent.toLocaleString("en-IN", { maximumFractionDigits: 0 })}
                 </div>
               </div>
@@ -923,29 +923,29 @@ export const LivePortfolioLab: React.FC = () => {
 
           {/* Allocation & Risk Breakdown Bar */}
           {positions.length > 0 && (
-            <div className="bg-[#0b0f17] border border-slate-800/80 rounded-xl p-4 md:p-5 shadow-sm space-y-3">
+            <div className="bg-[#111614] border border-white/[0.065] rounded-sm p-4 md:p-5 shadow-sm space-y-3">
               <div className="flex items-center justify-between text-xs font-sans">
-                <span className="font-bold uppercase tracking-wider text-slate-300">
+                <span className="font-semibold uppercase tracking-wider text-[#F2F0E8]">
                   PORTFOLIO ALLOCATION BREAKDOWN
                 </span>
-                <span className="text-slate-500 font-mono">100% Total Capital</span>
+                <span className="text-[#68716C] font-mono">100% Total Capital</span>
               </div>
 
-              {/* Progress Bar */}
-              <div className="w-full h-2.5 rounded-full overflow-hidden flex bg-slate-800">
+              {/* Progress Bar (Restrained Luxury Palette) */}
+              <div className="w-full h-2 rounded-sm overflow-hidden flex bg-white/[0.06]">
                 {portfolioMetrics.positionsWithLive.map((pos, idx) => {
                   const weight = portfolioMetrics.totalCurrent > 0 
                     ? (pos.currentValue / portfolioMetrics.totalCurrent) * 100 
                     : 0;
-                  const colors = [
-                    "bg-emerald-500",
-                    "bg-cyan-500",
-                    "bg-indigo-500",
-                    "bg-amber-500",
-                    "bg-purple-500",
-                    "bg-rose-500"
+                  const paletteColors = [
+                    "bg-[#159570]",
+                    "bg-[#42A77A]",
+                    "bg-[#C8A96B]",
+                    "bg-[#0E6B50]",
+                    "bg-[#B89655]",
+                    "bg-[#7D8782]"
                   ];
-                  const color = colors[idx % colors.length];
+                  const color = paletteColors[idx % paletteColors.length];
                   return (
                     <div
                       key={pos.id}
@@ -963,19 +963,19 @@ export const LivePortfolioLab: React.FC = () => {
                   const weight = portfolioMetrics.totalCurrent > 0 
                     ? (pos.currentValue / portfolioMetrics.totalCurrent) * 100 
                     : 0;
-                  const colors = [
-                    "text-emerald-400",
-                    "text-cyan-400",
-                    "text-indigo-400",
-                    "text-amber-400",
-                    "text-purple-400",
-                    "text-rose-400"
+                  const paletteTextColors = [
+                    "text-[#159570]",
+                    "text-[#42A77A]",
+                    "text-[#C8A96B]",
+                    "text-[#0E6B50]",
+                    "text-[#B89655]",
+                    "text-[#7D8782]"
                   ];
-                  const color = colors[idx % colors.length];
+                  const color = paletteTextColors[idx % paletteTextColors.length];
                   return (
                     <div key={pos.id} className="flex items-center space-x-1 font-mono text-[11px] tabular-nums">
-                      <span className={`font-bold ${color}`}>{pos.symbol}:</span>
-                      <span className="text-slate-300">{weight.toFixed(1)}%</span>
+                      <span className={`font-semibold ${color}`}>{pos.symbol}:</span>
+                      <span className="text-[#A7ADA8]">{weight.toFixed(1)}%</span>
                     </div>
                   );
                 })}

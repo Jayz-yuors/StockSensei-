@@ -137,43 +137,43 @@ export const RiskHeatmap: React.FC = () => {
   }, [gnnRisk.adjacency_matrix, gridCols, edgeThreshold]);
 
   return (
-    <div className="space-y-6 max-w-[1600px] mx-auto text-slate-100 font-sans pb-16">
+    <div className="space-y-6 max-w-[1600px] mx-auto text-[#F2F0E8] font-sans pb-16">
       {/* 1. Main Header & High-level Status */}
-      <div className="bg-[#0b0f17] border border-slate-800/80 rounded-xl p-5 shadow-sm space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+      <div className="bg-[#111614] border border-white/[0.065] rounded-sm p-5 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/[0.065] pb-3">
           <div className="flex items-center space-x-3">
-            <div className="p-2 rounded-lg bg-[#0e1422] border border-slate-800 text-emerald-400">
+            <div className="p-2 rounded-sm bg-[#161C19] border border-white/[0.065] text-[#159570]">
               <Network className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <h2 className="text-sm font-bold font-sans text-white tracking-wide uppercase">
+                <h2 className="text-sm font-semibold font-sans text-[#F2F0E8] tracking-wide uppercase">
                   CAUSALGRAPHX GNN RISK ENGINE MATRIX
                 </h2>
-                <span className="text-[10px] font-mono px-2 py-0.5 bg-slate-800 text-slate-300 border border-slate-700 rounded">
+                <span className="text-[10px] font-mono px-2 py-0.5 bg-[#161C19] text-[#A7ADA8] border border-white/[0.065] rounded-sm">
                   4-HEAD GAT
                 </span>
               </div>
-              <p className="text-xs text-slate-400 font-sans mt-0.5">
+              <p className="text-xs text-[#A7ADA8] font-sans mt-0.5">
                 Dynamic 60-Day EWMA Covariance &amp; Relational Shock Diffusion across NSE Equities
               </p>
             </div>
           </div>
 
           <div className="flex items-center space-x-2.5 text-xs font-mono">
-            <div className="flex items-center space-x-2 bg-[#0e1422] px-3 py-1.5 rounded-md border border-slate-800">
-              <span className="text-slate-400">Regime:</span>
-              <span className="text-emerald-400 font-bold">
+            <div className="flex items-center space-x-2 bg-[#161C19] px-3 py-1.5 rounded-sm border border-white/[0.065]">
+              <span className="text-[#68716C]">Regime:</span>
+              <span className="text-[#42A77A] font-medium">
                 {gnnRisk.regime_classification}
               </span>
             </div>
 
-            <div className="flex items-center space-x-2 bg-[#0e1422] px-3 py-1.5 rounded-md border border-slate-800">
-              <span className="text-slate-400">System Risk:</span>
-              <span className={`font-bold tabular-nums ${
+            <div className="flex items-center space-x-2 bg-[#161C19] px-3 py-1.5 rounded-sm border border-white/[0.065]">
+              <span className="text-[#68716C]">System Risk:</span>
+              <span className={`font-medium tabular-nums ${
                 simulationResult 
-                  ? "text-rose-400" 
-                  : gnnRisk.overall_system_risk > 0.35 ? "text-amber-400" : "text-emerald-400"
+                  ? "text-[#C45D62]" 
+                  : gnnRisk.overall_system_risk > 0.35 ? "text-[#B89655]" : "text-[#42A77A]"
               }`}>
                 {simulationResult ? simulationResult.post_shock_system_risk : gnnRisk.overall_system_risk}
               </span>
@@ -182,15 +182,15 @@ export const RiskHeatmap: React.FC = () => {
         </div>
 
         {/* 2. Interactive "What-If" Contagion Stress Test Simulator Panel */}
-        <div className="bg-[#080b11] border border-slate-800 rounded-xl p-4 space-y-4">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <div className="bg-[#0C100F] border border-white/[0.065] rounded-sm p-4 space-y-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-white/[0.065] pb-3">
             <div className="flex items-center space-x-2">
-              <Sliders className="h-4 w-4 text-emerald-400" />
-              <span className="text-xs font-sans font-bold text-slate-200 uppercase tracking-wider">
+              <Sliders className="h-4 w-4 text-[#159570]" />
+              <span className="text-xs font-sans font-medium text-[#F2F0E8] uppercase tracking-wider">
                 INTERACTIVE CONTAGION SHOCK SIMULATOR (WHAT-IF STRESS TESTING)
               </span>
             </div>
-            <span className="text-xs text-slate-400 font-sans">
+            <span className="text-xs text-[#68716C] font-sans">
               Trace shock propagation across attention-weighted graph edges
             </span>
           </div>
@@ -199,13 +199,13 @@ export const RiskHeatmap: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
             {/* Select Target Asset to Shock */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-sans font-semibold text-slate-400 uppercase tracking-wider block">
+              <label className="text-[10px] font-sans font-medium text-[#68716C] uppercase tracking-wider block">
                 1. Target Asset to Shock
               </label>
               <select
                 value={selectedShockSymbol}
                 onChange={(e) => setSelectedShockSymbol(e.target.value)}
-                className="w-full bg-[#0e1422] border border-slate-800 rounded-lg px-3 py-2 text-xs font-mono font-medium text-slate-100 outline-none focus:border-slate-600 transition-colors"
+                className="w-full bg-[#111614] border border-white/[0.065] rounded-sm px-3 py-2 text-xs font-mono font-medium text-[#F2F0E8] outline-none focus:border-white/[0.15] transition-colors"
               >
                 {gnnRisk.nodes.map((n) => (
                   <option key={n.asset_name} value={n.asset_name}>
@@ -217,7 +217,7 @@ export const RiskHeatmap: React.FC = () => {
 
             {/* Quick Shock Selectors */}
             <div className="space-y-1.5 md:col-span-2">
-              <label className="text-[10px] font-sans font-semibold text-slate-400 uppercase tracking-wider block">
+              <label className="text-[10px] font-sans font-medium text-[#68716C] uppercase tracking-wider block">
                 2. Price Shock Magnitude (%)
               </label>
               <div className="flex items-center space-x-2">
@@ -225,10 +225,10 @@ export const RiskHeatmap: React.FC = () => {
                   <button
                     key={val}
                     onClick={() => handleQuickShockSelect(val)}
-                    className={`flex-1 py-1.5 px-2 text-xs font-mono font-bold rounded-md transition-all tabular-nums ${
+                    className={`flex-1 py-1.5 px-2 text-xs font-mono font-medium rounded-sm transition-all tabular-nums ${
                       shockPercentage === val
-                        ? "bg-rose-500/20 text-rose-400 border border-rose-500/40 shadow-sm"
-                        : "bg-[#0e1422] text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700"
+                        ? "bg-[#C45D62]/20 text-[#C45D62] border border-[#C45D62]/40"
+                        : "bg-[#111614] text-[#A7ADA8] hover:text-[#F2F0E8] border border-white/[0.065] hover:border-white/[0.12]"
                     }`}
                   >
                     {val}%
@@ -243,7 +243,7 @@ export const RiskHeatmap: React.FC = () => {
                     const parsed = parseFloat(e.target.value);
                     if (!isNaN(parsed)) setShockPercentage(parsed);
                   }}
-                  className="w-20 bg-[#0e1422] border border-slate-800 rounded-md px-2 py-1.5 text-xs font-mono tabular-nums text-slate-100 focus:outline-none focus:border-slate-600 text-center"
+                  className="w-20 bg-[#111614] border border-white/[0.065] rounded-sm px-2 py-1.5 text-xs font-mono tabular-nums text-[#F2F0E8] focus:outline-none focus:border-white/[0.15] text-center"
                 />
               </div>
             </div>
@@ -253,7 +253,7 @@ export const RiskHeatmap: React.FC = () => {
               <button
                 onClick={handleRunSimulation}
                 disabled={isSimulating}
-                className="flex-1 flex items-center justify-center space-x-1.5 py-2 px-3 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-sans text-xs font-bold uppercase rounded-md shadow-sm transition-colors disabled:opacity-50 cursor-pointer"
+                className="flex-1 flex items-center justify-center space-x-1.5 py-2 px-3 bg-[#159570] hover:bg-[#0E6B50] text-[#F2F0E8] font-sans text-xs font-medium uppercase rounded-sm transition-colors disabled:opacity-50 cursor-pointer"
               >
                 {isSimulating ? (
                   <>
@@ -271,7 +271,7 @@ export const RiskHeatmap: React.FC = () => {
               {simulationResult && (
                 <button
                   onClick={handleResetSimulation}
-                  className="py-2 px-3 bg-[#0e1422] hover:bg-slate-800 text-slate-300 font-sans text-xs rounded-md transition-colors border border-slate-700"
+                  className="py-2 px-3 bg-[#161C19] hover:bg-[#1B2420] text-[#A7ADA8] font-sans text-xs rounded-sm transition-colors border border-white/[0.065]"
                   title="Reset simulation baseline"
                 >
                   <RotateCcw className="h-3.5 w-3.5" />
@@ -282,20 +282,20 @@ export const RiskHeatmap: React.FC = () => {
 
           {/* Simulation Output Banner */}
           {simulationResult && (
-            <div className="bg-rose-950/20 border border-rose-900/60 rounded-xl p-4 space-y-3">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-rose-900/40 pb-2.5">
+            <div className="bg-[#C45D62]/10 border border-[#C45D62]/30 rounded-sm p-4 space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#C45D62]/20 pb-2.5">
                 <div className="flex items-center space-x-2 text-xs font-mono">
-                  <ShieldAlert className="h-4 w-4 text-rose-400" />
-                  <span className="font-bold text-rose-300">
+                  <ShieldAlert className="h-4 w-4 text-[#C45D62]" />
+                  <span className="font-medium text-[#C45D62]">
                     SIMULATION IMPACT: {simulationResult.shocked_asset} SHOCKED BY {simulationResult.shock_percentage}%
                   </span>
-                  <span className="text-xs text-slate-400">({simulationResult.latency_ms}ms)</span>
+                  <span className="text-xs text-[#68716C]">({simulationResult.latency_ms}ms)</span>
                 </div>
                 <div className="flex items-center space-x-3 text-xs font-mono tabular-nums">
-                  <span className="text-slate-400">System Risk:</span>
-                  <span className="text-slate-500 line-through">{simulationResult.baseline_system_risk}</span>
-                  <span className="font-bold text-rose-400">&rarr; {simulationResult.post_shock_system_risk}</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">
+                  <span className="text-[#68716C]">System Risk:</span>
+                  <span className="text-[#68716C] line-through">{simulationResult.baseline_system_risk}</span>
+                  <span className="font-medium text-[#C45D62]">&rarr; {simulationResult.post_shock_system_risk}</span>
+                  <span className="px-2 py-0.5 rounded-sm text-[10px] font-medium bg-[#C45D62]/20 text-[#C45D62] border border-[#C45D62]/30">
                     {simulationResult.contagion_status}
                   </span>
                 </div>
@@ -303,23 +303,23 @@ export const RiskHeatmap: React.FC = () => {
 
               {/* Top Cascade Victims Cards */}
               <div className="space-y-1.5">
-                <div className="text-[10px] font-sans font-semibold text-slate-400 uppercase tracking-wider">
+                <div className="text-[10px] font-sans font-medium text-[#A7ADA8] uppercase tracking-wider">
                   Top Cascade Victims (Secondary Distressed Assets)
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
                   {simulationResult.top_cascade_victims.map((vic) => (
                     <div
                       key={vic.symbol}
-                      className="bg-[#0b0f17] border border-slate-800 rounded-lg p-2.5 space-y-1 text-xs font-mono"
+                      className="bg-[#111614] border border-white/[0.04] rounded-sm p-2.5 space-y-1 text-xs font-mono"
                     >
                       <div className="flex justify-between items-center">
-                        <span className="font-bold text-white">{vic.symbol}</span>
-                        <span className="text-[11px] text-rose-400 font-semibold tabular-nums">{vic.projected_price_delta_pct}%</span>
+                        <span className="font-medium text-[#F2F0E8]">{vic.symbol}</span>
+                        <span className="text-[11px] text-[#C45D62] font-medium tabular-nums">{vic.projected_price_delta_pct}%</span>
                       </div>
-                      <div className="text-[11px] text-slate-400 truncate font-sans">{vic.sector || "Equities"}</div>
-                      <div className="flex justify-between items-center text-[10px] pt-1 border-t border-slate-800">
-                        <span className="text-slate-500 font-sans">Risk:</span>
-                        <span className="text-rose-400 font-bold tabular-nums">+{vic.risk_delta}</span>
+                      <div className="text-[11px] text-[#68716C] truncate font-sans">{vic.sector || "Equities"}</div>
+                      <div className="flex justify-between items-center text-[10px] pt-1 border-t border-white/[0.04]">
+                        <span className="text-[#68716C] font-sans">Risk:</span>
+                        <span className="text-[#C45D62] font-medium tabular-nums">+{vic.risk_delta}</span>
                       </div>
                     </div>
                   ))}
@@ -329,31 +329,31 @@ export const RiskHeatmap: React.FC = () => {
           )}
 
           {simError && (
-            <div className="text-xs font-sans text-rose-400 bg-rose-950/20 p-2.5 rounded-lg border border-rose-900/40">
+            <div className="text-xs font-sans text-[#C45D62] bg-[#C45D62]/10 p-2.5 rounded-sm border border-[#C45D62]/20">
               {simError}
             </div>
           )}
         </div>
 
         {/* 3. View Switcher Tabs: Network Matrix vs Sector Aggregator */}
-        <div className="flex items-center justify-between border-b border-slate-800/80 pb-2 text-xs font-sans">
+        <div className="flex items-center justify-between border-b border-white/[0.065] pb-2 text-xs font-sans">
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setViewMode("MATRIX")}
-              className={`px-3 py-1.5 rounded-md transition-all duration-150 active:scale-95 font-semibold ${
+              className={`px-3 py-1.5 rounded-sm transition-colors font-medium ${
                 viewMode === "MATRIX"
-                  ? "bg-slate-800 text-white shadow-sm"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-[#161C19] text-[#F2F0E8] border border-white/[0.08]"
+                  : "text-[#68716C] hover:text-[#A7ADA8]"
               }`}
             >
               Asset Contagion &amp; Matrix
             </button>
             <button
               onClick={() => setViewMode("SECTORS")}
-              className={`px-3 py-1.5 rounded-md transition-all duration-150 active:scale-95 font-semibold ${
+              className={`px-3 py-1.5 rounded-sm transition-colors font-medium ${
                 viewMode === "SECTORS"
-                  ? "bg-slate-800 text-white shadow-sm"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-[#161C19] text-[#F2F0E8] border border-white/[0.08]"
+                  : "text-[#68716C] hover:text-[#A7ADA8]"
               }`}
             >
               Sector Vulnerability Fragility
@@ -362,7 +362,7 @@ export const RiskHeatmap: React.FC = () => {
 
           {/* Dynamic Edge Threshold Filter Slider */}
           <div className="flex items-center space-x-2 font-mono">
-            <span className="text-[10px] text-slate-400 uppercase font-sans">Corr Threshold (&tau;):</span>
+            <span className="text-[10px] text-[#68716C] uppercase font-sans">Corr Threshold (&tau;):</span>
             <input
               type="range"
               min="0.10"
@@ -370,25 +370,25 @@ export const RiskHeatmap: React.FC = () => {
               step="0.05"
               value={edgeThreshold}
               onChange={(e) => setEdgeThreshold(parseFloat(e.target.value))}
-              className="w-24 accent-emerald-500 h-1 bg-slate-800 rounded-lg cursor-pointer"
+              className="w-24 accent-[#159570] h-1 bg-[#161C19] rounded-sm cursor-pointer"
             />
-            <span className="text-xs font-bold text-white w-8 text-right tabular-nums">
+            <span className="text-xs font-medium text-[#F2F0E8] w-8 text-right tabular-nums">
               {edgeThreshold.toFixed(2)}
             </span>
           </div>
         </div>
 
         {/* 4. Main Views: Matrix View vs Sector View */}
-        <div key={viewMode} className="animate-fade-in-up">
+        <div key={viewMode}>
           {viewMode === "MATRIX" ? (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left: Asset Contagion & Centrality Vector List */}
               <div className="lg:col-span-2 space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="text-xs font-sans font-bold text-slate-400 uppercase tracking-wider">
+                <h3 className="text-xs font-sans font-medium text-[#A7ADA8] uppercase tracking-wider">
                   Asset Contagion &amp; Centrality Vectors
                 </h3>
-                <span className="text-[11px] font-sans text-slate-500">
+                <span className="text-[11px] font-sans text-[#68716C]">
                   Click any node to inspect transmission edges
                 </span>
               </div>
@@ -402,23 +402,23 @@ export const RiskHeatmap: React.FC = () => {
                     <div
                       key={node.node_id}
                       onClick={() => setInspectedNode(node)}
-                      className={`bg-[#080b11] border rounded-lg p-3 flex items-center justify-between text-xs font-mono cursor-pointer transition-all hover:border-slate-700 ${
+                      className={`bg-[#0C100F] border rounded-sm p-3 flex items-center justify-between text-xs font-mono cursor-pointer transition-colors hover:border-white/[0.12] ${
                         isInspected 
-                          ? "border-emerald-500/50 bg-[#0e1422] shadow-sm" 
-                          : "border-slate-800"
+                          ? "border-[#159570]/50 bg-[#161C19]" 
+                          : "border-white/[0.04]"
                       }`}
                     >
                       <div className="flex items-center space-x-3">
-                        <div className={`h-2.5 w-2.5 rounded-full shrink-0 ${isHigh ? "bg-rose-500" : "bg-emerald-500"}`} />
+                        <div className={`h-2.5 w-2.5 rounded-full shrink-0 ${isHigh ? "bg-[#C45D62]" : "bg-[#159570]"}`} />
                         <div>
                           <div className="flex items-center space-x-2">
-                            <span className="font-bold text-white font-mono">{node.asset_name}</span>
-                            <span className="text-[9px] px-1.5 py-0.2 bg-slate-800 border border-slate-700 rounded text-slate-300 font-sans">
+                            <span className="font-medium text-[#F2F0E8] font-mono">{node.asset_name}</span>
+                            <span className="text-[9px] px-1.5 py-0.2 bg-[#161C19] border border-white/[0.065] rounded-sm text-[#A7ADA8] font-sans">
                               {node.sector || "Equities"}
                             </span>
                           </div>
                           {node.company_name && (
-                            <span className="text-[11px] text-slate-400 font-sans block">
+                            <span className="text-[11px] text-[#A7ADA8] font-sans block">
                               {node.company_name}
                             </span>
                           )}
@@ -427,20 +427,20 @@ export const RiskHeatmap: React.FC = () => {
 
                       <div className="flex items-center space-x-6">
                         <div className="flex flex-col items-end">
-                          <span className="text-[10px] text-slate-400 font-sans">Centrality</span>
-                          <span className="text-slate-200 tabular-nums">{node.centrality}</span>
+                          <span className="text-[10px] text-[#68716C] font-sans">Centrality</span>
+                          <span className="text-[#A7ADA8] tabular-nums">{node.centrality}</span>
                         </div>
                         <div className="flex flex-col items-end">
-                          <span className="text-[10px] text-slate-400 font-sans">Contagion</span>
-                          <span className="text-slate-200 tabular-nums">{node.systemic_contagion_factor}</span>
+                          <span className="text-[10px] text-[#68716C] font-sans">Contagion</span>
+                          <span className="text-[#A7ADA8] tabular-nums">{node.systemic_contagion_factor}</span>
                         </div>
                         <div className="flex flex-col items-end">
-                          <span className="text-[10px] text-slate-400 font-sans">GNN Risk</span>
-                          <span className={`font-bold tabular-nums ${isHigh ? "text-rose-400" : "text-emerald-400"}`}>
+                          <span className="text-[10px] text-[#68716C] font-sans">GNN Risk</span>
+                          <span className={`font-medium tabular-nums ${isHigh ? "text-[#C45D62]" : "text-[#42A77A]"}`}>
                             {node.risk_score}
                           </span>
                         </div>
-                        <ChevronRight className="h-4 w-4 text-slate-600" />
+                        <ChevronRight className="h-4 w-4 text-[#68716C]" />
                       </div>
                     </div>
                   );
@@ -450,12 +450,12 @@ export const RiskHeatmap: React.FC = () => {
 
             {/* Right: Dynamic Adjacency Correlation Heatmap */}
             <div className="space-y-3">
-              <div className="flex justify-between items-center text-xs font-sans text-slate-400">
-                <span className="uppercase font-semibold tracking-wider">Correlation Heatmap</span>
-                <span className="text-xs font-mono text-emerald-400 font-semibold">{activeEdgeCount} Edges Active</span>
+              <div className="flex justify-between items-center text-xs font-sans text-[#A7ADA8]">
+                <span className="uppercase font-medium tracking-wider">Correlation Heatmap</span>
+                <span className="text-xs font-mono text-[#159570] font-medium">{activeEdgeCount} Edges Active</span>
               </div>
 
-              <div className="bg-[#080b11] border border-slate-800 rounded-lg p-4 flex flex-col items-center justify-center shadow-sm">
+              <div className="bg-[#0C100F] border border-white/[0.065] rounded-sm p-4 flex flex-col items-center justify-center">
                 <div 
                   className="grid gap-1 w-full aspect-square max-w-[240px]"
                   style={{ gridTemplateColumns: `repeat(${gridCols}, minmax(0, 1fr))` }}
@@ -470,12 +470,12 @@ export const RiskHeatmap: React.FC = () => {
                           key={`${i}-${j}`}
                           title={`Correlation Edge (${i}, ${j}): ${val.toFixed(2)}`}
                           style={{
-                            backgroundColor: `rgba(16, 185, 129, ${opacity})`
+                            backgroundColor: `rgba(21, 149, 112, ${opacity})`
                           }}
-                          className={`rounded border flex items-center justify-center text-[9px] font-mono font-bold transition-all tabular-nums ${
+                          className={`rounded-sm border flex items-center justify-center text-[9px] font-mono font-medium transition-colors tabular-nums ${
                             isPassing 
-                              ? "border-emerald-500/50 text-white font-bold" 
-                              : "border-slate-800/40 text-slate-600 opacity-20"
+                              ? "border-[#159570]/40 text-[#F2F0E8]" 
+                              : "border-white/[0.04] text-[#68716C] opacity-20"
                           }`}
                         >
                           {isPassing ? val.toFixed(2) : "·"}
@@ -484,7 +484,7 @@ export const RiskHeatmap: React.FC = () => {
                     })
                   )}
                 </div>
-                <p className="text-[11px] font-sans text-slate-400 mt-3 text-center">
+                <p className="text-[11px] font-sans text-[#68716C] mt-3 text-center">
                   Thresholded Backbone ({edgeThreshold.toFixed(2)}+ correlation). Hover cell for pair values.
                 </p>
               </div>
@@ -493,8 +493,8 @@ export const RiskHeatmap: React.FC = () => {
         ) : (
           /* Sector Vulnerability Fragility View */
           <div className="space-y-4">
-            <div className="flex items-center justify-between text-xs font-sans text-slate-400">
-              <span className="uppercase font-semibold tracking-wider">SECTOR-LEVEL SYSTEMIC RISK &amp; CONTAGION CLUSTERS</span>
+            <div className="flex items-center justify-between text-xs font-sans text-[#A7ADA8]">
+              <span className="uppercase font-medium tracking-wider">SECTOR-LEVEL SYSTEMIC RISK &amp; CONTAGION CLUSTERS</span>
               <span className="text-xs font-mono">{sectorList.length} Sectors Modeled</span>
             </div>
 
@@ -502,40 +502,40 @@ export const RiskHeatmap: React.FC = () => {
               {sectorList.map((sec) => (
                 <div
                   key={sec.sector}
-                  className="bg-[#080b11] border border-slate-800 rounded-xl p-4 space-y-3 font-sans text-xs"
+                  className="bg-[#0C100F] border border-white/[0.065] rounded-sm p-4 space-y-3 font-sans text-xs"
                 >
-                  <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
-                    <span className="font-bold text-white">{sec.sector}</span>
-                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
+                  <div className="flex items-center justify-between border-b border-white/[0.065] pb-2">
+                    <span className="font-medium text-[#F2F0E8]">{sec.sector}</span>
+                    <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-sm border ${
                       sec.status === "CRITICAL"
-                        ? "bg-rose-500/10 text-rose-400 border-rose-500/20"
+                        ? "bg-[#C45D62]/10 text-[#C45D62] border-[#C45D62]/25"
                         : sec.status === "ELEVATED"
-                        ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
-                        : "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                        ? "bg-[#B89655]/10 text-[#B89655] border-[#B89655]/25"
+                        : "bg-[#159570]/10 text-[#42A77A] border-[#159570]/25"
                     }`}>
                       {sec.status}
                     </span>
                   </div>
 
                   <div className="space-y-1.5 font-mono">
-                    <div className="flex justify-between text-slate-300 text-xs">
-                      <span className="font-sans text-slate-400">Avg Contagion Score:</span>
-                      <span className="font-bold tabular-nums text-white">{sec.avg_risk}</span>
+                    <div className="flex justify-between text-[#A7ADA8] text-xs">
+                      <span className="font-sans text-[#68716C]">Avg Contagion Score:</span>
+                      <span className="font-medium tabular-nums text-[#F2F0E8]">{sec.avg_risk}</span>
                     </div>
                     {/* Visual Risk Progress Bar */}
-                    <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                    <div className="w-full bg-[#161C19] rounded-full h-1.5 overflow-hidden">
                       <div
                         className={`h-full rounded-full transition-all duration-300 ${
-                          sec.avg_risk > 0.35 ? "bg-rose-500" : sec.avg_risk > 0.22 ? "bg-amber-500" : "bg-emerald-500"
+                          sec.avg_risk > 0.35 ? "bg-[#C45D62]" : sec.avg_risk > 0.22 ? "bg-[#B89655]" : "bg-[#159570]"
                         }`}
                         style={{ width: `${Math.min(100, sec.avg_risk * 200)}%` }}
                       />
                     </div>
                   </div>
 
-                  <div className="flex justify-between items-center text-[11px] text-slate-400 pt-1">
+                  <div className="flex justify-between items-center text-[11px] text-[#68716C] pt-1">
                     <span>{sec.node_count} Constituents</span>
-                    <span className="truncate max-w-[150px] font-mono">{sec.symbols.join(", ")}</span>
+                    <span className="truncate max-w-[150px] font-mono text-[#A7ADA8]">{sec.symbols.join(", ")}</span>
                   </div>
                 </div>
               ))}
@@ -545,62 +545,60 @@ export const RiskHeatmap: React.FC = () => {
         </div>
       </div>
 
-
       {/* 5. Deep Node Inspector Modal */}
       {inspectedNode && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#0b0f17] border border-slate-800 rounded-xl w-full max-w-lg shadow-2xl p-6 space-y-5 font-sans text-xs animate-fade-in-up">
-            <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
-
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#111614] border border-white/[0.08] rounded-sm w-full max-w-lg shadow-2xl p-6 space-y-5 font-sans text-xs">
+            <div className="flex items-center justify-between border-b border-white/[0.065] pb-3">
               <div className="flex items-center space-x-2">
-                <BarChart2 className="h-4 w-4 text-emerald-400" />
-                <span className="text-sm font-bold text-white uppercase tracking-wider">
+                <BarChart2 className="h-4 w-4 text-[#159570]" />
+                <span className="text-sm font-medium text-[#F2F0E8] uppercase tracking-wider">
                   NODE TRANSMISSION PROFILE: {inspectedNode.asset_name}
                 </span>
               </div>
               <button
                 onClick={() => setInspectedNode(null)}
-                className="p-1.5 bg-[#0e1422] rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer border border-slate-800"
+                className="p-1.5 bg-[#161C19] rounded-sm text-[#68716C] hover:text-[#F2F0E8] hover:bg-[#1B2420] transition-colors cursor-pointer border border-white/[0.065]"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
             <div className="grid grid-cols-3 gap-3 font-mono tabular-nums">
-              <div className="bg-[#080b11] border border-slate-800 rounded-lg p-2.5 text-center">
-                <div className="text-[10px] text-slate-400 uppercase font-sans">Risk Score</div>
-                <div className="text-base font-bold text-rose-400 mt-1">{inspectedNode.risk_score}</div>
+              <div className="bg-[#0C100F] border border-white/[0.04] rounded-sm p-2.5 text-center">
+                <div className="text-[10px] text-[#68716C] uppercase font-sans">Risk Score</div>
+                <div className="text-base font-semibold text-[#C45D62] mt-1">{inspectedNode.risk_score}</div>
               </div>
-              <div className="bg-[#080b11] border border-slate-800 rounded-lg p-2.5 text-center">
-                <div className="text-[10px] text-slate-400 uppercase font-sans">Centrality</div>
-                <div className="text-base font-bold text-white mt-1">{inspectedNode.centrality}</div>
+              <div className="bg-[#0C100F] border border-white/[0.04] rounded-sm p-2.5 text-center">
+                <div className="text-[10px] text-[#68716C] uppercase font-sans">Centrality</div>
+                <div className="text-base font-semibold text-[#F2F0E8] mt-1">{inspectedNode.centrality}</div>
               </div>
-              <div className="bg-[#080b11] border border-slate-800 rounded-lg p-2.5 text-center">
-                <div className="text-[10px] text-slate-400 uppercase font-sans">Contagion Factor</div>
-                <div className="text-base font-bold text-emerald-400 mt-1">{inspectedNode.systemic_contagion_factor}</div>
+              <div className="bg-[#0C100F] border border-white/[0.04] rounded-sm p-2.5 text-center">
+                <div className="text-[10px] text-[#68716C] uppercase font-sans">Contagion Factor</div>
+                <div className="text-base font-semibold text-[#42A77A] mt-1">{inspectedNode.systemic_contagion_factor}</div>
               </div>
             </div>
 
             {/* Top Correlated Transmission Neighbors */}
             <div className="space-y-2">
-              <div className="text-[10px] font-sans font-semibold text-slate-400 uppercase tracking-wider">
+              <div className="text-[10px] font-sans font-medium text-[#A7ADA8] uppercase tracking-wider">
                 Top Correlated Transmission Neighbors
               </div>
               <div className="space-y-1.5 font-mono">
                 {inspectedNodeCorrelations.map((peer) => (
                   <div
                     key={peer.symbol}
-                    className="flex items-center justify-between bg-[#080b11] border border-slate-800 rounded-lg px-3 py-2 text-xs"
+                    className="flex items-center justify-between bg-[#0C100F] border border-white/[0.04] rounded-sm px-3 py-2 text-xs"
                   >
                     <div>
-                      <span className="font-bold text-white">{peer.symbol}</span>
+                      <span className="font-medium text-[#F2F0E8]">{peer.symbol}</span>
                       {peer.company && (
-                        <span className="text-[11px] text-slate-400 ml-2 font-sans">{peer.company}</span>
+                        <span className="text-[11px] text-[#68716C] ml-2 font-sans">{peer.company}</span>
                       )}
                     </div>
                     <div className="flex items-center space-x-3 tabular-nums">
-                      <span className="text-xs text-slate-400 font-sans">Edge: {peer.corr.toFixed(3)}</span>
-                      <span className={`font-bold ${peer.risk > 0.35 ? "text-rose-400" : "text-emerald-400"}`}>
+                      <span className="text-xs text-[#68716C] font-sans">Edge: {peer.corr.toFixed(3)}</span>
+                      <span className={`font-semibold ${peer.risk > 0.35 ? "text-[#C45D62]" : "text-[#42A77A]"}`}>
                         {peer.risk}
                       </span>
                     </div>
@@ -611,14 +609,14 @@ export const RiskHeatmap: React.FC = () => {
 
             {/* 18-Alpha Feature Vector Readings */}
             {inspectedNode.features && inspectedNode.features.length > 0 && (
-              <div className="space-y-1.5 pt-2 border-t border-slate-800/80 font-mono">
-                <div className="text-[10px] font-sans font-semibold text-slate-400 uppercase tracking-wider">
+              <div className="space-y-1.5 pt-2 border-t border-white/[0.065] font-mono">
+                <div className="text-[10px] font-sans font-medium text-[#68716C] uppercase tracking-wider">
                   Alpha Vector Feature Signature (Partial)
                 </div>
                 <div className="grid grid-cols-4 gap-1 text-[11px] tabular-nums">
                   {inspectedNode.features.slice(0, 4).map((f, i) => (
-                    <div key={i} className="bg-[#080b11] px-2 py-1 rounded border border-slate-800 text-center text-slate-300">
-                      &alpha;_{i+1}: <span className="text-white font-bold">{f.toFixed(4)}</span>
+                    <div key={i} className="bg-[#0C100F] px-2 py-1 rounded-sm border border-white/[0.04] text-center text-[#A7ADA8]">
+                      &alpha;_{i+1}: <span className="text-[#F2F0E8] font-medium">{f.toFixed(4)}</span>
                     </div>
                   ))}
                 </div>
@@ -630,3 +628,4 @@ export const RiskHeatmap: React.FC = () => {
     </div>
   );
 };
+

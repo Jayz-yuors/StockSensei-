@@ -144,16 +144,16 @@ export const TradingTerminal: React.FC = () => {
         width,
         height,
         layout: {
-          background: { type: ColorType.Solid, color: "#000000" },
-          textColor: "#4ade80",
+          background: { type: ColorType.Solid, color: "#0C100F" },
+          textColor: "#A7ADA8",
         },
         grid: {
-          vertLines: { color: "#0d2012" },
-          horzLines: { color: "#0d2012" },
+          vertLines: { color: "rgba(255, 255, 255, 0.04)" },
+          horzLines: { color: "rgba(255, 255, 255, 0.04)" },
         },
         crosshair: { mode: CrosshairMode.Normal },
-        rightPriceScale: { borderColor: "#132618", scaleMargins: { top: 0.1, bottom: 0.2 } },
-        timeScale: { borderColor: "#132618", timeVisible: true, secondsVisible: false },
+        rightPriceScale: { borderColor: "rgba(255, 255, 255, 0.065)", scaleMargins: { top: 0.1, bottom: 0.2 } },
+        timeScale: { borderColor: "rgba(255, 255, 255, 0.065)", timeVisible: true, secondsVisible: false },
       });
     } catch {
       return;
@@ -163,23 +163,23 @@ export const TradingTerminal: React.FC = () => {
     try {
       if (chartType === "LINE") {
         mainSeries = chart.addLineSeries({
-          color: "#10b981",
+          color: "#42A77A",
           lineWidth: 2,
         });
       } else if (chartType === "AREA") {
         mainSeries = chart.addAreaSeries({
-          topColor: "rgba(16, 185, 129, 0.4)",
-          bottomColor: "rgba(16, 185, 129, 0.0)",
-          lineColor: "#10b981",
+          topColor: "rgba(66, 167, 122, 0.3)",
+          bottomColor: "rgba(66, 167, 122, 0.0)",
+          lineColor: "#42A77A",
           lineWidth: 2,
         });
       } else {
         mainSeries = chart.addCandlestickSeries({
-          upColor: "#10b981",
-          downColor: "#f43f5e",
+          upColor: "#42A77A",
+          downColor: "#C45D62",
           borderVisible: false,
-          wickUpColor: "#10b981",
-          wickDownColor: "#f43f5e",
+          wickUpColor: "#42A77A",
+          wickDownColor: "#C45D62",
         });
       }
     } catch {
@@ -369,23 +369,23 @@ export const TradingTerminal: React.FC = () => {
     try {
       splitChart = createChart(splitChartContainerRef.current, {
         layout: {
-          background: { type: ColorType.Solid, color: "#000000" },
-          textColor: "#4ade80",
+          background: { type: ColorType.Solid, color: "#0C100F" },
+          textColor: "#A7ADA8",
         },
         grid: {
-          vertLines: { color: "#0d2012" },
-          horzLines: { color: "#0d2012" },
+          vertLines: { color: "rgba(255, 255, 255, 0.04)" },
+          horzLines: { color: "rgba(255, 255, 255, 0.04)" },
         },
-        rightPriceScale: { borderColor: "#132618" },
-        timeScale: { borderColor: "#132618", timeVisible: true },
+        rightPriceScale: { borderColor: "rgba(255, 255, 255, 0.065)" },
+        timeScale: { borderColor: "rgba(255, 255, 255, 0.065)", timeVisible: true },
       });
 
       splitSeries = splitChart.addCandlestickSeries({
-        upColor: "#10b981",
-        downColor: "#f43f5e",
+        upColor: "#42A77A",
+        downColor: "#C45D62",
         borderVisible: false,
-        wickUpColor: "#10b981",
-        wickDownColor: "#f43f5e",
+        wickUpColor: "#42A77A",
+        wickDownColor: "#C45D62",
       });
     } catch {
       return;
@@ -671,51 +671,51 @@ export const TradingTerminal: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-5rem)] w-full bg-[#0b0f17] text-slate-200 overflow-hidden font-mono select-none rounded-xl border border-slate-800/80 shadow-2xl">
+    <div className="flex flex-col h-[calc(100vh-5rem)] w-full bg-[#111614] text-[#F2F0E8] overflow-hidden font-mono select-none rounded-sm border border-white/[0.065] shadow-2xl">
       <TopTickerStrip />
 
       {/* Desk Switcher & Engine Status Bar */}
-      <div className="flex items-center justify-between px-3 py-1.5 bg-[#090d16] border-b border-slate-800 text-xs shrink-0 font-sans">
-        <div className="flex items-center space-x-1 bg-[#080b11] p-0.5 rounded-lg border border-slate-800">
+      <div className="flex items-center justify-between px-3 py-1.5 bg-[#0C100F] border-b border-white/[0.065] text-xs shrink-0 font-sans">
+        <div className="flex items-center space-x-1 bg-[#111614] p-0.5 rounded-sm border border-white/[0.065]">
           <button
             onClick={() => setActiveDesk("EQUITY")}
-            className={`px-3 py-1 rounded-md text-xs font-semibold transition-all duration-150 active:scale-95 ${
-              activeDesk === "EQUITY" ? "bg-slate-800 text-white shadow-sm" : "text-slate-400 hover:text-white"
+            className={`px-3 py-1 rounded-sm text-xs font-medium transition-all duration-150 ${
+              activeDesk === "EQUITY" ? "bg-[#161C19] text-[#F2F0E8] border border-white/[0.08] shadow-sm" : "text-[#A7ADA8] hover:text-[#F2F0E8]"
             }`}
           >
             EQUITY TERMINAL
           </button>
           <button
             onClick={() => setActiveDesk("FNO")}
-            className={`px-3 py-1 rounded-md text-xs font-semibold transition-all duration-150 active:scale-95 ${
-              activeDesk === "FNO" ? "bg-slate-800 text-white shadow-sm" : "text-slate-400 hover:text-white"
+            className={`px-3 py-1 rounded-sm text-xs font-medium transition-all duration-150 ${
+              activeDesk === "FNO" ? "bg-[#161C19] text-[#F2F0E8] border border-white/[0.08] shadow-sm" : "text-[#A7ADA8] hover:text-[#F2F0E8]"
             }`}
           >
             F&amp;O OPTIONS DESK
           </button>
           <button
             onClick={() => setActiveDesk("AI_SCAN")}
-            className={`flex items-center space-x-1.5 px-3 py-1 rounded-md text-xs font-semibold transition-all duration-150 active:scale-95 ${
+            className={`flex items-center space-x-1.5 px-3 py-1 rounded-sm text-xs font-medium transition-all duration-150 ${
               activeDesk === "AI_SCAN"
-                ? "bg-slate-800 text-white shadow-sm"
-                : "text-slate-400 hover:text-white"
+                ? "bg-[#161C19] text-[#F2F0E8] border border-white/[0.08] shadow-sm"
+                : "text-[#A7ADA8] hover:text-[#F2F0E8]"
             }`}
           >
-            <Cpu className="h-3.5 w-3.5 text-emerald-400" />
+            <Cpu className="h-3.5 w-3.5 text-[#159570]" />
             <span>AI SCAN &amp; POLICY</span>
           </button>
         </div>
 
         <div className="flex items-center space-x-3 text-xs font-mono">
-          <span className="text-slate-300 flex items-center gap-1.5 text-[11px]">
-            <Activity className="h-3.5 w-3.5 text-emerald-400" /> GNN RISK ENGINE ACTIVE
+          <span className="text-[#A7ADA8] flex items-center gap-1.5 text-[11px]">
+            <Activity className="h-3.5 w-3.5 text-[#159570]" /> GNN RISK ENGINE ACTIVE
           </span>
         </div>
       </div>
 
       <div key={activeDesk} className="flex flex-1 overflow-hidden animate-fade-in-up">
         {activeDesk === "AI_SCAN" ? (
-          <div className="flex-1 flex overflow-hidden border-r border-slate-800">
+          <div className="flex-1 flex overflow-hidden border-r border-white/[0.065]">
             <AiScanDashboard
               selectedSymbol={selectedFnoSymbol}
               onSelectSymbol={(sym) => {
@@ -727,7 +727,7 @@ export const TradingTerminal: React.FC = () => {
           </div>
         ) : (
           /* Main Chart Area */
-          <div className="flex-1 flex flex-col border-r border-slate-800 overflow-hidden">
+          <div className="flex-1 flex flex-col border-r border-white/[0.065] overflow-hidden">
             <div className={`flex ${activeDesk === "FNO" ? "h-[55%]" : "h-full"} w-full`}>
 
             <div className="flex-1 flex flex-col relative overflow-hidden">
@@ -805,10 +805,10 @@ export const TradingTerminal: React.FC = () => {
 
             {/* Split Contract Chart if Selected */}
             {selectedSplitContract && (
-              <div className="flex-1 flex flex-col border-l border-slate-800">
-                <div className="px-3 py-1 bg-[#090d16] border-b border-slate-800 flex justify-between items-center text-[11px] shrink-0 font-sans">
-                  <span className="font-bold text-white font-mono">{selectedSplitContract} &bull; DERIVATIVE</span>
-                  <button onClick={() => setSelectedSplitContract(null)} className="text-slate-400 hover:text-white">
+              <div className="flex-1 flex flex-col border-l border-white/[0.065]">
+                <div className="px-3 py-1 bg-[#0C100F] border-b border-white/[0.065] flex justify-between items-center text-[11px] shrink-0 font-sans">
+                  <span className="font-semibold text-[#F2F0E8] font-mono">{selectedSplitContract} &bull; DERIVATIVE</span>
+                  <button onClick={() => setSelectedSplitContract(null)} className="text-[#A7ADA8] hover:text-[#F2F0E8]">
                     <X className="h-3.5 w-3.5" />
                   </button>
                 </div>
@@ -818,7 +818,7 @@ export const TradingTerminal: React.FC = () => {
           </div>
 
           {activeDesk === "FNO" && (
-            <div className="h-[45%] border-t border-slate-800 bg-[#080b11] flex flex-col overflow-hidden">
+            <div className="h-[45%] border-t border-white/[0.065] bg-[#0C100F] flex flex-col overflow-hidden">
               <OptionChain
                 onSelectContract={(sym) => setSelectedSplitContract(sym)}
               />
