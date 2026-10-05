@@ -7,9 +7,24 @@ import { LiveTickPrice } from "./common/LiveTickPrice";
 import { CommandPalette } from "./CommandPalette";
 
 export const Header: React.FC = () => {
-  const { portfolio, gnnRisk, connectionStatus, marketStatus, fetchMarketData, initLiveFeed } = usePortfolioStore();
+  const { 
+    portfolio, 
+    gnnRisk, 
+    connectionStatus, 
+    marketStatus, 
+    fetchMarketData, 
+    initLiveFeed,
+    hydrateFromStorage,
+    fetchSavedPositionsFromBackend
+  } = usePortfolioStore();
   const [istTime, setIstTime] = useState<string>("");
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
+
+  // Client hydration from localStorage & backend sync
+  useEffect(() => {
+    hydrateFromStorage();
+    fetchSavedPositionsFromBackend();
+  }, [hydrateFromStorage, fetchSavedPositionsFromBackend]);
 
   // Global Ctrl+K / Cmd+K keyboard shortcut
   useEffect(() => {
@@ -126,7 +141,7 @@ export const Header: React.FC = () => {
         {/* Right: Telemetry & Dynamic Portfolio Summary Bar */}
         <div className="flex items-center space-x-4 md:space-x-6 text-xs">
           {/* Dynamic Portfolio Value with Micro-Interaction */}
-          <div className="flex flex-col items-end">
+          <div className="flex flex-col items-end" suppressHydrationWarning>
             <span className="text-[10px] font-sans text-slate-400 uppercase tracking-wider font-medium">
               PORTFOLIO VALUE
             </span>
@@ -140,7 +155,7 @@ export const Header: React.FC = () => {
           <div className="h-6 w-[1px] bg-slate-800 hidden md:block" />
 
           {/* Dynamic Day P&L with Micro-Interaction */}
-          <div className="hidden md:flex flex-col items-end">
+          <div className="hidden md:flex flex-col items-end" suppressHydrationWarning>
             <span className="text-[10px] font-sans text-slate-400 uppercase tracking-wider font-medium">
               DAY P&amp;L
             </span>

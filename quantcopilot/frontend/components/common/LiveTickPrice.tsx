@@ -79,6 +79,7 @@ export const LiveTickPrice: React.FC<LiveTickPriceProps> = ({
 
   return (
     <span
+      suppressHydrationWarning
       className={`inline-flex items-center gap-0.5 tabular-nums transition-colors duration-200 ${tickAnimClass} ${colorClass} ${className}`}
     >
       {showDirectionIcon && (
@@ -90,7 +91,7 @@ export const LiveTickPrice: React.FC<LiveTickPriceProps> = ({
           )}
         </>
       )}
-      <span>{displayFormatted}</span>
+      <span suppressHydrationWarning>{displayFormatted}</span>
     </span>
   );
 };

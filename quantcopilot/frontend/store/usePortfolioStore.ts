@@ -61,6 +61,7 @@ interface PortfolioStoreState {
   watchlist: string[];
   addToWatchlist: (symbol: string) => void;
   removeFromWatchlist: (symbol: string) => void;
+  hydrateFromStorage: () => void;
   fetchSavedPositionsFromBackend: () => Promise<void>;
 
   addPosition: (pos: PositionInput) => void;
@@ -238,9 +239,9 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
   isAddPositionOpen: false,
   isImportModalOpen: false,
   marketStatus: null,
-  watchlist: getSavedWatchlist(),
+  watchlist: DEFAULT_WATCHLIST,
   
-  portfolio: calculatePortfolioMetrics(getSavedPositions(), DEFAULT_INDIAN_TICKERS_DATA),
+  portfolio: calculatePortfolioMetrics([], DEFAULT_INDIAN_TICKERS_DATA),
   
   gnnRisk: {
     timestamp: new Date().toISOString(),
@@ -535,6 +536,17 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
       saveWatchlist(updated);
       return { watchlist: updated };
     });
+  },
+
+  hydrateFromStorage: () => {
+    if (typeof window !== "undefined") {
+      const saved = getSavedPositions();
+      const savedWatchlist = getSavedWatchlist();
+      set((state) => ({
+        watchlist: savedWatchlist,
+        portfolio: calculatePortfolioMetrics(saved, state.indianTickers)
+      }));
+    }
   },
 
   fetchSavedPositionsFromBackend: async () => {
