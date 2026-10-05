@@ -11,6 +11,25 @@ class PositionSchema(BaseModel):
     side: str
     leverage: float
 
+class PositionInputSchema(BaseModel):
+    symbol: str
+    quantity: float
+    entry_price: float
+    current_price: Optional[float] = None
+    unrealized_pnl: Optional[float] = 0.0
+    realized_pnl: Optional[float] = 0.0
+    side: Optional[str] = "LONG"
+    leverage: Optional[float] = 1.0
+
+class SyncPositionsRequestSchema(BaseModel):
+    positions: List[PositionInputSchema]
+
+class SyncPositionsResponseSchema(BaseModel):
+    status: str
+    message: str
+    count: int
+    positions: List[PositionSchema]
+
 class PortfolioSummarySchema(BaseModel):
     total_equity: float
     realized_pnl: float

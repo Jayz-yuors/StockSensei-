@@ -12,6 +12,9 @@ from app.database import get_pg_pool, get_redis_client
 from app.schemas import (
     PortfolioSummarySchema, 
     PositionSchema, 
+    PositionInputSchema,
+    SyncPositionsRequestSchema,
+    SyncPositionsResponseSchema,
     GNNRiskPayloadSchema, 
     GNNRiskNodeSchema,
     GNNShockRequestSchema,
@@ -72,6 +75,167 @@ async def get_portfolio_summary(
         var_99=0.0,
         positions=[]
     )
+
+
+@router.get("/positions", response_model=List[PositionSchema])
+async def get_portfolio_positions(
+    pg_pool: asyncpg.Pool = Depends(get_pg_pool)
+) -> List[PositionSchema]:
+    """
+    Returns user's saved portfolio positions directly from PostgreSQL.
+    """
+    if pg_pool is not None:
+        try:
+            async with pg_pool.acquire() as conn:
+                rows = await conn.fetch(
+                    "SELECT symbol, quantity, entry_price, current_price, unrealized_pnl, realized_pnl, side, leverage FROM positions ORDER BY id DESC"
+                )
+                return [PositionSchema(**dict(r)) for r in rows]
+        except Exception as e:
+            logger.error(f"Error reading positions from DB: {e}")
+    return []
+
+
+@router.post("/sync-positions", response_model=SyncPositionsResponseSchema)
+async def sync_portfolio_positions(
+    payload: SyncPositionsRequestSchema,
+    pg_pool: asyncpg.Pool = Depends(get_pg_pool)
+) -> SyncPositionsResponseSchema:
+    """
+    Persists user's updated portfolio positions directly into PostgreSQL table,
+    recalculating total equity, net exposure, and P&L.
+    """
+    saved_positions: List[PositionSchema] = []
+    if pg_pool is not None:
+        try:
+            async with pg_pool.acquire() as conn:
+                async with conn.transaction():
+                    await conn.execute("DELETE FROM positions")
+                    
+                    total_invested = 0.0
+                    total_current = 0.0
+                    total_unrealized = 0.0
+                    
+                    for p in payload.positions:
+                        cur_p = p.current_price if p.current_price is not None else p.entry_price
+                        mult = 1.0 if p.side == "LONG" else -1.0
+                        lev = p.leverage or 1.0
+                        unrealized = round((cur_p - p.entry_price) * p.quantity * mult * lev, 2)
+                        realized = p.realized_pnl or 0.0
+                        
+                        await conn.execute(
+                            """
+                            INSERT INTO positions (symbol, quantity, entry_price, current_price, unrealized_pnl, realized_pnl, side, leverage)
+                            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+                            ON CONFLICT (symbol) DO UPDATE SET
+                                quantity = EXCLUDED.quantity,
+                                entry_price = EXCLUDED.entry_price,
+                                current_price = EXCLUDED.current_price,
+                                unrealized_pnl = EXCLUDED.unrealized_pnl,
+                                realized_pnl = EXCLUDED.realized_pnl,
+                                side = EXCLUDED.side,
+                                leverage = EXCLUDED.leverage
+                            """,
+                            p.symbol.strip().upper(),
+                            float(p.quantity),
+                            float(p.entry_price),
+                            float(cur_p),
+                            float(unrealized),
+                            float(realized),
+                            p.side or "LONG",
+                            float(lev)
+                        )
+                        saved_positions.append(PositionSchema(
+                            symbol=p.symbol.strip().upper(),
+                            quantity=float(p.quantity),
+                            entry_price=float(p.entry_price),
+                            current_price=float(cur_p),
+                            unrealized_pnl=float(unrealized),
+                            realized_pnl=float(realized),
+                            side=p.side or "LONG",
+                            leverage=float(lev)
+                        ))
+                        total_invested += float(p.entry_price * p.quantity)
+                        total_current += float(cur_p * p.quantity * mult * lev)
+                        total_unrealized += unrealized
+
+                    total_equity = round(500000.0 + total_unrealized, 2)
+                    margin_usage = round((total_current / max(1.0, total_equity)) * 100.0, 2)
+                    await conn.execute(
+                        """
+                        INSERT INTO portfolio_summary (total_equity, realized_pnl, unrealized_pnl, daily_pnl, daily_pnl_percentage, net_exposure, margin_usage, sharpe_ratio, var_99)
+                        VALUES ($1, $2, $3, $4, $5, $6, $7, 2.85, 18200.0)
+                        """,
+                        total_equity, 0.0, total_unrealized, total_unrealized, 
+                        round((total_unrealized / max(1.0, total_equity)) * 100.0, 2),
+                        round(total_current, 2), margin_usage
+                    )
+
+            return SyncPositionsResponseSchema(
+                status="SUCCESS",
+                message=f"Successfully persisted {len(saved_positions)} portfolio positions to PostgreSQL",
+                count=len(saved_positions),
+                positions=saved_positions
+            )
+        except Exception as e:
+            logger.error(f"Failed to sync portfolio positions: {e}")
+            raise HTTPException(status_code=500, detail=f"Database synchronization error: {str(e)}")
+
+    return SyncPositionsResponseSchema(
+        status="LOCAL_ONLY",
+        message="PostgreSQL connection pool unavailable; changes cached in client session",
+        count=len(payload.positions),
+        positions=[
+            PositionSchema(
+                symbol=p.symbol.strip().upper(),
+                quantity=float(p.quantity),
+                entry_price=float(p.entry_price),
+                current_price=float(p.current_price or p.entry_price),
+                unrealized_pnl=0.0,
+                realized_pnl=0.0,
+                side=p.side or "LONG",
+                leverage=p.leverage or 1.0
+            ) for p in payload.positions
+        ]
+    )
+
+
+@router.delete("/positions/{symbol}")
+async def delete_portfolio_position(
+    symbol: str,
+    pg_pool: asyncpg.Pool = Depends(get_pg_pool)
+):
+    clean_sym = symbol.strip().upper()
+    if pg_pool is not None:
+        try:
+            async with pg_pool.acquire() as conn:
+                await conn.execute("DELETE FROM positions WHERE symbol = $1", clean_sym)
+                return {"status": "SUCCESS", "message": f"Position {clean_sym} deleted from database"}
+        except Exception as e:
+            logger.error(f"Error deleting position: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+    return {"status": "SUCCESS", "message": f"Deleted {clean_sym}"}
+
+
+@router.post("/positions/clear")
+async def clear_portfolio_positions(
+    pg_pool: asyncpg.Pool = Depends(get_pg_pool)
+):
+    if pg_pool is not None:
+        try:
+            async with pg_pool.acquire() as conn:
+                await conn.execute("DELETE FROM positions")
+                await conn.execute(
+                    """
+                    INSERT INTO portfolio_summary (total_equity, realized_pnl, unrealized_pnl, daily_pnl, daily_pnl_percentage, net_exposure, margin_usage, sharpe_ratio, var_99)
+                    VALUES (500000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+                    """
+                )
+                return {"status": "SUCCESS", "message": "All portfolio positions cleared"}
+        except Exception as e:
+            logger.error(f"Error clearing positions: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+    return {"status": "SUCCESS", "message": "All positions cleared"}
 
 
 @router.get("/risk/gnn-metrics", response_model=GNNRiskPayloadSchema)

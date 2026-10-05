@@ -58,6 +58,11 @@ interface PortfolioStoreState {
   fetchFnoDepth: (symbol: string) => Promise<void>;
   fetchGnnSignals: () => Promise<void>;
   
+  watchlist: string[];
+  addToWatchlist: (symbol: string) => void;
+  removeFromWatchlist: (symbol: string) => void;
+  fetchSavedPositionsFromBackend: () => Promise<void>;
+
   addPosition: (pos: PositionInput) => void;
   deletePosition: (symbol: string) => void;
   clearPortfolio: () => void;
@@ -138,6 +143,18 @@ const calculatePortfolioMetrics = (positions: Position[], currentTickers: Record
 };
 
 const PORTFOLIO_STORAGE_KEY = "quantcopilot_user_portfolio_positions_v1";
+const WATCHLIST_STORAGE_KEY = "quantcopilot_user_watchlist_v1";
+
+const DEFAULT_WATCHLIST: string[] = [
+  "RELIANCE",
+  "TCS",
+  "HDFCBANK",
+  "INFY",
+  "TATAMOTORS",
+  "SBIN",
+  "ICICIBANK",
+  "ITC"
+];
 
 const getSavedPositions = (): Position[] => {
   if (typeof window !== "undefined") {
@@ -152,12 +169,57 @@ const getSavedPositions = (): Position[] => {
   return []; // Clean slate by default - ZERO pre-fed mock positions!
 };
 
+const getSavedWatchlist = (): string[] => {
+  if (typeof window !== "undefined") {
+    try {
+      const saved = localStorage.getItem(WATCHLIST_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {}
+  }
+  return DEFAULT_WATCHLIST;
+};
+
+const saveWatchlist = (watchlist: string[]) => {
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.setItem(WATCHLIST_STORAGE_KEY, JSON.stringify(watchlist));
+    } catch {}
+  }
+};
+
+const syncPositionsToBackend = async (positions: Position[]) => {
+  if (typeof window === "undefined") return;
+  try {
+    const baseUrl = getApiBaseUrl();
+    await fetch(`${baseUrl}/api/v1/portfolio/sync-positions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        positions: positions.map(p => ({
+          symbol: p.symbol,
+          quantity: p.quantity,
+          entry_price: p.entry_price,
+          current_price: p.current_price,
+          unrealized_pnl: p.unrealized_pnl,
+          realized_pnl: p.realized_pnl,
+          side: p.side,
+          leverage: p.leverage
+        }))
+      })
+    });
+  } catch {}
+};
+
 const savePositions = (positions: Position[]) => {
   if (typeof window !== "undefined") {
     try {
       localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(positions));
     } catch {}
   }
+  syncPositionsToBackend(positions);
 };
 
 let liveFeedSocket: WebSocket | null = null;
@@ -176,6 +238,7 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
   isAddPositionOpen: false,
   isImportModalOpen: false,
   marketStatus: null,
+  watchlist: getSavedWatchlist(),
   
   portfolio: calculatePortfolioMetrics(getSavedPositions(), DEFAULT_INDIAN_TICKERS_DATA),
   
@@ -453,5 +516,51 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
         portfolio: calculatePortfolioMetrics(newPositions, state.indianTickers)
       };
     });
+  },
+
+  addToWatchlist: (symbol: string) => {
+    const clean = symbol.trim().toUpperCase().replace("-EQ", "");
+    set((state) => {
+      if (state.watchlist.includes(clean)) return state;
+      const updated = [clean, ...state.watchlist];
+      saveWatchlist(updated);
+      return { watchlist: updated };
+    });
+  },
+
+  removeFromWatchlist: (symbol: string) => {
+    const clean = symbol.trim().toUpperCase().replace("-EQ", "");
+    set((state) => {
+      const updated = state.watchlist.filter(s => s !== clean);
+      saveWatchlist(updated);
+      return { watchlist: updated };
+    });
+  },
+
+  fetchSavedPositionsFromBackend: async () => {
+    try {
+      const baseUrl = getApiBaseUrl();
+      const res = await fetch(`${baseUrl}/api/v1/portfolio/positions`);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          const currentTickers = get().indianTickers;
+          const backendPositions: Position[] = data.map((d: any) => ({
+            symbol: d.symbol,
+            quantity: d.quantity,
+            entry_price: d.entry_price,
+            current_price: d.current_price,
+            unrealized_pnl: d.unrealized_pnl || 0,
+            realized_pnl: d.realized_pnl || 0,
+            side: d.side || "LONG",
+            leverage: d.leverage || 1.0
+          }));
+          savePositions(backendPositions);
+          set({
+            portfolio: calculatePortfolioMetrics(backendPositions, currentTickers)
+          });
+        }
+      }
+    } catch {}
   }
 }));

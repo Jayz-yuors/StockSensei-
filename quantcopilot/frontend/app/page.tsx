@@ -11,6 +11,7 @@ import { PortfolioImportModal } from "../components/PortfolioImportModal";
 import { ShieldCheck, Zap, Plus, Upload, Trash2, ArrowUpRight, ArrowDownRight, Layers, Activity } from "lucide-react";
 import { AiUniverseAuditView } from "../components/trading/AiUniverseAuditView";
 import { LivePortfolioLab } from "../components/trading/LivePortfolioLab";
+import { WatchlistAuditView } from "../components/trading/WatchlistAuditView";
 import { WorkstationSettingsView } from "../components/WorkstationSettingsView";
 import { LiveTickPrice } from "../components/common/LiveTickPrice";
 
@@ -25,6 +26,14 @@ export default function Home() {
     clearPortfolio, 
     deletePosition 
   } = usePortfolioStore();
+
+  if (activeTab === "watchlist") {
+    return (
+      <div key="watchlist" className="w-full max-w-[1600px] mx-auto animate-fade-in-up">
+        <WatchlistAuditView />
+      </div>
+    );
+  }
 
   if (activeTab === "portfolio_lab") {
     return (

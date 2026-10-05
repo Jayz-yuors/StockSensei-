@@ -16,7 +16,8 @@ import {
   Upload, 
   CornerDownLeft, 
   X,
-  ArrowRight
+  ArrowRight,
+  Target
 } from "lucide-react";
 
 interface PaletteItem {
@@ -65,6 +66,17 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose 
       icon: <CandlestickChart className="h-4 w-4 text-emerald-400" />,
       action: () => {
         setActiveTab("fno_terminal");
+        onClose();
+      }
+    },
+    {
+      id: "desk_watchlist",
+      title: "Live Watchlist & Predictive Audit",
+      subtitle: "Real-time CMP tracking and 14-day AI forecast cones",
+      category: "DESKS",
+      icon: <Target className="h-4 w-4 text-emerald-400" />,
+      action: () => {
+        setActiveTab("watchlist");
         onClose();
       }
     },

@@ -180,7 +180,7 @@ export interface PositionInput {
 
 export type ConnectionStatus = "DISCONNECTED" | "CONNECTING" | "CONNECTED" | "ERROR";
 
-export type ActiveTab = "dashboard" | "fno_terminal" | "portfolio_lab" | "ai_audit" | "nse_market" | "gnn_risk" | "strategy" | "settings";
+export type ActiveTab = "dashboard" | "fno_terminal" | "watchlist" | "portfolio_lab" | "ai_audit" | "nse_market" | "gnn_risk" | "strategy" | "settings";
 
 export interface CandleData {
   time: number;

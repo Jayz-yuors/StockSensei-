@@ -12,7 +12,8 @@ import {
   Sparkles, 
   Settings,
   ChevronRight,
-  ShieldCheck
+  ShieldCheck,
+  Target
 } from "lucide-react";
 
 interface NavItem {
@@ -39,6 +40,13 @@ export const Sidebar: React.FC = () => {
           id: "fno_terminal", 
           label: "F&O Trading Desk", 
           icon: <CandlestickChart className="h-4 w-4" /> 
+        },
+        { 
+          id: "watchlist", 
+          label: "Live Watchlist & Audit", 
+          icon: <Target className="h-4 w-4" />,
+          badge: "CMP",
+          badgeVariant: "emerald"
         },
         { 
           id: "dashboard", 
