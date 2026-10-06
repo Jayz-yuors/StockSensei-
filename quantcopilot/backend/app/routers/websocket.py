@@ -171,12 +171,75 @@ class ConnectionManager:
                 tick_msg = {
                     "type": "TICK",
                     "symbol": sym,
+                    "symbol_clean": sym.replace("-EQ", ""),
                     "ticker": state,
                     "candle": candle_packet,
                     "timestamp": time.time()
                 }
 
                 await self.broadcast(tick_msg)
+
+                # Emit option ticks for major index derivatives so Option charts update live
+                if sym == "NIFTY 50":
+                    atm = round(new_p / 50.0) * 50.0
+                    for diff in (-50, 0, 50):
+                        strike_val = int(atm + diff)
+                        for opt_type in ("CE", "PE"):
+                            opt_sym = f"NIFTY {strike_val} {opt_type}"
+                            intr = max(0.0, new_p - strike_val) if opt_type == "CE" else max(0.0, strike_val - new_p)
+                            time_val = max(15.0, new_p * 0.006)
+                            opt_price = round(intr + time_val, 2)
+                            await self.broadcast({
+                                "type": "TICK",
+                                "symbol": opt_sym,
+                                "ticker": {
+                                    "symbol": opt_sym,
+                                    "price": opt_price,
+                                    "day_high": round(opt_price * 1.03, 2),
+                                    "day_low": round(opt_price * 0.97, 2),
+                                    "volume_24h": state["volume_24h"] // 10,
+                                    "change_24h": state["change_24h"]
+                                },
+                                "candle": {
+                                    "time": candle_time,
+                                    "open": opt_price,
+                                    "high": round(opt_price * 1.01, 2),
+                                    "low": round(opt_price * 0.99, 2),
+                                    "close": opt_price,
+                                    "volume": state["volume_24h"] // 10
+                                },
+                                "timestamp": time.time()
+                            })
+                elif sym == "BANKNIFTY":
+                    atm = round(new_p / 100.0) * 100.0
+                    for diff in (-100, 0, 100):
+                        strike_val = int(atm + diff)
+                        for opt_type in ("CE", "PE"):
+                            opt_sym = f"BANKNIFTY {strike_val} {opt_type}"
+                            intr = max(0.0, new_p - strike_val) if opt_type == "CE" else max(0.0, strike_val - new_p)
+                            time_val = max(35.0, new_p * 0.007)
+                            opt_price = round(intr + time_val, 2)
+                            await self.broadcast({
+                                "type": "TICK",
+                                "symbol": opt_sym,
+                                "ticker": {
+                                    "symbol": opt_sym,
+                                    "price": opt_price,
+                                    "day_high": round(opt_price * 1.03, 2),
+                                    "day_low": round(opt_price * 0.97, 2),
+                                    "volume_24h": state["volume_24h"] // 15,
+                                    "change_24h": state["change_24h"]
+                                },
+                                "candle": {
+                                    "time": candle_time,
+                                    "open": opt_price,
+                                    "high": round(opt_price * 1.01, 2),
+                                    "low": round(opt_price * 0.99, 2),
+                                    "close": opt_price,
+                                    "volume": state["volume_24h"] // 15
+                                },
+                                "timestamp": time.time()
+                            })
 
             await asyncio.sleep(0.75)  # Tick rate ~750ms
 

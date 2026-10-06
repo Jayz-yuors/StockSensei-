@@ -320,6 +320,64 @@ def _fetch_yfinance_candles_sync(clean_sym: str, timeframe: str, limit: int) -> 
             ))
             curr = close_p
 
+    # Update or append today's candle according to current live market session
+    if candles:
+        try:
+            from app.routers.websocket import BASE_PRICES, manager
+            clean_lookup = clean_sym.replace("-EQ", "")
+            live_info = manager.live_state.get(clean_sym) or manager.live_state.get(clean_lookup)
+            if not live_info and clean_lookup in BASE_PRICES:
+                live_info = BASE_PRICES[clean_lookup]
+            
+            curr_spot = float(live_info["price"]) if live_info else SPOT_PRICE_MAP.get(clean_lookup, SPOT_PRICE_MAP.get(clean_sym, 1000.0))
+            curr_high = float(live_info.get("day_high", curr_spot)) if live_info else curr_spot
+            curr_low = float(live_info.get("day_low", curr_spot)) if live_info else curr_spot
+            curr_vol = int(live_info.get("volume_24h", 150000)) if live_info else 150000
+
+            if is_option and strike > 0:
+                intrinsic = max(0.0, curr_spot - strike) if opt_type == "CE" else max(0.0, strike - curr_spot)
+                opt_live_price = round(intrinsic + max(12.0, curr_spot * 0.007), 2)
+                curr_spot = opt_live_price
+                curr_high = max(curr_high, opt_live_price)
+                curr_low = min(curr_low, opt_live_price)
+
+            if timeframe == "1D":
+                today_d = datetime.now().date()
+                today_mid_ts = int(datetime(today_d.year, today_d.month, today_d.day, 0, 0, 0).timestamp())
+                last_d = datetime.fromtimestamp(candles[-1].time).date()
+                if last_d < today_d:
+                    candles.append(CandleBarSchema(
+                        time=today_mid_ts,
+                        open=round(curr_spot * 0.998, 2),
+                        high=round(curr_high, 2),
+                        low=round(curr_low, 2),
+                        close=round(curr_spot, 2),
+                        volume=curr_vol
+                    ))
+                else:
+                    candles[-1].close = round(curr_spot, 2)
+                    candles[-1].high = round(max(candles[-1].high, curr_high, curr_spot), 2)
+                    candles[-1].low = round(min(candles[-1].low, curr_low, curr_spot), 2)
+                    candles[-1].volume = max(candles[-1].volume, curr_vol)
+            else:
+                tf_secs = {"1m": 60, "5m": 300, "15m": 900, "1h": 3600}.get(timeframe, 300)
+                now_aligned = (int(time.time()) // tf_secs) * tf_secs
+                if candles[-1].time < now_aligned:
+                    candles.append(CandleBarSchema(
+                        time=now_aligned,
+                        open=round(curr_spot, 2),
+                        high=round(curr_spot, 2),
+                        low=round(curr_spot, 2),
+                        close=round(curr_spot, 2),
+                        volume=max(500, curr_vol // 200)
+                    ))
+                else:
+                    candles[-1].close = round(curr_spot, 2)
+                    candles[-1].high = round(max(candles[-1].high, curr_spot), 2)
+                    candles[-1].low = round(min(candles[-1].low, curr_spot), 2)
+        except Exception as e_live:
+            logging.debug(f"Live candle alignment note: {e_live}")
+
     # Sort strictly ascending and deduplicate timestamps
     candles.sort(key=lambda c: c.time)
     dedup: List[CandleBarSchema] = []
@@ -339,7 +397,10 @@ async def get_fno_candle_history(
     limit: int = Query(100, ge=5, le=500)
 ):
     clean_sym = symbol.strip().upper()
-    return await asyncio.to_thread(_fetch_yfinance_candles_sync, clean_sym, timeframe, limit)
+    effective_limit = limit
+    if timeframe == "1D" and limit <= 100:
+        effective_limit = 365
+    return await asyncio.to_thread(_fetch_yfinance_candles_sync, clean_sym, timeframe, effective_limit)
 
 @router.get("/detect-patterns/{symbol}", response_model=List[DetectedChartPatternSchema])
 async def detect_chart_patterns(
