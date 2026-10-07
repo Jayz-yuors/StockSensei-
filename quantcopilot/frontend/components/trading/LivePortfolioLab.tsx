@@ -20,11 +20,16 @@ import {
   AlertCircle,
   FlaskConical,
   Zap,
-  Globe
+  Globe,
+  User,
+  Save,
+  DownloadCloud
 } from "lucide-react";
 import { LiveYfinanceQuote, LabPortfolioPosition } from "../../types";
 import { getApiBaseUrl } from "../../lib/api";
 import { LiveTickPrice } from "../common/LiveTickPrice";
+import { usePortfolioStore } from "../../store/usePortfolioStore";
+
 
 const POPULAR_NSE_TICKERS = [
   { symbol: "RELIANCE", name: "Reliance Industries", sector: "Energy" },
@@ -48,9 +53,12 @@ const POPULAR_NSE_TICKERS = [
 const LOCAL_STORAGE_KEY = "quantcopilot_lab_portfolio_v1";
 
 export const LivePortfolioLab: React.FC = () => {
+  const { currentCustomer, portfolio, setIsCustomerLoginModalOpen, importPortfolioPositions } = usePortfolioStore();
+
   // Positions in custom lab
   const [positions, setPositions] = useState<LabPortfolioPosition[]>([]);
   const [isLoadedFromStorage, setIsLoadedFromStorage] = useState(false);
+
 
   // Live quotes map fetched from yfinance
   const [liveQuotes, setLiveQuotes] = useState<Record<string, LiveYfinanceQuote>>({});
@@ -245,6 +253,43 @@ export const LivePortfolioLab: React.FC = () => {
     setPositions(samples);
   };
 
+  // Load positions from active Customer Account
+  const handleLoadCustomerPositions = () => {
+    if (portfolio.positions.length === 0) {
+      setAddSuccessMessage("Active customer portfolio has no positions. Add positions below or switch account.");
+      setTimeout(() => setAddSuccessMessage(null), 3000);
+      return;
+    }
+    const loaded: LabPortfolioPosition[] = portfolio.positions.map((p, idx) => ({
+      id: `cust_${p.symbol}_${idx}`,
+      symbol: p.symbol,
+      company_name: p.symbol,
+      exchange: "NSE",
+      quantity: p.quantity,
+      entry_price: p.entry_price,
+      side: p.side,
+      added_at: new Date().toISOString()
+    }));
+    setPositions(loaded);
+    setAddSuccessMessage(`Loaded ${loaded.length} positions from ${currentCustomer?.name || 'Customer'} portfolio.`);
+    setTimeout(() => setAddSuccessMessage(null), 3000);
+  };
+
+  // Save current Lab positions into persistent Customer Database
+  const handleSaveToCustomerAccount = () => {
+    if (positions.length === 0) return;
+    const posInputs = positions.map(p => ({
+      symbol: p.symbol,
+      quantity: p.quantity,
+      entry_price: p.entry_price,
+      side: p.side
+    }));
+    importPortfolioPositions(posInputs);
+    setAddSuccessMessage(`Saved ${positions.length} positions to ${currentCustomer?.name || 'Customer'} custom database!`);
+    setTimeout(() => setAddSuccessMessage(null), 3000);
+  };
+
+
   // Compute portfolio valuation with live quotes
   const portfolioMetrics = useMemo(() => {
     let totalInvested = 0;
@@ -355,6 +400,25 @@ export const LivePortfolioLab: React.FC = () => {
           >
             <RefreshCw className={`h-3 w-3 ${isQuotesLoading ? "animate-spin text-[#159570]" : "text-[#A7ADA8]"}`} />
             <span>REFRESH ({countdown}s)</span>
+          </button>
+
+          <button
+            onClick={handleLoadCustomerPositions}
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-sm bg-[#161C19] hover:bg-[#1B2420] text-[#F2F0E8] border border-white/[0.065] font-sans font-medium text-xs transition-colors"
+            title="Load holdings from active customer database profile"
+          >
+            <DownloadCloud className="h-3 w-3 text-[#159570]" />
+            <span>LOAD FROM {currentCustomer ? currentCustomer.name.split(" ")[0].toUpperCase() : "CUSTOMER"}</span>
+          </button>
+
+          <button
+            onClick={handleSaveToCustomerAccount}
+            disabled={positions.length === 0}
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-sm bg-[#159570]/15 hover:bg-[#159570]/25 text-[#42A77A] border border-[#159570]/30 font-sans font-medium text-xs transition-colors disabled:opacity-40"
+            title="Save current lab positions to customer database"
+          >
+            <Save className="h-3 w-3" />
+            <span>SAVE TO DB</span>
           </button>
 
           <button

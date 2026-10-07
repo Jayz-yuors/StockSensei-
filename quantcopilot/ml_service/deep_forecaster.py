@@ -355,6 +355,49 @@ class DeepForecasterEngine:
         expected_drift = round(float(median_drift[-1]) * 100.0, 2)
         vol_envelope = round(float(upper_95_drift[-1] - lower_95_drift[-1]) * 100.0, 2)
         
+        # User-Oriented Quantile Scenario Breakdown & Narrative
+        final_step = future_steps[-1] if future_steps else {
+            "upperConfidence95": current_price * 1.05,
+            "basePrice": current_price,
+            "lowerConfidence95": current_price * 0.95,
+            "upperConfidence80": current_price * 1.03,
+            "lowerConfidence80": current_price * 0.97
+        }
+        
+        scenario_breakdown = {
+            "bestCase": {
+                "targetPrice": final_step["upperConfidence95"],
+                "returnPct": round(((final_step["upperConfidence95"] - current_price) / current_price) * 100.0, 2),
+                "label": "Bullish Breakout Scenario (95% Quantile)"
+            },
+            "baseCase": {
+                "targetPrice": final_step["basePrice"],
+                "returnPct": round(((final_step["basePrice"] - current_price) / current_price) * 100.0, 2),
+                "label": "Expected Path (Median Drift)"
+            },
+            "worstCase": {
+                "floorPrice": final_step["lowerConfidence95"],
+                "drawdownPct": round(((final_step["lowerConfidence95"] - current_price) / current_price) * 100.0, 2),
+                "label": "Risk Invalidation Floor (95% Quantile)"
+            }
+        }
+        
+        top_feature_name = feature_importance_list[0]["feature"] if feature_importance_list else "Price Momentum"
+        forecast_narrative = (
+            f"The 8-head temporal attention model projects a {dominant_trend.lower()} trajectory over the next {self.horizon} periods, "
+            f"with expected drift of {expected_drift:+.2f}% to ₹{final_step['basePrice']:.2f}. "
+            f"Price action is heavily guided by {top_feature_name} (attention weight: {feature_importance_list[0]['importancePct']}%), "
+            f"with 80% confidence corridor bounded between ₹{final_step['lowerConfidence80']:.2f} and ₹{final_step['upperConfidence80']:.2f}."
+        )
+        
+        invalidation_level = round(final_step["lowerConfidence80"], 2)
+        if dominant_trend == "BULLISH":
+            trader_takeaway = f"Favor long positioning while price respects the ₹{invalidation_level:.2f} support band. Target primary objective at ₹{final_step['basePrice']:.2f}."
+        elif dominant_trend == "BEARISH":
+            trader_takeaway = f"Favor defensive stance or short hedges while price remains below ₹{final_step['upperConfidence80']:.2f}. Downside support targets around ₹{final_step['basePrice']:.2f}."
+        else:
+            trader_takeaway = f"Expect mean-reverting price action inside the ₹{final_step['lowerConfidence80']:.2f} – ₹{final_step['upperConfidence80']:.2f} channel. Trade range extremes."
+        
         return {
             "symbol": symbol,
             "currentPrice": current_price,
@@ -372,6 +415,14 @@ class DeepForecasterEngine:
             "feature_importance": feature_importance_map,
             "recentTemporalAttention": recent_attention,
             "temporal_attention_highlights": temporal_highlights,
+            "scenarioBreakdown": scenario_breakdown,
+            "scenario_breakdown": scenario_breakdown,
+            "forecastNarrative": forecast_narrative,
+            "forecast_narrative": forecast_narrative,
+            "invalidationLevel": invalidation_level,
+            "invalidation_level": invalidation_level,
+            "traderTakeaway": trader_takeaway,
+            "trader_takeaway": trader_takeaway,
             "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
         }
 

@@ -8,10 +8,14 @@ from app.routers import portfolio, websocket, nse_market, fno, strategy
 from app.schemas import SystemHealthSchema
 from app.services.news_scheduler import news_scheduler
 
+import asyncio
+from app.services.daily_gnn_service import compute_and_cache_daily_gnn
+
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     await init_db_pools()
     await news_scheduler.start()
+    asyncio.create_task(compute_and_cache_daily_gnn(force=False))
     yield
     await news_scheduler.stop()
     await close_db_pools()

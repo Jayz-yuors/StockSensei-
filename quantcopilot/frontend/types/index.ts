@@ -84,6 +84,9 @@ export interface GNNRiskPayload {
   adjacency_matrix: number[][];
   sector_vulnerability?: SectorVulnerability[];
   high_risk_nodes?: string[];
+  daily_date?: string;
+  contagion_status?: string;
+  updated_at?: string;
 }
 
 export interface MarketTicker {
@@ -305,6 +308,10 @@ export interface AssetAuditItem {
   govt_policy: AssetGovtPolicyAudit;
   future_prediction: AssetFuturePrediction;
   executive_verdict: string;
+  investorFit?: string;
+  riskGrade?: string;
+  whyQuantCopilotLikes?: string;
+  actionablePlaybook?: string;
   timestamp: string;
 }
 
@@ -353,7 +360,38 @@ export interface LabPortfolioPosition {
   added_at: string;
 }
 
+export interface CustomerProfile {
+  customer_id: string;
+  name: string;
+  email: string;
+  account_tier: string;
+  cash_balance: number;
+  created_at?: string;
+  last_login?: string;
+  positions_count?: number;
+  total_equity?: number;
+}
+
+export interface CustomerAuthResponse {
+  status: string;
+  message: string;
+  customer?: CustomerProfile;
+  portfolio?: PortfolioSummary;
+  live_quotes?: Record<string, LiveYfinanceQuote>;
+  live_synced: boolean;
+  synced_at?: string;
+}
+
+export interface CustomerLivePortfolioResponse {
+  customer: CustomerProfile;
+  summary: PortfolioSummary;
+  live_quotes: Record<string, LiveYfinanceQuote>;
+  synced_at: string;
+  source: string;
+}
+
 export * from "./trading";
+
 
 
 

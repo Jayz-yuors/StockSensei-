@@ -12,6 +12,16 @@ export interface DRLSignalDriver {
   importancePct: number;
 }
 
+export interface DRLAgentPlaybook {
+  stance: string;
+  entryZone: string;
+  targetMilestone1: number;
+  targetMilestone2: number;
+  invalidationRule: string;
+  riskRewardRatio: number;
+  sizingAdvice: string;
+}
+
 export interface DRLAgentSignal {
   symbol: string;
   currentPrice: number;
@@ -25,6 +35,19 @@ export interface DRLAgentSignal {
   suggestedTarget?: number;
   recommendedQuantity?: number;
   sizingFactor?: number;
+  aiReasoning?: string;
+  userPlaybook?: DRLAgentPlaybook;
+  metricExplanations?: {
+    policyEntropy: string;
+    stateValue: string;
+    sizingFactor: string;
+  };
+  confidenceBreakdown?: {
+    directionalConviction: number;
+    modelCertaintyPct: number;
+    upsidePotentialPct: number;
+    downsideRiskPct: number;
+  };
   timestamp: string;
 }
 
@@ -95,6 +118,14 @@ export interface DeepForecastPoint {
   goalPathPrice: number;
 }
 
+export interface QuantileScenario {
+  targetPrice?: number;
+  floorPrice?: number;
+  returnPct?: number;
+  drawdownPct?: number;
+  label: string;
+}
+
 export interface DeepForecastData {
   symbol: string;
   currentPrice: number;
@@ -106,5 +137,13 @@ export interface DeepForecastData {
   trajectory: DeepForecastPoint[];
   featureImportance: FeatureAttentionItem[];
   recentTemporalAttention: number[];
+  scenarioBreakdown?: {
+    bestCase: QuantileScenario;
+    baseCase: QuantileScenario;
+    worstCase: QuantileScenario;
+  };
+  forecastNarrative?: string;
+  invalidationLevel?: number;
+  traderTakeaway?: string;
   timestamp: string;
 }

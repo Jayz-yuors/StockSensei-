@@ -11,10 +11,17 @@ import {
   PositionInput,
   OptionChainPayload,
   MarketDepth,
-  GNNContagionSignal
+  GNNContagionSignal,
+  CustomerProfile,
+  LiveYfinanceQuote,
+  CustomerAuthResponse,
+  CustomerLivePortfolioResponse
 } from "../types";
 import { getApiBaseUrl } from "../lib/api";
 
+const PORTFOLIO_STORAGE_KEY = "quantcopilot_user_portfolio_positions_v1";
+const WATCHLIST_STORAGE_KEY = "quantcopilot_user_watchlist_v1";
+const CUSTOMER_STORAGE_KEY = "quantcopilot_active_customer_v1";
 
 interface PortfolioStoreState {
   activeTab: ActiveTab;
@@ -34,6 +41,14 @@ interface PortfolioStoreState {
   isAddPositionOpen: boolean;
   isImportModalOpen: boolean;
   
+  // Custom Customer Database & Yahoo Finance Live Sync State
+  currentCustomer: CustomerProfile | null;
+  availableCustomers: CustomerProfile[];
+  isCustomerLoginModalOpen: boolean;
+  isLiveSyncing: boolean;
+  lastLiveSyncTime: string | null;
+  liveQuotes: Record<string, LiveYfinanceQuote>;
+  
   setActiveTab: (tab: ActiveTab) => void;
   setConnectionStatus: (status: ConnectionStatus) => void;
   setSelectedSectorFilter: (sector: string) => void;
@@ -47,6 +62,15 @@ interface PortfolioStoreState {
   setIsImportModalOpen: (open: boolean) => void;
   setMarketStatus: (status: MarketStatus) => void;
   
+  // Customer Auth & Sync Actions
+  setIsCustomerLoginModalOpen: (open: boolean) => void;
+  setCurrentCustomer: (customer: CustomerProfile | null) => void;
+  fetchCustomerProfiles: () => Promise<void>;
+  loginCustomer: (identifier: string, password: string) => Promise<{ success: boolean; message: string }>;
+  registerCustomer: (name: string, email: string, password: string, capital?: number, tier?: string) => Promise<{ success: boolean; message: string }>;
+  logoutCustomer: () => void;
+  refreshCustomerPortfolioLive: (customerId?: string) => Promise<void>;
+  
   updatePortfolio: (summary: Partial<PortfolioSummary>) => void;
   updateGNNRisk: (payload: GNNRiskPayload) => void;
   updateTicker: (ticker: MarketTicker) => void;
@@ -57,6 +81,7 @@ interface PortfolioStoreState {
   fetchFnoChain: (symbol: string, expiry?: string) => Promise<void>;
   fetchFnoDepth: (symbol: string) => Promise<void>;
   fetchGnnSignals: () => Promise<void>;
+  fetchGnnRiskMetrics: () => Promise<void>;
   
   watchlist: string[];
   addToWatchlist: (symbol: string) => void;
@@ -85,7 +110,11 @@ const DEFAULT_INDIAN_TICKERS_DATA: Record<string, IndianMarketTicker> = {
   "BEL": { token: "383", symbol: "BEL", company_name: "Bharat Electronics Ltd", sector: "Defence", exchange: "NSE", price: 408.55, prev_close: 409.00, open_price: 409.50, day_high: 412.00, day_low: 406.00, change_24h: 0.11, change_pts: 0.45, volume_24h: 8900400, high_24h: 412.00, low_24h: 406.00, bid: 408.50, ask: 408.60, latency_ms: 1.25, type: "EQUITY", pe_ratio: 38.4, market_cap_cr: 298500, fifty_two_week_high: 440.0, fifty_two_week_low: 240.0, timestamp: Date.now() }
 };
 
-const calculatePortfolioMetrics = (positions: Position[], currentTickers: Record<string, IndianMarketTicker>): PortfolioSummary => {
+const calculatePortfolioMetrics = (
+  positions: Position[], 
+  currentTickers: Record<string, IndianMarketTicker>,
+  customCash: number = 500000
+): PortfolioSummary => {
   let totalInvested = 0;
   let totalCurrent = 0;
   let totalDayPnl = 0;
@@ -108,9 +137,8 @@ const calculatePortfolioMetrics = (positions: Position[], currentTickers: Record
     totalDayPnl += positionDayPnl;
   });
 
-  const baseCash = 500000;
   const totalUnrealized = totalCurrent - totalInvested;
-  const totalEquity = Number((baseCash + totalCurrent).toFixed(2));
+  const totalEquity = Number((customCash + totalUnrealized).toFixed(2));
   const dailyPnl = Number(totalDayPnl.toFixed(2));
   
   const prevDayPortfolioValue = totalCurrent - dailyPnl;
@@ -121,7 +149,7 @@ const calculatePortfolioMetrics = (positions: Position[], currentTickers: Record
 
   return {
     total_equity: totalEquity,
-    realized_pnl: 13200.0,
+    realized_pnl: 0.0,
     unrealized_pnl: Number(totalUnrealized.toFixed(2)),
     daily_pnl: dailyPnl,
     daily_pnl_percentage: dailyPct,
@@ -142,9 +170,6 @@ const calculatePortfolioMetrics = (positions: Position[], currentTickers: Record
     })
   };
 };
-
-const PORTFOLIO_STORAGE_KEY = "quantcopilot_user_portfolio_positions_v1";
-const WATCHLIST_STORAGE_KEY = "quantcopilot_user_watchlist_v1";
 
 const DEFAULT_WATCHLIST: string[] = [
   "RELIANCE",
@@ -167,7 +192,7 @@ const getSavedPositions = (): Position[] => {
       }
     } catch {}
   }
-  return []; // Clean slate by default - ZERO pre-fed mock positions!
+  return [];
 };
 
 const getSavedWatchlist = (): string[] => {
@@ -191,11 +216,15 @@ const saveWatchlist = (watchlist: string[]) => {
   }
 };
 
-const syncPositionsToBackend = async (positions: Position[]) => {
+const syncPositionsToBackend = async (positions: Position[], customerId?: string) => {
   if (typeof window === "undefined") return;
   try {
     const baseUrl = getApiBaseUrl();
-    await fetch(`${baseUrl}/api/v1/portfolio/sync-positions`, {
+    const endpoint = customerId 
+      ? `${baseUrl}/api/v1/portfolio/customer/${customerId}/sync-positions`
+      : `${baseUrl}/api/v1/portfolio/sync-positions`;
+
+    await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -214,13 +243,13 @@ const syncPositionsToBackend = async (positions: Position[]) => {
   } catch {}
 };
 
-const savePositions = (positions: Position[]) => {
+const savePositions = (positions: Position[], customerId?: string) => {
   if (typeof window !== "undefined") {
     try {
       localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(positions));
     } catch {}
   }
-  syncPositionsToBackend(positions);
+  syncPositionsToBackend(positions, customerId);
 };
 
 let liveFeedSocket: WebSocket | null = null;
@@ -241,6 +270,14 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
   marketStatus: null,
   watchlist: DEFAULT_WATCHLIST,
   
+  // Custom Customer Database & Yahoo Finance State
+  currentCustomer: null,
+  availableCustomers: [],
+  isCustomerLoginModalOpen: false,
+  isLiveSyncing: false,
+  lastLiveSyncTime: null,
+  liveQuotes: {},
+
   portfolio: calculatePortfolioMetrics([], DEFAULT_INDIAN_TICKERS_DATA),
   
   gnnRisk: {
@@ -285,6 +322,124 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
   setIsImportModalOpen: (open: boolean) => set({ isImportModalOpen: open }),
   setMarketStatus: (status: MarketStatus) => set({ marketStatus: status }),
   
+  // Custom Customer Actions
+  setIsCustomerLoginModalOpen: (open: boolean) => set({ isCustomerLoginModalOpen: open }),
+  setCurrentCustomer: (customer: CustomerProfile | null) => set({ currentCustomer: customer }),
+
+  fetchCustomerProfiles: async () => {
+    try {
+      const baseUrl = getApiBaseUrl();
+      const res = await fetch(`${baseUrl}/api/v1/portfolio/customer/profiles`);
+      if (res.ok) {
+        const data: CustomerProfile[] = await res.json();
+        set({ availableCustomers: data });
+      }
+    } catch (err) {
+      console.warn("Failed to fetch customer profiles:", err);
+    }
+  },
+
+  loginCustomer: async (identifier: string, password: string) => {
+    try {
+      const baseUrl = getApiBaseUrl();
+      const res = await fetch(`${baseUrl}/api/v1/portfolio/customer/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ identifier, password })
+      });
+      const data: CustomerAuthResponse = await res.json();
+      
+      if (res.ok && data.customer && data.portfolio) {
+        if (typeof window !== "undefined") {
+          localStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(data.customer));
+          localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(data.portfolio.positions));
+        }
+        set({
+          currentCustomer: data.customer,
+          portfolio: data.portfolio,
+          liveQuotes: data.live_quotes || {},
+          lastLiveSyncTime: new Date().toLocaleTimeString(),
+          isCustomerLoginModalOpen: false
+        });
+        return { success: true, message: data.message };
+      } else {
+        return { success: false, message: data.message || "Authentication failed" };
+      }
+    } catch (err: any) {
+      return { success: false, message: err.message || "Failed to reach backend server" };
+    }
+  },
+
+  registerCustomer: async (name: string, email: string, password: string, capital: number = 500000, tier: string = "PRO_QUANT") => {
+    try {
+      const baseUrl = getApiBaseUrl();
+      const res = await fetch(`${baseUrl}/api/v1/portfolio/customer/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password, initial_capital: capital, account_tier: tier })
+      });
+      const data: CustomerAuthResponse = await res.json();
+      
+      if (res.ok && data.customer) {
+        if (typeof window !== "undefined") {
+          localStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(data.customer));
+          if (data.portfolio) {
+            localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(data.portfolio.positions));
+          }
+        }
+        set({
+          currentCustomer: data.customer,
+          portfolio: data.portfolio || calculatePortfolioMetrics([], get().indianTickers, capital),
+          isCustomerLoginModalOpen: false
+        });
+        get().fetchCustomerProfiles();
+        return { success: true, message: data.message };
+      } else {
+        return { success: false, message: data.message || "Registration failed" };
+      }
+    } catch (err: any) {
+      return { success: false, message: err.message || "Registration connection error" };
+    }
+  },
+
+  logoutCustomer: () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(CUSTOMER_STORAGE_KEY);
+      localStorage.removeItem(PORTFOLIO_STORAGE_KEY);
+    }
+    set({
+      currentCustomer: null,
+      portfolio: calculatePortfolioMetrics([], get().indianTickers),
+      liveQuotes: {}
+    });
+  },
+
+  refreshCustomerPortfolioLive: async (customerId?: string) => {
+    const cid = customerId || get().currentCustomer?.customer_id || "cust_sahitya";
+    set({ isLiveSyncing: true });
+    try {
+      const baseUrl = getApiBaseUrl();
+      const res = await fetch(`${baseUrl}/api/v1/portfolio/customer/${cid}/live?refresh_live=true`);
+      if (res.ok) {
+        const data: CustomerLivePortfolioResponse = await res.json();
+        set((state) => ({
+          currentCustomer: state.currentCustomer ? { ...state.currentCustomer, total_equity: data.summary.total_equity, cash_balance: data.customer.cash_balance } : data.customer,
+          portfolio: data.summary,
+          liveQuotes: data.live_quotes,
+          lastLiveSyncTime: new Date().toLocaleTimeString(),
+          isLiveSyncing: false
+        }));
+        if (typeof window !== "undefined") {
+          localStorage.setItem(PORTFOLIO_STORAGE_KEY, JSON.stringify(data.summary.positions));
+        }
+      }
+    } catch (err) {
+      console.warn("Failed to refresh live customer portfolio:", err);
+    } finally {
+      set({ isLiveSyncing: false });
+    }
+  },
+
   updatePortfolio: (summary: Partial<PortfolioSummary>) =>
     set((state) => ({ portfolio: { ...state.portfolio, ...summary } })),
   updateGNNRisk: (payload: GNNRiskPayload) => set({ gnnRisk: payload }),
@@ -296,7 +451,8 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
       const symClean = ticker.symbol.replace("-EQ", "");
       const normalised = { ...ticker, symbol: symClean };
       const updatedMap = { ...state.indianTickers, [symClean]: normalised };
-      const updatedPortfolio = calculatePortfolioMetrics(state.portfolio.positions, updatedMap);
+      const cash = state.currentCustomer ? state.currentCustomer.cash_balance : 500000;
+      const updatedPortfolio = calculatePortfolioMetrics(state.portfolio.positions, updatedMap, cash);
       return { 
         indianTickers: updatedMap,
         portfolio: updatedPortfolio
@@ -311,7 +467,8 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
         const symClean = t.symbol.replace("-EQ", "");
         map[symClean] = { ...t, symbol: symClean };
       });
-      const updatedPortfolio = calculatePortfolioMetrics(state.portfolio.positions, map);
+      const cash = state.currentCustomer ? state.currentCustomer.cash_balance : 500000;
+      const updatedPortfolio = calculatePortfolioMetrics(state.portfolio.positions, map, cash);
       return { 
         indianTickers: map,
         portfolio: updatedPortfolio
@@ -321,15 +478,15 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
 
   fetchMarketData: async () => {
     try {
-      const res = await fetch(`${getApiBaseUrl()}/api/v1/nse/tickers`);
-
+      const baseUrl = getApiBaseUrl();
+      const res = await fetch(`${baseUrl}/api/v1/market/tickers`);
       if (res.ok) {
         const data = await res.json();
+        if (data.tickers && Array.isArray(data.tickers)) {
+          get().setIndianTickers(data.tickers);
+        }
         if (data.market_status) {
           get().setMarketStatus(data.market_status);
-        }
-        if (data.tickers && data.tickers.length > 0) {
-          get().setIndianTickers(data.tickers);
         }
       }
     } catch {}
@@ -341,90 +498,89 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
       return;
     }
 
-    if (reconnectTimer) {
-      clearTimeout(reconnectTimer);
-      reconnectTimer = null;
-    }
-
-    get().setConnectionStatus("CONNECTING");
-
+    const wsUrl = getApiBaseUrl().replace(/^http/, "ws") + "/ws";
+    
     try {
-      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-      const host = window.location.hostname || "localhost";
-      const wsUrl = `${protocol}//${host}:8000/ws/live-feed`;
-
       liveFeedSocket = new WebSocket(wsUrl);
 
       liveFeedSocket.onopen = () => {
-        get().setConnectionStatus("CONNECTED");
+        set({ connectionStatus: "CONNECTED" });
       };
 
       liveFeedSocket.onmessage = (event) => {
         try {
-          const data = JSON.parse(event.data);
-          if (data.type === "INITIAL_SNAPSHOT" && Array.isArray(data.tickers)) {
-            get().setIndianTickers(data.tickers);
-          } else if (data.type === "TICK" && data.ticker) {
-            // When Indian market is closed (Weekend, Post-Close, AMO), do NOT allow prices to change
-            const mStatus = get().marketStatus;
-            if (mStatus && !mStatus.is_market_open) {
-              return;
-            }
-            get().updateIndianTicker(data.ticker);
+          const msg = JSON.parse(event.data);
+          if (msg.event === "TICK" && msg.data) {
+            get().updateIndianTicker(msg.data);
+          } else if (msg.event === "MARKET_STATUS" && msg.data) {
+            get().setMarketStatus(msg.data);
           }
         } catch {}
       };
 
-      liveFeedSocket.onerror = () => {
-        get().setConnectionStatus("ERROR");
+      liveFeedSocket.onclose = () => {
+        set({ connectionStatus: "DISCONNECTED" });
+        clearTimeout(reconnectTimer);
+        reconnectTimer = setTimeout(() => {
+          get().initLiveFeed();
+        }, 5000);
       };
 
-      liveFeedSocket.onclose = () => {
-        get().setConnectionStatus("DISCONNECTED");
-        liveFeedSocket = null;
-        if (!reconnectTimer) {
-          reconnectTimer = setTimeout(() => {
-            get().initLiveFeed();
-          }, 5000);
-        }
+      liveFeedSocket.onerror = () => {
+        set({ connectionStatus: "ERROR" });
       };
     } catch {
-      get().setConnectionStatus("ERROR");
+      set({ connectionStatus: "ERROR" });
     }
   },
 
-  fetchFnoChain: async (symbol: string, expiry: string = "28-AUG-2026") => {
+  fetchFnoChain: async (symbol: string, expiry?: string) => {
     try {
-      const res = await fetch(`${getApiBaseUrl()}/api/v1/fno/chain/${encodeURIComponent(symbol)}?expiry=${expiry}`);
+      const baseUrl = getApiBaseUrl();
+      const query = expiry ? `?expiry=${encodeURIComponent(expiry)}` : "";
+      const res = await fetch(`${baseUrl}/api/v1/fno/option-chain/${encodeURIComponent(symbol)}${query}`);
       if (res.ok) {
         const data = await res.json();
-        get().setFnoOptionChain(data);
+        set({ fnoOptionChain: data });
       }
     } catch {}
   },
 
   fetchFnoDepth: async (symbol: string) => {
     try {
-      const res = await fetch(`${getApiBaseUrl()}/api/v1/fno/depth/${encodeURIComponent(symbol)}`);
+      const baseUrl = getApiBaseUrl();
+      const res = await fetch(`${baseUrl}/api/v1/fno/depth/${encodeURIComponent(symbol)}`);
       if (res.ok) {
         const data = await res.json();
-        get().setFnoMarketDepth(data);
+        set({ fnoMarketDepth: data });
       }
     } catch {}
   },
 
   fetchGnnSignals: async () => {
     try {
-      const res = await fetch(`${getApiBaseUrl()}/api/v1/fno/gnn-signals`);
+      const baseUrl = getApiBaseUrl();
+      const res = await fetch(`${baseUrl}/api/v1/fno/gnn-contagion-signals`);
       if (res.ok) {
         const data = await res.json();
-        get().setGNNContagionSignal(data);
+        set({ gnnContagionSignal: data });
       }
     } catch {}
   },
 
+  fetchGnnRiskMetrics: async () => {
+    try {
+      const baseUrl = getApiBaseUrl();
+      const res = await fetch(`${baseUrl}/api/v1/portfolio/risk/gnn-metrics`);
+      if (res.ok) {
+        const data = await res.json();
+        set({ gnnRisk: data });
+      }
+    } catch {}
+  },
 
   addPosition: (pos: PositionInput) => {
+    const custId = get().currentCustomer?.customer_id;
     set((state) => {
       const symClean = pos.symbol.replace("-EQ", "");
       const ticker = state.indianTickers[symClean] || state.indianTickers[pos.symbol];
@@ -465,32 +621,59 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
         updatedPositions = [newPos, ...state.portfolio.positions];
       }
 
-      savePositions(updatedPositions);
+      savePositions(updatedPositions, custId);
 
+      const cash = state.currentCustomer ? state.currentCustomer.cash_balance : 500000;
       return {
-        portfolio: calculatePortfolioMetrics(updatedPositions, state.indianTickers)
+        portfolio: calculatePortfolioMetrics(updatedPositions, state.indianTickers, cash)
       };
     });
   },
 
   deletePosition: (symbol: string) => {
+    const custId = get().currentCustomer?.customer_id;
+    const cleanSym = symbol.replace("-EQ", "");
     set((state) => {
-      const filtered = state.portfolio.positions.filter(p => p.symbol !== symbol);
-      savePositions(filtered);
+      const filtered = state.portfolio.positions.filter(p => p.symbol !== cleanSym && p.symbol !== symbol);
+      savePositions(filtered, custId);
+
+      if (custId) {
+        const baseUrl = getApiBaseUrl();
+        fetch(`${baseUrl}/api/v1/portfolio/customer/${custId}/positions/${cleanSym}`, { method: "DELETE" }).catch(() => {});
+      } else {
+        const baseUrl = getApiBaseUrl();
+        fetch(`${baseUrl}/api/v1/portfolio/positions/${cleanSym}`, { method: "DELETE" }).catch(() => {});
+      }
+
+      const cash = state.currentCustomer ? state.currentCustomer.cash_balance : 500000;
       return {
-        portfolio: calculatePortfolioMetrics(filtered, state.indianTickers)
+        portfolio: calculatePortfolioMetrics(filtered, state.indianTickers, cash)
       };
     });
   },
 
   clearPortfolio: () => {
-    savePositions([]);
-    set((state) => ({
-      portfolio: calculatePortfolioMetrics([], state.indianTickers)
-    }));
+    const custId = get().currentCustomer?.customer_id;
+    savePositions([], custId);
+
+    if (custId) {
+      const baseUrl = getApiBaseUrl();
+      fetch(`${baseUrl}/api/v1/portfolio/customer/${custId}/clear`, { method: "POST" }).catch(() => {});
+    } else {
+      const baseUrl = getApiBaseUrl();
+      fetch(`${baseUrl}/api/v1/portfolio/positions/clear`, { method: "POST" }).catch(() => {});
+    }
+
+    set((state) => {
+      const cash = state.currentCustomer ? state.currentCustomer.cash_balance : 500000;
+      return {
+        portfolio: calculatePortfolioMetrics([], state.indianTickers, cash)
+      };
+    });
   },
 
   importPortfolioPositions: (imported: PositionInput[]) => {
+    const custId = get().currentCustomer?.customer_id;
     set((state) => {
       const newPositions: Position[] = imported.map(pos => {
         const symClean = pos.symbol.replace("-EQ", "");
@@ -511,10 +694,11 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
         };
       });
 
-      savePositions(newPositions);
+      savePositions(newPositions, custId);
 
+      const cash = state.currentCustomer ? state.currentCustomer.cash_balance : 500000;
       return {
-        portfolio: calculatePortfolioMetrics(newPositions, state.indianTickers)
+        portfolio: calculatePortfolioMetrics(newPositions, state.indianTickers, cash)
       };
     });
   },
@@ -540,39 +724,32 @@ export const usePortfolioStore = create<PortfolioStoreState>((set, get) => ({
 
   hydrateFromStorage: () => {
     if (typeof window !== "undefined") {
-      const saved = getSavedPositions();
       const savedWatchlist = getSavedWatchlist();
-      set((state) => ({
-        watchlist: savedWatchlist,
-        portfolio: calculatePortfolioMetrics(saved, state.indianTickers)
-      }));
+      set({ watchlist: savedWatchlist });
+
+      // Fetch customer profiles list
+      get().fetchCustomerProfiles();
+
+      // Check if user previously logged in
+      const savedCustStr = localStorage.getItem(CUSTOMER_STORAGE_KEY);
+      if (savedCustStr) {
+        try {
+          const parsedCust: CustomerProfile = JSON.parse(savedCustStr);
+          set({ currentCustomer: parsedCust });
+          get().refreshCustomerPortfolioLive(parsedCust.customer_id);
+          return;
+        } catch {}
+      }
+
+      // Default initial load: pull default customer portfolio with live quotes
+      get().refreshCustomerPortfolioLive("cust_sahitya");
     }
   },
 
   fetchSavedPositionsFromBackend: async () => {
     try {
-      const baseUrl = getApiBaseUrl();
-      const res = await fetch(`${baseUrl}/api/v1/portfolio/positions`);
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          const currentTickers = get().indianTickers;
-          const backendPositions: Position[] = data.map((d: any) => ({
-            symbol: d.symbol,
-            quantity: d.quantity,
-            entry_price: d.entry_price,
-            current_price: d.current_price,
-            unrealized_pnl: d.unrealized_pnl || 0,
-            realized_pnl: d.realized_pnl || 0,
-            side: d.side || "LONG",
-            leverage: d.leverage || 1.0
-          }));
-          savePositions(backendPositions);
-          set({
-            portfolio: calculatePortfolioMetrics(backendPositions, currentTickers)
-          });
-        }
-      }
+      const custId = get().currentCustomer?.customer_id || "cust_sahitya";
+      await get().refreshCustomerPortfolioLive(custId);
     } catch {}
   }
 }));

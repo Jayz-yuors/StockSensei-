@@ -13,7 +13,8 @@ import {
   Settings,
   ChevronRight,
   ShieldCheck,
-  Target
+  Target,
+  User
 } from "lucide-react";
 
 interface NavItem {
@@ -30,7 +31,12 @@ interface NavSection {
 }
 
 export const Sidebar: React.FC = () => {
-  const { activeTab, setActiveTab } = usePortfolioStore();
+  const { 
+    activeTab, 
+    setActiveTab, 
+    currentCustomer, 
+    setIsCustomerLoginModalOpen 
+  } = usePortfolioStore();
 
   const navSections: NavSection[] = [
     {
@@ -155,6 +161,27 @@ export const Sidebar: React.FC = () => {
 
       {/* Bottom Settings Button & Institutional System Bar */}
       <div className="border-t border-white/[0.065] pt-3 space-y-1.5">
+        <button
+          onClick={() => setIsCustomerLoginModalOpen(true)}
+          className="w-full flex items-center justify-between px-3 py-2 rounded-sm text-xs font-sans text-[#A7ADA8] hover:text-[#F2F0E8] hover:bg-[#111614] transition-all duration-150 border border-transparent hover:border-white/[0.065]"
+          title="Switch customer account or sign in"
+        >
+          <div className="flex items-center space-x-2.5">
+            <User className="h-4 w-4 text-[#159570]" />
+            <div className="flex flex-col text-left">
+              <span className="font-semibold text-[11px] text-[#F2F0E8] truncate max-w-[120px]">
+                {currentCustomer ? currentCustomer.name : "Sign In / Switch"}
+              </span>
+              <span className="text-[9px] font-mono text-[#159570]">
+                CUSTOM PORTFOLIO DB
+              </span>
+            </div>
+          </div>
+          <span className="text-[9px] font-mono text-[#C8A96B] px-1.5 py-0.2 rounded bg-black/40 border border-white/[0.065]">
+            {currentCustomer ? currentCustomer.account_tier.split("_")[0] : "LOGIN"}
+          </span>
+        </button>
+
         <button
           onClick={() => setActiveTab("settings")}
           className={`relative w-full flex items-center justify-between px-3 py-2 rounded-sm text-xs font-sans transition-all duration-150 ${

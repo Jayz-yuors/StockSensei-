@@ -1,9 +1,10 @@
+import os
 import psycopg2
-PG_HOST = "localhost"        # Change to your PG server
-PG_PORT = 5432
-PG_DB   = "DemoDb"
-PG_USER = "postgres"      # <-- CHANGE THIS
-PG_PASS = "JayK@123!"  # <-- CHANGE THIS
+PG_HOST = os.getenv("PG_HOST", "localhost")
+PG_PORT = int(os.getenv("PG_PORT", "5432"))
+PG_DB   = os.getenv("PG_DB", "STOCK_PREDICT")
+PG_USER = os.getenv("PG_USER", "postgres")
+PG_PASS = os.getenv("PG_PASS", "Root")
 
 def create_connection():
     conn = psycopg2.connect(

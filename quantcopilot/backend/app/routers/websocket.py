@@ -275,6 +275,8 @@ async def websocket_live_feed(websocket: WebSocket) -> None:
                     }))
             except json.JSONDecodeError:
                 await websocket.send_text(json.dumps({"event": "PONG", "timestamp": time.time()}))
+            except Exception:
+                pass
     except (WebSocketDisconnect, RuntimeError, Exception):
         manager.disconnect(websocket)
 

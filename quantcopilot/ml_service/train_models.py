@@ -18,6 +18,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from ml_service.feature_engine import build_alpha_feature_matrix, ALPHA_FEATURE_NAMES
 from ml_service.deep_forecaster import TemporalAttentionForecaster, QuantileHuberLoss
@@ -69,8 +71,8 @@ class MarketSequenceDataset(Dataset):
                 prices = df[close_col].dropna().values.astype(np.float32)
                 features, _ = build_alpha_feature_matrix(df)
                 
-                # Sliding windows with step size 2 for balanced density
-                for i in range(0, len(features) - seq_len - horizon, 2):
+                # Sliding windows with step size 5 for balanced density across all 40 stocks
+                for i in range(0, len(features) - seq_len - horizon, 5):
                     x = features[i : i + seq_len]
                     curr_p = prices[i + seq_len - 1]
                     future_p = prices[i + seq_len : i + seq_len + horizon]
@@ -168,7 +170,7 @@ def train_drl_agent(source: str = "postgres", episodes: int = 25, lr: float = 5e
     optimizer = torch.optim.AdamW(agent.parameters(), lr=lr, weight_decay=1e-4)
 
     price_series_list = []
-    for sym, df in list(symbol_dfs.items())[:12]:
+    for sym, df in list(symbol_dfs.items()):
         try:
             c = "Close" if "Close" in df.columns else "Adj Close"
             if c in df.columns and len(df) > 100:
@@ -271,11 +273,11 @@ def train_drl_agent(source: str = "postgres", episodes: int = 25, lr: float = 5e
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="QuantCopilot 18-Alpha SQL/Redis Deep Learning Training")
-    parser.add_argument("--source", type=str, default="postgres", help="Data source: postgres, redis, or csv")
-    parser.add_argument("--epochs", type=int, default=8, help="Forecaster training epochs")
-    parser.add_argument("--episodes", type=int, default=25, help="DRL agent training episodes")
+    parser.add_argument("--source", type=str, default="sqlite", help="Data source: sqlite, postgres, redis, or csv")
+    parser.add_argument("--epochs", type=int, default=5, help="Forecaster training epochs")
+    parser.add_argument("--episodes", type=int, default=30, help="DRL agent training episodes")
     parser.add_argument("--batch-size", type=int, default=64, help="Batch size")
-    parser.add_argument("--device", type=str, default="cpu", help="Device (cpu or cuda)")
+    parser.add_argument("--device", type=str, default="cuda" if torch.cuda.is_available() else "cpu", help="Device (cpu or cuda)")
     args = parser.parse_args()
 
     logging.info(f"Starting 18-Alpha training on device: {args.device.upper()} from Source: {args.source.upper()}")

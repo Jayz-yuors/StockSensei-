@@ -6,7 +6,7 @@ One login, two products:
 |---|---|---|
 | `portal/` | **New.** Product page, sign in / sign up (email + Google), dashboard, launcher, profile | 8080 |
 | `stocksensei/` | StockSensei — Streamlit Nifty 50 analytics (needs PostgreSQL, see its `db_config.py`) | 8501 |
-| `quantcopilot/` | QuantCopilot AI — Next.js frontend (3000) + FastAPI backend (8000) + PyTorch ML | 3000 / 8000 |
+| `quantcopilot/` | QuantCopilot AI — Next.js 16 luxury obsidian terminal (3000) + FastAPI backend (8000) + FinBERT NLP + PyTorch GNN + 1Y historical & options micro-ticks suite | 3000 / 8000 |
 
 ## Quick start
 ```bash

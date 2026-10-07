@@ -1,0 +1,213 @@
+{
+  "schema_version": "2.0.0",
+  "created_at": "2026-10-06T18:03:16.417395+00:00",
+  "last_checkpoint": "2026-10-07T04:26:27.421696+00:00",
+  "customers": {
+    "cust_sahitya": {
+      "customer_id": "cust_sahitya",
+      "name": "Sahitya Sharma",
+      "email": "sahitya@quantcopilot.ai",
+      "password_hash": "580517969e75f360e47c194ab0ff284e25c68a4e3b44e2643a5adf865f96eae3",
+      "account_tier": "PRO_QUANT",
+      "cash_balance": 500000.0,
+      "created_at": "2026-10-06T18:03:16.418430+00:00",
+      "last_login": "2026-10-07T04:26:24.299156+00:00",
+      "portfolio": {
+        "positions": [
+          {
+            "symbol": "RELIANCE",
+            "quantity": 40.0,
+            "entry_price": 2920.0,
+            "current_price": 1211.2,
+            "unrealized_pnl": -68352.0,
+            "realized_pnl": 0.0,
+            "side": "LONG",
+            "leverage": 1.0
+          },
+          {
+            "symbol": "TCS",
+            "quantity": 20.0,
+            "entry_price": 4180.0,
+            "current_price": 2086.5,
+            "unrealized_pnl": -41870.0,
+            "realized_pnl": 0.0,
+            "side": "LONG",
+            "leverage": 1.0
+          },
+          {
+            "symbol": "HDFCBANK",
+            "quantity": 60.0,
+            "entry_price": 1590.0,
+            "current_price": 705.45,
+            "unrealized_pnl": -53073.0,
+            "realized_pnl": 0.0,
+            "side": "LONG",
+            "leverage": 1.0
+          },
+          {
+            "symbol": "INFY",
+            "quantity": 50.0,
+            "entry_price": 1820.0,
+            "current_price": 1002.75,
+            "unrealized_pnl": -40862.5,
+            "realized_pnl": 0.0,
+            "side": "LONG",
+            "leverage": 1.0
+          },
+          {
+            "symbol": "TATAMOTORS",
+            "quantity": 50.0,
+            "entry_price": 1030.0,
+            "current_price": 284.05,
+            "unrealized_pnl": -37297.5,
+            "realized_pnl": 0.0,
+            "side": "LONG",
+            "leverage": 1.0
+          }
+        ],
+        "total_equity": 258545.0,
+        "realized_pnl": 0.0,
+        "unrealized_pnl": -241455.0,
+        "daily_pnl": -1544.5,
+        "daily_pnl_percentage": -0.6,
+        "net_exposure": 196845.0,
+        "margin_usage": 19.03,
+        "sharpe_ratio": 2.85,
+        "var_99": 12453.21,
+        "updated_at": "2026-10-07T04:26:27.421658+00:00"
+      }
+    },
+    "cust_demo": {
+      "customer_id": "cust_demo",
+      "name": "Demo Investor",
+      "email": "demo@quantcopilot.ai",
+      "password_hash": "580517969e75f360e47c194ab0ff284e25c68a4e3b44e2643a5adf865f96eae3",
+      "account_tier": "RETAIL_TRADER",
+      "cash_balance": 250000.0,
+      "created_at": "2026-10-06T18:03:16.418430+00:00",
+      "last_login": "2026-10-06T18:03:16.418430+00:00",
+      "portfolio": {
+        "positions": [
+          {
+            "symbol": "SBIN",
+            "quantity": 100.0,
+            "entry_price": 815.0,
+            "current_price": 824.5,
+            "unrealized_pnl": 950.0,
+            "realized_pnl": 0.0,
+            "side": "LONG",
+            "leverage": 1.0
+          },
+          {
+            "symbol": "ICICIBANK",
+            "quantity": 50.0,
+            "entry_price": 1160.0,
+            "current_price": 1178.9,
+            "unrealized_pnl": 945.0,
+            "realized_pnl": 0.0,
+            "side": "LONG",
+            "leverage": 1.0
+          }
+        ],
+        "total_equity": 251895.0,
+        "realized_pnl": 0.0,
+        "unrealized_pnl": 1895.0,
+        "daily_pnl": 1280.0,
+        "daily_pnl_percentage": 0.51,
+        "net_exposure": 141395.0,
+        "margin_usage": 14.1,
+        "sharpe_ratio": 2.1,
+        "var_99": 3950.0,
+        "updated_at": "2026-10-06T18:03:16.418430+00:00"
+      }
+    },
+    "cust_fund": {
+      "customer_id": "cust_fund",
+      "name": "Alpha Horizon Institutional",
+      "email": "fund@quantcopilot.ai",
+      "password_hash": "580517969e75f360e47c194ab0ff284e25c68a4e3b44e2643a5adf865f96eae3",
+      "account_tier": "INSTITUTIONAL_ALPHA",
+      "cash_balance": 2000000.0,
+      "created_at": "2026-10-06T18:03:16.418430+00:00",
+      "last_login": "2026-10-07T04:04:11.923235+00:00",
+      "portfolio": {
+        "positions": [
+          {
+            "symbol": "RELIANCE",
+            "quantity": 150.0,
+            "entry_price": 2940.0,
+            "current_price": 1210.8,
+            "unrealized_pnl": -259380.0,
+            "realized_pnl": 0.0,
+            "side": "LONG",
+            "leverage": 1.0
+          },
+          {
+            "symbol": "TCS",
+            "quantity": 100.0,
+            "entry_price": 4195.0,
+            "current_price": 2085.6,
+            "unrealized_pnl": -210940.0,
+            "realized_pnl": 0.0,
+            "side": "LONG",
+            "leverage": 1.0
+          },
+          {
+            "symbol": "LT",
+            "quantity": 80.0,
+            "entry_price": 3620.0,
+            "current_price": 3741.9,
+            "unrealized_pnl": 9752.0,
+            "realized_pnl": 0.0,
+            "side": "LONG",
+            "leverage": 1.0
+          }
+        ],
+        "total_equity": 1539432.0,
+        "realized_pnl": 0.0,
+        "unrealized_pnl": -460568.0,
+        "daily_pnl": -4768.0,
+        "daily_pnl_percentage": -0.31,
+        "net_exposure": 689532.0,
+        "margin_usage": 11.2,
+        "sharpe_ratio": 3.15,
+        "var_99": 32500.0,
+        "updated_at": "2026-10-07T04:07:21.887492+00:00"
+      }
+    },
+    "cust_arjun_mehta_fc79": {
+      "customer_id": "cust_arjun_mehta_fc79",
+      "name": "Arjun Mehta",
+      "email": "arjun.mehta@quantcopilot.ai",
+      "password_hash": "f66fb3752a5b8d91b4d67f496930c33d0e955166d6204f8d0cd79dc3210e174b",
+      "account_tier": "PRO_QUANT",
+      "cash_balance": 750000.0,
+      "created_at": "2026-10-06T18:15:18.885607+00:00",
+      "last_login": "2026-10-06T18:15:18.885607+00:00",
+      "portfolio": {
+        "positions": [
+          {
+            "symbol": "BEL",
+            "quantity": 100.0,
+            "entry_price": 400.0,
+            "current_price": 387.4,
+            "unrealized_pnl": -1260.0,
+            "realized_pnl": 0.0,
+            "side": "LONG",
+            "leverage": 1.0
+          }
+        ],
+        "total_equity": 748740.0,
+        "realized_pnl": 0.0,
+        "unrealized_pnl": -1260.0,
+        "daily_pnl": 255.0,
+        "daily_pnl_percentage": 0.03,
+        "net_exposure": 38740.0,
+        "margin_usage": 1.29,
+        "sharpe_ratio": 2.5,
+        "var_99": 1142.4,
+        "updated_at": "2026-10-06T18:15:20.344887+00:00"
+      }
+    }
+  }
+}
